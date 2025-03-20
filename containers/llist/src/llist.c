@@ -112,19 +112,86 @@ ERR_59_e push_back_llist_59(llist_59 *llist, llist_node_59 *new_node)
     return ERR_NONE;
 }
 
+/***********************************************************************************************************************
+ * @brief : Removes the node at the end of the linked list, and provides it via the @back_node parameter.
+ *
+ * @param[in] llist : Linked list to pop the tail from.
+ * @param[out] back_node : pointer to hold the reference of the tail node, @warning this node will still need to be
+ * deallocated with a call to destory_llist_node_59().
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e pop_back_llist_59(llist_59 *llist, llist_node_59 *back_node)
 {
-    // TODO :
+    if (!llist)
+        return ERR_INV_PARAM;
+    if (!llist->head)
+        return ERR_CONTAINER_EMPTY;
+
+    llist_node_59 *new_tail = llist->head;
+    while (new_tail->next != (*llist->tail))
+        new_tail = new_tail->next;
+
+    back_node = new_tail->next;
+    new_tail->next = (void *)0;
+    *llist->tail = new_tail;
+
+    return ERR_NONE;
 }
 
+/***********************************************************************************************************************
+ * @brief : Pushes the @new_front to the front of the linked list.
+ *
+ * @param[in] llist : Linked list to add the node to the front of.
+ * @param[in] new_front : node to place at the front of the linked list.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e push_front_llist_59(llist_59 *llist, llist_node_59 *new_front)
 {
-    // TODO :
+    if (!llist || !new_front)
+        return ERR_INV_PARAM;
+
+    if (!llist->head)
+    {
+        *llist->tail = new_front;
+        llist->head = new_front;
+    }
+    else
+    {
+        new_front->next = llist->head;
+        llist->head = new_front;
+    }
+
+    return ERR_NONE;
 }
 
+/***********************************************************************************************************************
+ * @brief : Pops the head node from the linked list.
+ *
+ * @param[in] llist : List to pop the head from.
+ * @param[out] front_node : Head of the list returned from function call, @warning this node will need to be deallocated
+ * with a call to destroy_node_llist_59(). @note this may be NULL and will set an ERR_CONTAINER_EMPTY code.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e pop_front_llist_59(llist_59 *llist, llist_node_59 *front_node)
 {
-    // TODO :
+    if (!llist)
+        return ERR_INV_PARAM;
+
+    front_node = llist->head;
+
+    if (!front_node)
+        return ERR_CONTAINER_EMPTY;
+
+    if (llist->head->next)
+        llist->head = llist->head->next;
+    else
+        llist->head = (void *)0;
+
+    front_node->next = (void *)0;
+    return ERR_NONE;
 }
 
 /***********************************************************************************************************************
@@ -138,7 +205,31 @@ ERR_59_e pop_front_llist_59(llist_59 *llist, llist_node_59 *front_node)
  **********************************************************************************************************************/
 ERR_59_e remove_given_node_from_llist_59(llist_59 *llist, llist_node_59 *remove_node)
 {
-    // TODO: . . .
+    if (!llist || !remove_node)
+        return ERR_INV_PARAM;
+
+    llist_node_59 *node = llist->head;
+    llist_node_59 *last_node = (void *)0;
+    if (!node)
+        return ERR_CONTAINER_EMPTY;
+    while (node)
+    {
+        if (node == remove_node)
+        {
+            if (last_node)
+                last_node->next = node->next;
+            else
+                llist->head = node->next;
+
+            remove_node = node;
+            remove_node->next = (void *)0;
+            return ERR_NONE;
+        }
+        last_node = node;
+        node = node->next;
+    }
+
+    return ERR_OBJ_NOT_FOUND;
 }
 
 ERR_59_e insert_node_into_llist_59(llist_59 *llist, llist_node_59 *new_node, size_t idx)

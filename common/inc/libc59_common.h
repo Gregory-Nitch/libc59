@@ -90,6 +90,7 @@ typedef enum ERR_59_e
     ERR_NO_MEM,
     ERR_INV_PARAM,
     ERR_OBJ_NOT_FOUND,
+    ERR_CONTAINER_EMPTY,
     ERR_INTRNL,
     ERR_NOT_SUPPORTED
 } ERR_59_e;

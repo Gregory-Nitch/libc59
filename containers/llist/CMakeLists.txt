@@ -22,6 +22,13 @@ target_include_directories(llist_59 PRIVATE ../../common/inc)
 # Compile options
 add_compile_options(-std=c11 -Wall -Wextra -Wshadow -Wunused -fdiagnostics-color=always)
 
+# Output to bin folder
+set_target_properties(llist_59 PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY ../bin 
+    LIBRARY_OUTPUT_DIRECTORY ../bin
+    RUNTIME_OUTPUT_DIRECTORY ../bin     
+)
+
 # Install rules
 include(GNUInstallDirs)
 install(TARGETS llist_59
@@ -31,6 +38,3 @@ install(TARGETS llist_59
 #-----------------------------------------------------------------------------------------------------------------------
 # CLI CMake commands -> cmake .. -> cmake --build . -> sudo cmake install (this last one work?)
 #-----------------------------------------------------------------------------------------------------------------------
-
-
-# TODO!!!!! update git ignore for bld and bin directories!!!!

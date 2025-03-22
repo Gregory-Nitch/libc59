@@ -1,3 +1,7 @@
+# Build files and Binaries
+bld/
+bin/
+
 # Prerequisites
 *.d
 

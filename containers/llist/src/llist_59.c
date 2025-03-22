@@ -23,7 +23,6 @@
 ========================================================================================================================
 */
 
-#include "libc59_common.h"
 #include "llist_59.h"
 
 /*
@@ -88,8 +87,8 @@ ERR_59_e destroy_llist_59(llist_59 *llist)
 
     llist->head = (void *)0;
     llist->tail = (void *)0;
-    llist->type = (void *)0;
-    llist->type_depth = (void *)0;
+    llist->type = VOID_0;
+    llist->type_depth = 0;
     free(llist);
     llist = (void *)0;
 

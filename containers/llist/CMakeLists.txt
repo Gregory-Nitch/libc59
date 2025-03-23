@@ -36,5 +36,5 @@ install(TARGETS llist_59
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 #-----------------------------------------------------------------------------------------------------------------------
-# CLI CMake commands -> cmake .. -> cmake --build . -> sudo cmake install (this last one work?)
+# CLI CMake commands -> cmake .. -> cmake --build . -> sudo cmake install (this last one works?)
 #-----------------------------------------------------------------------------------------------------------------------

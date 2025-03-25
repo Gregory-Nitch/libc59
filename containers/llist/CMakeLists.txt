@@ -18,11 +18,12 @@ target_include_directories(llist_59 PRIVATE ../common/inc)
 target_include_directories(llist_59 PRIVATE ../../common/src)
 target_include_directories(llist_59 PRIVATE ../../common/inc)
 
+add_subdirectory(test)
 
 # Compile options
 add_compile_options(-std=c11 -Wall -Wextra -Wshadow -Wunused -fdiagnostics-color=always)
 
-# Output to bin folder
+# Output to bin directory
 set_target_properties(llist_59 PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ../bin 
     LIBRARY_OUTPUT_DIRECTORY ../bin
@@ -34,6 +35,19 @@ include(GNUInstallDirs)
 install(TARGETS llist_59
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# Enable testing
+include(CTest)
+
+# Add test suite with valgrind -> # -s = show suppressed errors
+add_test(NAME llist_59_test_suite
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    ./test/test_llist_59
+)
+set_tests_properties(llist_59_test_suite
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
 
 #-----------------------------------------------------------------------------------------------------------------------
 # CLI CMake commands -> cmake .. -> cmake --build . -> sudo cmake install (this last one works?)

@@ -11,3 +11,11 @@ add_executable(test_llist_59 src/test_llist_59.c)
 target_include_directories(test_llist_59 PUBLIC src)
 target_include_directories(test_llist_59 PUBLIC ../inc)
 target_include_directories(test_llist_59 PUBLIC ../../../common/inc)
+
+# Add llist shared lib
+target_link_libraries(test_llist_59 llist_59)
+
+# Output to parent bin
+set_target_properties(test_llist_59 PROPERTIES 
+    RUNTIME_OUTPUT_DIRECTORY ../../bin   
+)

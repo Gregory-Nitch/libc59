@@ -7,6 +7,9 @@ project(llist_59 VERSION 1.0.0 DESCRIPTION "Linked list container")
 # add source to library
 add_library(llist_59 SHARED src/llist_59.c)
 
+# Remove lib from lib file outname
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
+
 # Declare public API of lib
 set_target_properties(llist_59 PROPERTIES PUBLIC_HEADER inc/llist_59.h)
 
@@ -42,7 +45,7 @@ include(CTest)
 # Add test suite with valgrind -> # -s = show suppressed errors
 add_test(NAME llist_59_test_suite
     COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
-    ./test/test_llist_59
+    ../bin/test_llist_59
 )
 set_tests_properties(llist_59_test_suite
     PROPERTIES PASS_REGULAR_EXPRESSION 

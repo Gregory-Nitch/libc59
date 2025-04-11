@@ -52,6 +52,15 @@ set_tests_properties(llist_59_test_interface
     ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
 )
 
+add_test(NAME llist_59_edge_cases
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    ../bin/llist_59_edge_cases
+)
+set_tests_properties(llist_59_edge_cases
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
 #-----------------------------------------------------------------------------------------------------------------------
 # CLI CMake commands -> cmake .. -> cmake --build . -> sudo cmake install (this last one works?)
 #-----------------------------------------------------------------------------------------------------------------------

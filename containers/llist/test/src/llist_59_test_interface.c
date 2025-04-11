@@ -4,7 +4,7 @@
  * @date : 2025-03-24
  * @author : Gregory Nitch
  *
- * @brief : Main for linked list testing.
+ * @brief : Test cases for linked lists that cover the basic interface interactions.
  **********************************************************************************************************************/
 
 /*
@@ -31,7 +31,7 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_list_manipulations(void)
+ERR_59_e test_llist_59_interface(void)
 {
     ERR_59_e err = ERR_NONE;
 
@@ -230,8 +230,9 @@ ERR_59_e test_list_manipulations(void)
 int main(int argc, char const *argv[])
 {
     puts("- - -  START OF LLIST TEST  - - -");
+    puts("- - - INTERFACE TESTS - - -");
 
-    ERR_59_e err = test_list_manipulations();
+    ERR_59_e err = test_llist_59_interface();
     printf("ERROR CODE : %d\n", err);
     assert(ERR_NONE == err);
 

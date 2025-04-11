@@ -43,20 +43,38 @@ install(TARGETS llist_59
 include(CTest)
 
 # Add test suite with valgrind -> # -s = show suppressed errors
-add_test(NAME llist_59_test_interface
+add_test(NAME test_llist_59_interface
     COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
-    ../bin/llist_59_test_interface
+    ../bin/test_llist_59_interface
 )
-set_tests_properties(llist_59_test_interface
+set_tests_properties(test_llist_59_interface
     PROPERTIES PASS_REGULAR_EXPRESSION 
     ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
 )
 
-add_test(NAME llist_59_edge_cases
+add_test(NAME test_llist_59_edge_cases
     COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
-    ../bin/llist_59_edge_cases
+    ../bin/test_llist_59_edge_cases
 )
-set_tests_properties(llist_59_edge_cases
+set_tests_properties(test_llist_59_edge_cases
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_llist_node_59_interface
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    ../bin/test_llist_node_59_interface
+)
+set_tests_properties(test_llist_node_59_interface
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_llist_node_59_edge_cases
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    ../bin/test_llist_node_59_edge_cases
+)
+set_tests_properties(test_llist_node_59_edge_cases
     PROPERTIES PASS_REGULAR_EXPRESSION 
     ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
 )

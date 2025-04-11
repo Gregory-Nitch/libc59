@@ -4,7 +4,7 @@
  * @date : 2025-04-12
  * @author : Gregory Nitch
  *
- * @brief : Test cases for llist_59 types that cover edge cases that the interface might encounter.
+ * @brief : Test cases for llist_node_59 types that cover the basic interface functions.
  **********************************************************************************************************************/
 
 /*
@@ -31,10 +31,10 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_llist_59_edge_cases(void)
+ERR_59_e test_llist_node_59_interface(void)
 {
     ERR_59_e err = ERR_NONE;
-
+    // TODO
     return err;
 }
 
@@ -47,9 +47,9 @@ ERR_59_e test_llist_59_edge_cases(void)
 int main(int argc, char const *argv[])
 {
     puts("- - -  START OF LLIST TEST  - - -");
-    puts("- - - LLIST EDGE CASES - - -");
+    puts("- - - LLIST NODE INTERFACE - - -");
 
-    ERR_59_e err = test_llist_59_edge_cases();
+    ERR_59_e err = test_llist_node_59_interface();
     printf("ERROR CODE : %d\n", err);
     assert(ERR_NONE == err);
 

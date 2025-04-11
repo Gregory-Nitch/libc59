@@ -43,11 +43,11 @@ install(TARGETS llist_59
 include(CTest)
 
 # Add test suite with valgrind -> # -s = show suppressed errors
-add_test(NAME llist_59_test_suite
+add_test(NAME llist_59_test_interface
     COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
-    ../bin/test_llist_59
+    ../bin/llist_59_test_interface
 )
-set_tests_properties(llist_59_test_suite
+set_tests_properties(llist_59_test_interface
     PROPERTIES PASS_REGULAR_EXPRESSION 
     ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
 )

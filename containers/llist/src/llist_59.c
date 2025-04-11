@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <stdio.h> // TODO REMOVE
+
 /*
 ========================================================================================================================
 - - MODULE INCLUDES - -
@@ -42,20 +44,20 @@
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e init_llist_59(llist_59 *llist, TYPE_59_e type, size_t type_depth)
+ERR_59_e init_llist_59(llist_59 **llist, TYPE_59_e type, size_t type_depth)
 {
     if (!llist)
         return ERR_INV_PARAM;
 
-    llist = malloc(sizeof(llist_59));
+    *llist = malloc(sizeof(llist_59));
 
-    if (!llist)
+    if (!(*llist))
         return ERR_NO_MEM;
 
-    llist->type = type;
-    llist->type_depth = type_depth;
-    llist->head = (void *)0;
-    llist->tail = (void *)0;
+    (*llist)->type = type;
+    (*llist)->type_depth = type_depth;
+    (*llist)->head = (void *)0;
+    (*llist)->tail = &(*llist)->head;
 
     return ERR_NONE;
 }
@@ -67,30 +69,30 @@ ERR_59_e init_llist_59(llist_59 *llist, TYPE_59_e type, size_t type_depth)
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e destroy_llist_59(llist_59 *llist)
+ERR_59_e destroy_llist_59(llist_59 **llist)
 {
-    if (!llist)
+    if (!llist || !(*llist))
         return ERR_INV_PARAM;
 
-    llist_node_59 *node = llist->head;
+    llist_node_59 *node = (*llist)->head;
     llist_node_59 *next_node = (void *)0;
     while (node)
     {
         next_node = node->next;
 
-        ERR_59_e err = destroy_llist_node_59(node);
+        ERR_59_e err = destroy_llist_node_59(&node);
         if (err != ERR_NONE)
             return err;
 
         node = next_node;
     }
 
-    llist->head = (void *)0;
-    llist->tail = (void *)0;
-    llist->type = VOID_0;
-    llist->type_depth = 0;
-    free(llist);
-    llist = (void *)0;
+    (*llist)->head = (void *)0;
+    (*llist)->tail = (void *)0;
+    (*llist)->type = VOID_0;
+    (*llist)->type_depth = 0;
+    free((*llist));
+    (*llist) = (void *)0;
 
     return ERR_NONE;
 }
@@ -108,7 +110,7 @@ ERR_59_e push_back_llist_59(llist_59 *llist, llist_node_59 *new_node)
     if (!llist || !new_node)
         return ERR_INV_PARAM;
 
-    *llist->tail = new_node;
+    *(llist->tail) = new_node;
     llist->tail = &(*llist->tail)->next;
 
     return ERR_NONE;
@@ -123,20 +125,32 @@ ERR_59_e push_back_llist_59(llist_59 *llist, llist_node_59 *new_node)
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e pop_back_llist_59(llist_59 *llist, llist_node_59 *back_node)
+ERR_59_e pop_back_llist_59(llist_59 *llist, llist_node_59 **back_node)
 {
     if (!llist)
         return ERR_INV_PARAM;
     if (!llist->head)
         return ERR_CONTAINER_EMPTY;
 
-    llist_node_59 *new_tail = llist->head;
-    while (new_tail->next != (*llist->tail))
-        new_tail = new_tail->next;
+    llist_node_59 *tail = llist->head;
+    llist_node_59 *scnd_to_tail = (void *)0;
+    while (tail->next)
+    {
+        scnd_to_tail = tail;
+        tail = tail->next;
+    }
 
-    back_node = new_tail->next;
-    new_tail->next = (void *)0;
-    *llist->tail = new_tail;
+    *back_node = tail;
+    if (scnd_to_tail)
+    {
+        scnd_to_tail->next = (void *)0;
+        llist->tail = &(scnd_to_tail->next);
+    }
+    else
+    { // Only one node in llist ie the head
+        llist->head = (void *)0;
+        llist->tail = &llist->head;
+    }
 
     return ERR_NONE;
 }
@@ -258,7 +272,7 @@ ERR_59_e insert_node_into_llist_59(llist_59 *llist, llist_node_59 *new_node, siz
 
     llist_node_59 *node = llist->head;
     llist_node_59 *last_node = (void *)0;
-    for (size_t i = 0; i <= idx; i++)
+    for (size_t i = 0; i < idx; i++)
     {
         if (!node)
             break;
@@ -281,18 +295,18 @@ ERR_59_e insert_node_into_llist_59(llist_59 *llist, llist_node_59 *new_node, siz
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e init_llist_node_59(llist_node_59 *node, llist_node_59 *next, void *node_obj)
+ERR_59_e init_llist_node_59(llist_node_59 **node, llist_node_59 *next, void *node_obj)
 {
     if (!node)
         return ERR_INV_PARAM;
 
-    node = malloc(sizeof(llist_node_59));
+    *node = malloc(sizeof(llist_node_59));
 
-    if (!node)
+    if (!(*node))
         return ERR_NO_MEM;
 
-    node->next = next;
-    node->node_obj = node_obj;
+    (*node)->next = next;
+    (*node)->node_obj = node_obj;
 
     return ERR_NONE;
 }
@@ -304,17 +318,17 @@ ERR_59_e init_llist_node_59(llist_node_59 *node, llist_node_59 *next, void *node
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e destroy_llist_node_59(llist_node_59 *node)
+ERR_59_e destroy_llist_node_59(llist_node_59 **node)
 {
-    if (!node)
+    if (!node || !(*node))
         return ERR_INV_PARAM;
 
-    if (node->node_obj)
-        free(node->node_obj);
+    if ((*node)->node_obj)
+        free((*node)->node_obj);
 
-    node->node_obj = (void *)0;
-    node->next = (void *)0;
-    free(node);
+    (*node)->node_obj = (void *)0;
+    (*node)->next = (void *)0;
+    free((*node));
 
     return ERR_NONE;
 }

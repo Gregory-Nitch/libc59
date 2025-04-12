@@ -76,7 +76,6 @@ struct llist_59
 ========================================================================================================================
 */
 
-/* Linked List Interface */
 ERR_59_e init_llist_59(llist_59 **llist, TYPE_59_e type, size_t type_depth);
 ERR_59_e destroy_llist_59(llist_59 **llist);
 ERR_59_e push_back_llist_59(llist_59 *llist, llist_node_59 *new_node);
@@ -86,7 +85,6 @@ ERR_59_e pop_front_llist_59(llist_59 *llist, llist_node_59 *front_node);
 ERR_59_e remove_given_node_from_llist_59(llist_59 *llist, llist_node_59 *remove_node);
 ERR_59_e insert_node_into_llist_59(llist_59 *llist, llist_node_59 *new_node, size_t idx);
 
-/* List Node Interface */
 ERR_59_e init_llist_node_59(llist_node_59 **node, llist_node_59 *next, void *node_obj);
 ERR_59_e destroy_llist_node_59(llist_node_59 **node);
 ERR_59_e compare_llist_nodes_59(llist_59 *llist, llist_node_59 *node_A, llist_node_59 *node_B, i64 *diff_out);

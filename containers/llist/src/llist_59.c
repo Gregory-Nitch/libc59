@@ -329,6 +329,7 @@ ERR_59_e destroy_llist_node_59(llist_node_59 **node)
     (*node)->node_obj = (void *)0;
     (*node)->next = (void *)0;
     free((*node));
+    (*node) = (void *)0;
 
     return ERR_NONE;
 }
@@ -349,7 +350,6 @@ ERR_59_e destroy_llist_node_59(llist_node_59 **node)
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-
 ERR_59_e compare_llist_nodes_59(llist_59 *llist, llist_node_59 *node_A, llist_node_59 *node_B, i64 *diff_out)
 {
     if (!llist || !node_A || !node_B || !diff_out)

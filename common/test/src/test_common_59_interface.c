@@ -1,10 +1,10 @@
 /***********************************************************************************************************************
  * LICENSE : NONE, as in zilch, zipo, nada, null, nill, 0, zero. If you use this file and are not me you are wrong.
  *
- * @date : 2025-04-12
+ * @date : 2025-04-30
  * @author : Gregory Nitch
  *
- * @brief : Test cases for llist_node_59 types that cover the basic interface functions.
+ * @brief : Test cases for libc59 common that cover the basic interface functions.
  **********************************************************************************************************************/
 
 /*
@@ -23,7 +23,7 @@
 ========================================================================================================================
 */
 
-#include "llist_59.h"
+#include "libc59_common.h"
 
 /*
 ========================================================================================================================
@@ -31,29 +31,24 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_llist_node_59_interface(void)
+ERR_59_e test_common_59_interface(void)
 {
     ERR_59_e err = ERR_NONE;
-    // init nodes
+
+    // is_same_mem_addr()
     puts("- - - - - - - - - - -");
-    puts("Initializing nodes...");
-    llist_node_59 *node1;
+    puts("Testing is_same_mem_addr()...");
+    bool flag = false;
+    u64 a = 1UL;
+    u64 b = 2UL;
 
-    err = init_llist_node_59(&node1, (void *)0, malloc(sizeof(u64)));
-    if (ERR_NONE != err)
-        return err;
+    is_same_mem_addr_59(&a, &b, &flag);
+    printf("Assert: addr1 %p != %p addr2\n", &a, &b);
+    assert(false == flag);
 
-    *((u64 *)node1->node_obj) = 1UL;
-
-    printf("Assert: node1 = val %lu at %p\n", *((u64 *)node1->node_obj), node1);
-    assert(1UL == *((u64 *)node1->node_obj));
-
-    // destroy nodes
-    puts("- - - - - - - - - - -");
-    puts("destroying nodes...");
-    err = destroy_llist_node_59(&node1);
-    printf("Assert: (void*)0 = %p  == %p = node1(null)\n", (void *)0, node1);
-    assert((void *)0 == node1);
+    is_same_mem_addr_59(&a, &a, &flag);
+    printf("Assert: addr1 %p == %p addr1\n", &a, &a);
+    assert(true == flag);
 
     return err;
 }
@@ -66,13 +61,13 @@ ERR_59_e test_llist_node_59_interface(void)
 
 int main(int argc, char const *argv[])
 {
-    puts("- - -  START OF LLIST TEST  - - -");
-    puts("- - - LLIST NODE INTERFACE - - -");
+    puts("- - -  START OF COMMON TEST  - - -");
+    puts("- - - COMMON INTERFACE - - -");
 
-    ERR_59_e err = test_llist_node_59_interface();
+    ERR_59_e err = test_common_59_interface();
     printf("ERROR CODE : %d\n", err);
     assert(ERR_NONE == err);
 
-    puts("- - - - END OF LLIST TEST - - - -");
+    puts("- - - - END OF COMMON TEST - - - -");
     return err;
 }

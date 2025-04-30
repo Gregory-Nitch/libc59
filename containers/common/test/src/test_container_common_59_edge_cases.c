@@ -1,10 +1,10 @@
 /***********************************************************************************************************************
  * LICENSE : NONE, as in zilch, zipo, nada, null, nill, 0, zero. If you use this file and are not me you are wrong.
  *
- * @date : 2025-04-12
+ * @date : 2025-04-29
  * @author : Gregory Nitch
  *
- * @brief : Test cases for llist_node_59 types that cover the basic interface functions.
+ * @brief : Test cases for conatiner common functions that cover edge cases the interface might encounter.
  **********************************************************************************************************************/
 
 /*
@@ -23,7 +23,7 @@
 ========================================================================================================================
 */
 
-#include "llist_59.h"
+#include "container_common_59.h"
 
 /*
 ========================================================================================================================
@@ -31,31 +31,31 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_llist_node_59_interface(void)
+ERR_59_e test_common_59_edge_cases(void)
 {
     ERR_59_e err = ERR_NONE;
-    // init nodes
+
+    // compare_node_obj()
     puts("- - - - - - - - - - -");
-    puts("Initializing nodes...");
-    llist_node_59 *node1;
+    puts("Testing compare_node_obj()...");
+    TYPE_59_e type = U64;
+    u64 a = 1UL;
+    u64 b = 2UL;
+    i64 dif = 0;
 
-    err = init_llist_node_59(&node1, (void *)0, malloc(sizeof(u64)));
-    if (ERR_NONE != err)
-        return err;
+    err = compare_node_obj_59(type, (void *)0, &b, &dif);
+    printf("Assert : err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
 
-    *((u64 *)node1->node_obj) = 1UL;
+    err = compare_node_obj_59(type, &a, (void *)0, &dif);
+    printf("Assert : err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
 
-    printf("Assert: node1 = val %lu at %p\n", *((u64 *)node1->node_obj), node1);
-    assert(1UL == *((u64 *)node1->node_obj));
+    err = compare_node_obj_59(type, &a, &b, (void *)0);
+    printf("Assert : err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
 
-    // destroy nodes
-    puts("- - - - - - - - - - -");
-    puts("destroying nodes...");
-    err = destroy_llist_node_59(&node1);
-    printf("Assert: (void*)0 = %p  == %p = node1(null)\n", (void *)0, node1);
-    assert((void *)0 == node1);
-
-    return err;
+    return ERR_NONE;
 }
 
 /*
@@ -66,13 +66,13 @@ ERR_59_e test_llist_node_59_interface(void)
 
 int main(int argc, char const *argv[])
 {
-    puts("- - -  START OF LLIST TEST  - - -");
-    puts("- - - LLIST NODE INTERFACE - - -");
+    puts("- - -  START OF COMMON CONTAINER TEST  - - -");
+    puts("- - - COMMON CONTAINER EDGE CASES - - -");
 
-    ERR_59_e err = test_llist_node_59_interface();
+    ERR_59_e err = test_common_59_edge_cases();
     printf("ERROR CODE : %d\n", err);
     assert(ERR_NONE == err);
 
-    puts("- - - - END OF LLIST TEST - - - -");
+    puts("- - - - END OF COMMON CONTAINER TEST - - - -");
     return err;
 }

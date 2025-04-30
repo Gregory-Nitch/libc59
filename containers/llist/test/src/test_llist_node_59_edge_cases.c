@@ -13,7 +13,6 @@
 ========================================================================================================================
 */
 
-#include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -34,7 +33,32 @@
 ERR_59_e test_llist_node_59_edge_cases(void)
 {
     ERR_59_e err = ERR_NONE;
-    // TODO
+
+    // Test init_llist_node
+    puts("- - - - - - - - - - -");
+    puts("Checking init_llist_node()");
+
+    llist_node_59 *dummy_node = (void *)0;
+
+    err = init_llist_node_59((void *)0, (void *)0, (void *)0);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    // Test destroy node
+    puts("- - - - - - - - - - -");
+    puts("Checking destroy_llist_node()");
+
+    err = destroy_llist_node_59((void *)0);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    err = destroy_llist_node_59(&dummy_node);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
     return err;
 }
 

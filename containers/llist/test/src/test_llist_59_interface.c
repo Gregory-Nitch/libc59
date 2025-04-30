@@ -138,7 +138,7 @@ ERR_59_e test_llist_59_interface(void)
     puts("- - - - - - - - - - - - - - - - -");
     puts("Checking pop_front()...");
 
-    err = pop_front_llist_59(list, node);
+    err = pop_front_llist_59(list, &node);
     if (ERR_NONE != err)
         return err;
 

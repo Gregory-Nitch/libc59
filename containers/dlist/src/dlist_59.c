@@ -4,7 +4,7 @@
  * @date : 2025-03-18
  * @author : Gregory Nitch
  *
- * @brief : Contains all the definitions for the linked list container.
+ * @brief : Contains all the definitions for the doubly linked list container.
  **********************************************************************************************************************/
 
 /*
@@ -23,7 +23,7 @@
 ========================================================================================================================
 */
 
-#include "llist_59.h"
+#include "dlist_59.h"
 
 /*
 ========================================================================================================================
@@ -32,9 +32,9 @@
 */
 
 /***********************************************************************************************************************
- * @brief : Initializes a linked list, this also allocates memory to the @llist pointer.
+ * @brief : Initializes a doubly linked list, this also allocates memory to the @dlist pointer.
  *
- * @param[out] llist : linked list pointer to initialize, this will need to be freed later. @note @head and
+ * @param[out] dlist : doubly linked list pointer to initialize, this will need to be freed later. @note @head and
  * @tail will be NULL. @warning This must be freed when its lifetime has ended.
  * @param[in] type : type of the linked list to initalize.
  * @param[in] type_depth : size of the node elements, all must be the same size, if not set as 0. If there are nodes of
@@ -42,96 +42,106 @@
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e init_llist_59(llist_59 **llist, TYPE_59_e const type, size_t const type_depth)
+ERR_59_e init_dlist_59(dlist_59 **dlist, TYPE_59_e const type, size_t const type_depth)
 {
-    if (!llist)
+    if (!dlist)
         return ERR_INV_PARAM;
 
-    *llist = malloc(sizeof(llist_59));
+    *dlist = malloc(sizeof(dlist_59));
 
-    if (!(*llist))
+    if (!(*dlist))
         return ERR_NO_MEM;
 
-    (*llist)->type = type;
-    (*llist)->type_depth = type_depth;
-    (*llist)->head = (void *)0;
-    (*llist)->tail = &(*llist)->head;
+    (*dlist)->type = type;
+    (*dlist)->type_depth = type_depth;
+    (*dlist)->head = (void *)0;
+    (*dlist)->tail = &(*dlist)->head;
 
     return ERR_NONE;
 }
 
 /***********************************************************************************************************************
- * @brief : Destroys the passed linked list and all of the nodes, this also deallocates the used memory.
+ * @brief : Destroys the passed doubly linked list and all of the nodes, this also deallocates the used memory.
  *
- * @param[in] llist : linked list to destroy.
+ * @param[in] dlist : doubly linked list to destroy.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e destroy_llist_59(llist_59 **llist)
+ERR_59_e destroy_dlist_59(dlist_59 **dlist)
 {
-    if (!llist || !(*llist))
+    if (!dlist || !(*dlist))
         return ERR_INV_PARAM;
 
-    llist_node_59 *node = (*llist)->head;
-    llist_node_59 *next_node = (void *)0;
+    dlist_node_59 *node = (*dlist)->head;
+    dlist_node_59 *next_node = (void *)0;
     while (node)
     {
         next_node = node->next;
 
-        ERR_59_e err = destroy_llist_node_59(&node);
+        ERR_59_e err = destroy_dlist_node_59(&node);
         if (err != ERR_NONE)
             return err;
 
         node = next_node;
     }
 
-    (*llist)->head = (void *)0;
-    (*llist)->tail = (void *)0;
-    (*llist)->type = VOID_0;
-    (*llist)->type_depth = 0;
-    free((*llist));
-    (*llist) = (void *)0;
+    (*dlist)->head = (void *)0;
+    (*dlist)->tail = (void *)0;
+    (*dlist)->type = VOID_0;
+    (*dlist)->type_depth = 0;
+    free((*dlist));
+    (*dlist) = (void *)0;
 
     return ERR_NONE;
 }
 
 /***********************************************************************************************************************
- * @brief : Adds a new node to the end of the linked list, this node should already be memory allocated.
+ * @brief : Adds a new node to the end of the doubly linked list, this node should already be memory allocated.
  *
- * @param[in] llist : Linked list to add the node to.
+ * @param[in] dlist : Linked list to add the node to.
  * @param[in] new_node : New node to add to the linked list.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e push_back_llist_59(llist_59 *const llist, llist_node_59 *const new_node)
+ERR_59_e push_back_dlist_59(dlist_59 *const dlist, dlist_node_59 *const new_node)
 {
-    if (!llist || !new_node)
+    if (!dlist || !new_node)
         return ERR_INV_PARAM;
 
-    *(llist->tail) = new_node;
-    llist->tail = &(*llist->tail)->next;
+    dlist_node_59 *current_node = dlist->head;
+    while (current_node)
+    {
+        if (current_node->next)
+            current_node = current_node->next;
+        else
+            break;
+    }
+
+    new_node->last = current_node;
+    *(dlist->tail) = new_node;
+    dlist->tail = &(*dlist->tail)->next;
 
     return ERR_NONE;
 }
 
 /***********************************************************************************************************************
- * @brief : Removes the node at the end of the linked list, and provides it via the @back_node parameter.
+ * @brief : Removes the node at the end of the doubly linked list, and provides it via the @back_node parameter.
  *
- * @param[in] llist : Linked list to pop the tail from.
+ * @param[in] dlist : Doubly inked list to pop the tail from.
  * @param[out] back_node : pointer to hold the reference of the tail node, @warning this node will still need to be
- * deallocated with a call to destory_llist_node_59().
+ * deallocated with a call to destory_dlist_node_59().
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e pop_back_llist_59(llist_59 *const llist, llist_node_59 **back_node)
+ERR_59_e pop_back_dlist_59(dlist_59 *const dlist, dlist_node_59 **back_node)
 {
-    if (!llist || !back_node)
+    if (!dlist || !back_node)
         return ERR_INV_PARAM;
-    if (!llist->head)
+    if (!dlist->head)
         return ERR_CONTAINER_EMPTY;
 
-    llist_node_59 *tail = llist->head;
-    llist_node_59 *scnd_to_tail = (void *)0;
+    dlist_node_59 *tail = dlist->head;
+    dlist_node_59 *scnd_to_tail = (void *)0;
     while (tail->next)
     {
         scnd_to_tail = tail;
@@ -142,66 +152,71 @@ ERR_59_e pop_back_llist_59(llist_59 *const llist, llist_node_59 **back_node)
     if (scnd_to_tail)
     {
         scnd_to_tail->next = (void *)0;
-        llist->tail = &(scnd_to_tail->next);
+        (*back_node)->last = (void *)0;
+        dlist->tail = &(scnd_to_tail->next);
     }
     else
-    { // Only one node in llist ie the head
-        llist->head = (void *)0;
-        llist->tail = &llist->head;
+    { // Only one node in dlist ie the head
+        dlist->head = (void *)0;
+        dlist->tail = &dlist->head;
     }
 
     return ERR_NONE;
 }
 
 /***********************************************************************************************************************
- * @brief : Pushes the @new_front to the front of the linked list.
+ * @brief : Pushes the @new_front to the front of the doubly linked list.
  *
- * @param[in] llist : Linked list to add the node to the front of.
+ * @param[in] dlist : doubly linked list to add the node to the front of.
  * @param[in] new_front : node to place at the front of the linked list.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e push_front_llist_59(llist_59 *const llist, llist_node_59 *const new_front)
+ERR_59_e push_front_dlist_59(dlist_59 *const dlist, dlist_node_59 *const new_front)
 {
-    if (!llist || !new_front)
+    if (!dlist || !new_front)
         return ERR_INV_PARAM;
 
-    if (!llist->head)
+    if (!dlist->head)
     {
-        *llist->tail = new_front;
-        llist->head = new_front;
+        *dlist->tail = new_front;
+        dlist->head = new_front;
     }
     else
     {
-        new_front->next = llist->head;
-        llist->head = new_front;
+        new_front->next = dlist->head;
+        dlist->head->last = new_front;
+        dlist->head = new_front;
     }
 
     return ERR_NONE;
 }
 
 /***********************************************************************************************************************
- * @brief : Pops the head node from the linked list.
+ * @brief : Pops the head node from the doubly linked list.
  *
- * @param[in] llist : List to pop the head from.
+ * @param[in] dlist : List to pop the head from.
  * @param[out] front_node : Head of the list returned from function call, @warning this node will need to be deallocated
- * with a call to destroy_node_llist_59(). @note this may be NULL and will set an ERR_CONTAINER_EMPTY code.
+ * with a call to destroy_node_dlist_59(). @note this may be NULL and will set an ERR_CONTAINER_EMPTY code.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e pop_front_llist_59(llist_59 *const llist, llist_node_59 **front_node)
+ERR_59_e pop_front_dlist_59(dlist_59 *const dlist, dlist_node_59 **front_node)
 {
-    if (!llist || !front_node)
+    if (!dlist || !front_node)
         return ERR_INV_PARAM;
-    if (!llist->head)
+    if (!dlist->head)
         return ERR_CONTAINER_EMPTY;
 
-    *front_node = llist->head;
+    *front_node = dlist->head;
 
-    if (llist->head->next)
-        llist->head = llist->head->next;
+    if (dlist->head->next)
+    {
+        dlist->head->next->last = (void *)0;
+        dlist->head = dlist->head->next;
+    }
     else
-        llist->head = (void *)0;
+        dlist->head = (void *)0;
 
     (*front_node)->next = (void *)0;
 
@@ -209,32 +224,35 @@ ERR_59_e pop_front_llist_59(llist_59 *const llist, llist_node_59 **front_node)
 }
 
 /***********************************************************************************************************************
- * @brief : Removes the passed node from the linked list. @warning DOES NOT DEALLOCATE the node, use
- * destroy_llist_node_59() after the use of the node is complete.
+ * @brief : Removes the passed node from the doubly linked list. @warning DOES NOT DEALLOCATE the node, use
+ * destroy_dlist_node_59() after the use of the node is complete.
  *
- * @param[in] llist : Linked list to remove the node from.
+ * @param[in] dlist : Doubly linked list to remove the node from.
  * @param[out] remove_node : Node to remove, error is returned if not found.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e remove_given_node_from_llist_59(llist_59 *const llist, llist_node_59 *remove_node)
+ERR_59_e remove_given_node_from_dlist_59(dlist_59 *const dlist, dlist_node_59 *remove_node)
 {
-    if (!llist || !remove_node)
+    if (!dlist || !remove_node)
         return ERR_INV_PARAM;
 
-    llist_node_59 *node = llist->head;
+    dlist_node_59 *node = dlist->head;
     if (!node)
         return ERR_CONTAINER_EMPTY;
 
-    llist_node_59 *last_node = (void *)0;
+    dlist_node_59 *last_node = (void *)0;
     while (node)
     {
         if (node == remove_node)
         {
             if (last_node)
+            {
                 last_node->next = node->next;
+                node->next->last = last_node;
+            }
             else
-                llist->head = node->next;
+                dlist->head = node->next;
 
             remove_node = node;
             remove_node->next = (void *)0;
@@ -248,28 +266,28 @@ ERR_59_e remove_given_node_from_llist_59(llist_59 *const llist, llist_node_59 *r
 }
 
 /***********************************************************************************************************************
- * @brief : Inserts a node into the linked list at the passed index, if the index is passed the end of the list it
+ * @brief : Inserts a node into the doubly linked list at the passed index, if the index is passed the end of the list it
  * appends the node to the end of the list.
  *
- * @param[in] llist : Linked list to add the new node too.
- * @param[in] new_node : New node to add to the linked list.
- * @param[in] idx : Index in the linked list to add the node at.
+ * @param[in] dlist : Doubly inked list to add the new node too.
+ * @param[in] new_node : New node to add to the doubly linked list.
+ * @param[in] idx : Index in the doubly linked list to add the node at.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e insert_node_into_llist_59(llist_59 *const llist, llist_node_59 *const new_node, size_t const idx)
+ERR_59_e insert_node_into_dlist_59(dlist_59 *const dlist, dlist_node_59 *const new_node, size_t const idx)
 {
-    if (!llist || !new_node)
+    if (!dlist || !new_node)
         return ERR_INV_PARAM;
 
-    if (!llist->head)
+    if (!dlist->head)
     {
-        llist->head = new_node;
+        dlist->head = new_node;
         return ERR_NONE;
     }
 
-    llist_node_59 *node = llist->head;
-    llist_node_59 *last_node = (void *)0;
+    dlist_node_59 *node = dlist->head;
+    dlist_node_59 *last_node = (void *)0;
     for (size_t i = 0; i < idx; i++)
     {
         if (!node)
@@ -279,44 +297,49 @@ ERR_59_e insert_node_into_llist_59(llist_59 *const llist, llist_node_59 *const n
         node = node->next;
     }
     last_node->next = new_node;
+    new_node->last = last_node;
     new_node->next = node;
+    if (node)
+        node->last = new_node;
 
     return ERR_NONE;
 }
 
 /***********************************************************************************************************************
- * @brief : Initializes a node for a @llist_59, @next and @node_obj can be NULL.
+ * @brief : Initializes a node for a @dlist_59, @next, @last and @node_obj can be NULL.
  *
  * @param[in] node : Pointer to initialize new node in. @warning This node must be freed to end its lifetime.
- * @param[in] next : Next node in the llinked list to point at, may be NULL.
+ * @param[in] next : Next node in the doubly linked list to point at, may be NULL.
+ * @param[in] last : Last node in the doubly linked list to point at, may be NULL.
  * @param[in] node_obj : Object that the new node shall point to, may be NULL.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e init_llist_node_59(llist_node_59 **node, llist_node_59 *next, void *node_obj)
+ERR_59_e init_dlist_node_59(dlist_node_59 **node, dlist_node_59 *next, dlist_node_59 *last, void *node_obj)
 {
     if (!node)
         return ERR_INV_PARAM;
 
-    *node = malloc(sizeof(llist_node_59));
+    *node = malloc(sizeof(dlist_node_59));
 
     if (!(*node))
         return ERR_NO_MEM;
 
     (*node)->next = next;
+    (*node)->last = last;
     (*node)->node_obj = node_obj;
 
     return ERR_NONE;
 }
 
 /***********************************************************************************************************************
- * @brief : Destroys a linked list node (deallocates memory for both the node and the void pointer object)
+ * @brief : Destroys a doubly linked list node (deallocates memory for both the node and the void pointer object)
  *
  * @param[in] node : Node to destroy.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e destroy_llist_node_59(llist_node_59 **node)
+ERR_59_e destroy_dlist_node_59(dlist_node_59 **node)
 {
     if (!node || !(*node))
         return ERR_INV_PARAM;
@@ -326,6 +349,7 @@ ERR_59_e destroy_llist_node_59(llist_node_59 **node)
 
     (*node)->node_obj = (void *)0;
     (*node)->next = (void *)0;
+    (*node)->last = (void *)0;
     free((*node));
     (*node) = (void *)0;
 

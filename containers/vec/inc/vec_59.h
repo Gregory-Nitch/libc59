@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-03-19
+ * @date : 2025-05-08
  * @author : Gregory Nitch
  *
- * @brief : This header contains all the interfaces common across the entire libraries set of modules.
+ * @brief : This file contians all the declarations for the vector struct.
  **********************************************************************************************************************/
 
 /*
@@ -33,8 +33,28 @@
 ========================================================================================================================
 */
 
-#include <stdint.h>
 #include <stdbool.h>
+
+/*
+========================================================================================================================
+- - MODULE INCLUDES - -
+========================================================================================================================
+*/
+
+#include "container_common_59.h"
+
+/*
+========================================================================================================================
+- - MACROS - -
+========================================================================================================================
+*/
+
+/***********************************************************************************************************************
+ * @VEC_DEFAULT_START_CAPACITY
+ * @brief : Defines all vectors default starting capacity.
+ **********************************************************************************************************************/
+
+#define VEC_DEFAULT_START_CAPACITY 4
 
 /*
 ========================================================================================================================
@@ -42,86 +62,46 @@
 ========================================================================================================================
 */
 
-typedef uint8_t u8;
-typedef uint16_t u16;
-typedef uint32_t u32;
-typedef uint64_t u64;
-typedef int8_t i8;
-typedef int16_t i16;
-typedef int32_t i32;
-typedef int64_t i64;
-typedef char *str;
+typedef struct vec_59 vec_59;
 
 /*
 ========================================================================================================================
-- - ENUMS - -
+- - STRUCTS - -
 ========================================================================================================================
 */
 
 /***********************************************************************************************************************
- * @TYPE_59_e
- * @brief : Represents all the various possible data types in use for things such as containers to store for a key,
- * value, at a node, etc. All members that are pointers to objects may be arrays, this is on the user to implement
- * properly.
- **********************************************************************************************************************/
-typedef enum TYPE_59_e
-{
-    VOID_0,
-    U8,
-    U16,
-    U32,
-    U64,
-    I8,
-    I16,
-    I32,
-    I64,
-    SIZE,
-    CHAR,
-    STR,
-    ENUM,
-    BOOL,
-    U8_PTR,
-    U16_PTR,
-    U32_PTR,
-    U64_PTR,
-    I8_PTR,
-    I16_PTR,
-    I32_PTR,
-    I64_PTR,
-    SIZE_PTR,
-    CHAR_PTR,
-    STRUCT_PTR,
-    ENUM_PTR,
-    BOOL_PTR
-} TYPE_59_e;
-
-/***********************************************************************************************************************
- * @ERR_59_e
- * @brief : Represents the various possible fail states of the containers.
+ * @vec_59
+ * @brief : Represents a vector.
  *
- * @NONE : no error state -> all ok.
- * @NO_MEM : no memory was available on allocation (during malloc).
- * @INV_PARAM : an invalid parameter was given to a container function.
- * @OBJ_NOT_FOUND : object was not found in container.
- * @INTRNL : an internal error occured.
- * @NOT_SUPPORTED : user attempted an unsupported operation.
+ * @data : void pointer array to serve as the vector container
+ * @size : size of the data in the container
+ * @capacity : size of the container, ie the actual amount of memory it is taking up.
+ * @type : type of the objects contained in the vector, this can be any type so be sure you document what you're
+ *         pointing at.
+ * @capacity_lock : if the capacity of the vector is locked then it will not be resized on push pull and insert. You are
+ *                  expected to ensure the vector is of appropriate size.
  **********************************************************************************************************************/
-typedef enum ERR_59_e
+struct vec_59
 {
-    ERR_NONE,
-    ERR_NO_MEM,
-    ERR_INV_PARAM,
-    ERR_OBJ_NOT_FOUND,
-    ERR_CONTAINER_EMPTY,
-    ERR_INTRNL,
-    ERR_NOT_SUPPORTED,
-    ERR_CONTAINER_AT_CAPACITY
-} ERR_59_e;
+    void **data;
+    size_t size;
+    size_t capacity;
+    TYPE_59_e type;
+    bool capacity_lock;
+};
 
 /*
 ========================================================================================================================
-- - FUNCTION DECLARATIONS - -
+- - MODULE FUNCTIONS - -
 ========================================================================================================================
 */
 
-ERR_59_e is_same_mem_addr_59(void const *const node_A, void const *const node_B, bool *const is_same);
+ERR_59_e init_vec_59(vec_59 **vec, size_t const capacity, TYPE_59_e const type, bool const capacity_lock);
+ERR_59_e destroy_vec_59(vec_59 **vec);
+ERR_59_e push_back_vec_59(vec_59 *const vec, void *const new_back);
+ERR_59_e pop_back_vec_59(vec_59 *const vec, void **back_obj);
+ERR_59_e push_front_vec_59(vec_59 *const vec, void *const new_front);
+ERR_59_e pop_front_vec_59(vec_59 *const vec, void **front_obj);
+ERR_59_e remove_given_obj_from_vec_59(vec_59 *const vec, void *remove_obj);
+ERR_59_e insert_obj_into_vec_59(vec_59 *const vec, void *const new_obj, size_t const idx);

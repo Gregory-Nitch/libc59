@@ -68,7 +68,6 @@ static ERR_59_e _vec_59_resize_internal(vec_59 *const vec)
     if (vec->capacity_lock)
         return ERR_NOT_SUPPORTED;
 
-    size_t new_size = vec->size + 1;
     size_t new_cap = vec->capacity << 1;
 
     if (new_cap < vec->capacity)
@@ -84,11 +83,21 @@ static ERR_59_e _vec_59_resize_internal(vec_59 *const vec)
 
     void **old_data = vec->data;
     vec->data = new_data;
-    vec->size = new_size;
     vec->capacity = new_cap;
     free(old_data);
 
     return ERR_NONE;
+}
+
+static ERR_59_e _vec_59_check_needs_resize_internal(vec_59 *const vec)
+{
+    ERR_59_e err = ERR_NONE;
+    if (vec->size == vec->capacity && !vec->capacity_lock)
+        err = _vec_59_resize_internal(vec);
+    else if (vec->size == vec->capacity && vec->capacity_lock)
+        return ERR_CONTAINER_AT_CAPACITY;
+
+    return err;
 }
 
 /*
@@ -148,30 +157,197 @@ ERR_59_e init_vec_59(vec_59 **vec,
     return ERR_NONE;
 }
 
+/***********************************************************************************************************************
+ * @brief : Deallocates the passed vector including the objects held within the vector.
+ *
+ * @param[in] vec : Vector to deallocate.
+ *
+ * @retval ERR_59_e : Error state of the function after the call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e destroy_vec_59(vec_59 **vec)
 {
+    if (!vec || !(*vec))
+        return ERR_INV_PARAM;
+
+    for (size_t i = 0; i < (*vec)->size; i++)
+        free((*vec)->data[i]);
+
+    free((*vec)->data);
+    free((*vec));
+
+    return ERR_NONE;
 }
 
+/***********************************************************************************************************************
+ * @brief : Pushes the new object to the end of the vector. @note If the @capacity_lock member is set to true then the
+ * vector will not automatically resize when size is == capacity. In this situation ERR_CONTAINER_AT_CAPACITY will be
+ * returned.
+ *
+ * @param[in] vec : Vector to push the new object onto.
+ * @param[in] new_back : New object to push onto the back of the vector.
+ *
+ * @retval ERR_59_e : Error state of the function after the call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e push_back_vec_59(vec_59 *const vec, void *const new_back)
 {
+    if (!vec || !new_back)
+    {
+        return ERR_INV_PARAM;
+    }
+
+    ERR_59_e err = _vec_59_check_needs_resize_internal(vec);
+    if (err != ERR_NONE)
+        return err;
+
+    vec->data[vec->size] = new_back;
+    vec->size++;
+
+    return ERR_NONE;
 }
+
+/***********************************************************************************************************************
+ * @brief : Pops the back object out of the vector.
+ *
+ * @param[in] vec : Vector to remove the back from.
+ * @param[out] back_obj : Pointer to store the back object in.
+ *
+ * @retval ERR_59_e : Error state of the function after the call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 
 ERR_59_e pop_back_vec_59(vec_59 *const vec, void **back_obj)
 {
+    if (!vec || !back_obj)
+        return ERR_INV_PARAM;
+
+    if (0 == vec->size)
+        return ERR_CONTAINER_EMPTY;
+
+    *back_obj = vec->data[vec->size - 1];
+    vec->data[vec->size - 1] = (void *)0;
+    vec->size--;
+
+    return ERR_NONE;
 }
 
+/***********************************************************************************************************************
+ * @brief : Pushes a new object onto the front of the vector.
+ *
+ * @param[in] vec : Vector to push the new object onto.
+ * @param[in] new_front : Object to push onto the front of the vector.
+ *
+ * @retval ERR_59_e : Error state of the function after the call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e push_front_vec_59(vec_59 *const vec, void *const new_front)
 {
+    if (!vec || !new_front)
+        return ERR_INV_PARAM;
+
+    ERR_59_e err = _vec_59_check_needs_resize_internal(vec);
+    if (err != ERR_NONE)
+        return err;
+
+    for (size_t idx = vec->size; idx > 0; idx--)
+        vec->data[idx] = vec->data[idx - 1];
+
+    vec->data[0] = new_front;
+    vec->size++;
+
+    return ERR_NONE;
 }
 
+/***********************************************************************************************************************
+ * @brief : Pops the front object off of the passed vector.
+ *
+ * @param[in] vec : Vector to remove the front object off of.
+ * @param[out] front_obj : Pointer to the front object of the vector.
+ *
+ * @retval ERR_59_e : Error state of the function after the call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e pop_front_vec_59(vec_59 *const vec, void **front_obj)
 {
+    if (!vec || !front_obj)
+        return ERR_INV_PARAM;
+
+    if (0 == vec->size)
+        return ERR_CONTAINER_EMPTY;
+
+    *front_obj = vec->data[0];
+
+    for (size_t idx = 0; idx < vec->size - 1; idx++)
+        vec->data[idx] = vec->data[idx + 1];
+
+    vec->size--;
+
+    return ERR_NONE;
 }
 
+/***********************************************************************************************************************
+ * @brief : Removes the passed object from the vector based on @is_same_mem_addr_59(). @warning This does not deallocate
+ * the passed object and only removes it from the vector.
+ *
+ * @param[in] vec : Vector to check if the object exsists in and remove from.
+ * @param[in] remove_obj : Object to remove from the vector. @warning This object still needs to be deallocated after
+ * its use has been finished, this function does not deallocate the object's memory.
+ *
+ * @retval ERR_59_e : Error state of the function after the call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e remove_given_obj_from_vec_59(vec_59 *const vec, void *remove_obj)
 {
+    if (!vec || !remove_obj)
+        return ERR_INV_PARAM;
+
+    bool is_same = false;
+    for (size_t idx = 0; idx < vec->size; idx++)
+    {
+        ERR_59_e err = is_same_mem_addr_59(vec->data[idx], remove_obj, &is_same);
+        if (ERR_NONE != err)
+            return err;
+
+        if (is_same)
+        {
+            vec->data[idx] = (void *)0; // Clear matched object
+            for (; idx < vec->size - 1; idx++)
+                vec->data[idx] = vec->data[idx + 1];
+
+            vec->data[idx] = (void *)0; // Clear remaining double of last copied object
+
+            return ERR_NONE;
+        }
+    }
+
+    return ERR_OBJ_NOT_FOUND;
 }
 
+/***********************************************************************************************************************
+ * @brief : Inserts the passed object into the vector at the given index. @note If the index is passed the end of the
+ * vector then the object is simply placed at the back of the vector.
+ *
+ * @param[in] vec : Vector to add the object to.
+ * @param[in] new_object : Object to add to the vector.
+ * @param[in] idx : Index to place the object at in the vector, all objects placed after this idx will be shifted left.
+ *
+ * @retval ERR_59_e : Error state of the function after the call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e insert_obj_into_vec_59(vec_59 *const vec, void *const new_obj, size_t const idx)
 {
+    if (!vec || !new_obj)
+        return ERR_INV_PARAM;
+
+    ERR_59_e err = _vec_59_check_needs_resize_internal(vec);
+    if (err != ERR_NONE)
+        return err;
+
+    if (idx >= vec->size)
+        vec->data[vec->size] = new_obj;
+    else
+    {
+        for (size_t i = vec->size; i > idx; i--)
+            vec->data[i] = vec->data[i - 1];
+
+        vec->data[idx] = new_obj;
+    }
+
+    vec->size++;
+
+    return ERR_NONE;
 }

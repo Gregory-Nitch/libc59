@@ -124,4 +124,4 @@ typedef enum ERR_59_e
 ========================================================================================================================
 */
 
-ERR_59_e is_same_mem_addr_59(void const *const node_A, void const *const node_B, bool *const is_same);
+ERR_59_e is_same_mem_addr_59(void const *const obj_A, void const *const obj_B, bool *const is_same);

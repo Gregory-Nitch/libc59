@@ -47,31 +47,40 @@
 
 /*
 ========================================================================================================================
+- - ENUMS - -
+========================================================================================================================
+*/
+
+/***********************************************************************************************************************
+ * @enum
+ * @brief : Used to determine what type of sizing operation branch to execute for the internal resizing function for
+ * @vec_59 vectors.
+ **********************************************************************************************************************/
+typedef enum RESIZE_MODE_VEC_59_INTRL_e
+{
+    VEC_59_RESIZE_MODE_GROW,
+    VEC_59_RESIZE_MODE_SHRINK
+} RESIZE_MODE_VEC_59_INTRL_e;
+
+/*
+========================================================================================================================
 - - INTERAL FUNCTIONS - -
 ========================================================================================================================
 */
 
 /***********************************************************************************************************************
- * @brief : Resizes the passed vector by shifting capacity value left by 1 bit, then copies data to a new array of void
- * pointers. @note This function cannot be used with vectors that have their capacity locked, such vectors need to be
- * resized manually.
+ * @brief : Resizes the passed vector based on the passed @new_cap parameter, then copies data to a new array of void
+ * pointers. The old array is freed.
  *
  * @param[in] vec : Vector to resize.
+ * @param[in] new_cap : New vector capacity size to allocate for.
  *
  * @retval ERR_59_e : Error return value from the function, ERR_NONE = all ok.
  **********************************************************************************************************************/
-static ERR_59_e _vec_59_resize_internal(vec_59 *const vec)
+static ERR_59_e _vec_59_resize_internal(vec_59 *const vec, size_t const new_cap)
 {
     if (!vec)
         return ERR_INV_PARAM;
-
-    if (vec->capacity_lock)
-        return ERR_NOT_SUPPORTED;
-
-    size_t new_cap = vec->capacity << 1;
-
-    if (new_cap < vec->capacity)
-        return ERR_CONTAINER_AT_CAPACITY; // Overflow occured
 
     void **new_data = malloc(sizeof(void *) * new_cap);
     if (!new_data)
@@ -89,13 +98,54 @@ static ERR_59_e _vec_59_resize_internal(vec_59 *const vec)
     return ERR_NONE;
 }
 
-static ERR_59_e _vec_59_check_needs_resize_internal(vec_59 *const vec)
+/***********************************************************************************************************************
+ * @brief : Checks to see if the passed vector needs to be resized based on vector size and capacity. @note Only vectors
+ * with their capacity lock set to false will be resized.
+ *
+ * @param[in] vec : Vector to check.
+ * @param[in] mode : Mode to determine if the vector should be checked for growing or shrinking.
+ *
+ * @retval ERR_59_e : Error return value from the function, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+static ERR_59_e _vec_59_check_needs_resize_internal(vec_59 *const vec,
+                                                    RESIZE_MODE_VEC_59_INTRL_e const mode)
 {
+    if (!vec)
+        return ERR_INV_PARAM;
+
     ERR_59_e err = ERR_NONE;
-    if (vec->size == vec->capacity && !vec->capacity_lock)
-        err = _vec_59_resize_internal(vec);
-    else if (vec->size == vec->capacity && vec->capacity_lock)
-        return ERR_CONTAINER_AT_CAPACITY;
+    size_t new_cap = vec->capacity;
+    switch (mode)
+    {
+    case VEC_59_RESIZE_MODE_GROW:
+
+        if (vec->size == vec->capacity && !vec->capacity_lock)
+        {
+            new_cap <<= 1;
+
+            if (new_cap < vec->capacity)
+                return ERR_CONTAINER_AT_CAPACITY; // Overflow occured
+            err = _vec_59_resize_internal(vec, new_cap);
+        }
+        else if (vec->size == vec->capacity && vec->capacity_lock)
+            return ERR_CONTAINER_AT_CAPACITY;
+
+        break;
+
+    case VEC_59_RESIZE_MODE_SHRINK:
+
+        new_cap >>= 1;
+
+        // Only shrink if capacity lock is off and the current vector will fit in a smaller allocation
+        if (vec->size <= new_cap && !vec->capacity_lock)
+            err = _vec_59_resize_internal(vec, new_cap);
+
+        break;
+
+    default:
+        err == ERR_NOT_SUPPORTED;
+        break;
+    }
 
     return err;
 }
@@ -195,7 +245,7 @@ ERR_59_e push_back_vec_59(vec_59 *const vec, void *const new_back)
         return ERR_INV_PARAM;
     }
 
-    ERR_59_e err = _vec_59_check_needs_resize_internal(vec);
+    ERR_59_e err = _vec_59_check_needs_resize_internal(vec, VEC_59_RESIZE_MODE_GROW);
     if (err != ERR_NONE)
         return err;
 
@@ -209,7 +259,8 @@ ERR_59_e push_back_vec_59(vec_59 *const vec, void *const new_back)
  * @brief : Pops the back object out of the vector.
  *
  * @param[in] vec : Vector to remove the back from.
- * @param[out] back_obj : Pointer to store the back object in.
+ * @param[out] back_obj : Pointer to store the back object in. @note To properly pass this value cast it to a void
+ * pointer to pointer ie (void *)&back_obj.
  *
  * @retval ERR_59_e : Error state of the function after the call, ERR_NONE = all ok.
  **********************************************************************************************************************/
@@ -225,6 +276,10 @@ ERR_59_e pop_back_vec_59(vec_59 *const vec, void **back_obj)
     *back_obj = vec->data[vec->size - 1];
     vec->data[vec->size - 1] = (void *)0;
     vec->size--;
+
+    ERR_59_e err = _vec_59_check_needs_resize_internal(vec, VEC_59_RESIZE_MODE_SHRINK);
+    if (err != ERR_NONE)
+        return err;
 
     return ERR_NONE;
 }
@@ -242,7 +297,7 @@ ERR_59_e push_front_vec_59(vec_59 *const vec, void *const new_front)
     if (!vec || !new_front)
         return ERR_INV_PARAM;
 
-    ERR_59_e err = _vec_59_check_needs_resize_internal(vec);
+    ERR_59_e err = _vec_59_check_needs_resize_internal(vec, VEC_59_RESIZE_MODE_GROW);
     if (err != ERR_NONE)
         return err;
 
@@ -278,6 +333,10 @@ ERR_59_e pop_front_vec_59(vec_59 *const vec, void **front_obj)
 
     vec->size--;
 
+    ERR_59_e err = _vec_59_check_needs_resize_internal(vec, VEC_59_RESIZE_MODE_SHRINK);
+    if (err != ERR_NONE)
+        return err;
+
     return ERR_NONE;
 }
 
@@ -309,7 +368,11 @@ ERR_59_e remove_given_obj_from_vec_59(vec_59 *const vec, void *remove_obj)
             for (; idx < vec->size - 1; idx++)
                 vec->data[idx] = vec->data[idx + 1];
 
-            vec->data[idx] = (void *)0; // Clear remaining double of last copied object
+            vec->size--;
+
+            ERR_59_e err = _vec_59_check_needs_resize_internal(vec, VEC_59_RESIZE_MODE_SHRINK);
+            if (err != ERR_NONE)
+                return err;
 
             return ERR_NONE;
         }
@@ -333,7 +396,7 @@ ERR_59_e insert_obj_into_vec_59(vec_59 *const vec, void *const new_obj, size_t c
     if (!vec || !new_obj)
         return ERR_INV_PARAM;
 
-    ERR_59_e err = _vec_59_check_needs_resize_internal(vec);
+    ERR_59_e err = _vec_59_check_needs_resize_internal(vec, VEC_59_RESIZE_MODE_GROW);
     if (err != ERR_NONE)
         return err;
 

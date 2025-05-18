@@ -13,6 +13,9 @@ set(CMAKE_SHARED_LIBRARY_PREFIX "")
 # Declare public API of lib
 set_target_properties(vec_59 PROPERTIES PUBLIC_HEADER inc/vec_59.h)
 
+# Add other library to link in
+target_link_libraries(vec_59 PUBLIC ${PROJECT_SOURCE_DIR}/../../common/bin/libc59_common.so)
+
 # Include relative paths
 target_include_directories(vec_59 PRIVATE inc)
 target_include_directories(vec_59 PRIVATE src)

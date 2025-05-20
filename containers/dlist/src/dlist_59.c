@@ -81,13 +81,13 @@ ERR_59_e init_dlist_59(dlist_59 **dlist, TYPE_59_e const type, size_t const type
 }
 
 /***********************************************************************************************************************
- * @brief : Destroys the passed doubly linked list and all of the nodes, this also deallocates the used memory.
+ * @brief : Deinits the passed doubly linked list and all of the nodes, this also deallocates the used memory.
  *
- * @param[in] dlist : doubly linked list to destroy.
+ * @param[in] dlist : doubly linked list to deinit.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e destroy_dlist_59(dlist_59 **dlist)
+ERR_59_e deinit_dlist_59(dlist_59 **dlist)
 {
     if (!dlist || !(*dlist))
         return ERR_INV_PARAM;
@@ -98,7 +98,7 @@ ERR_59_e destroy_dlist_59(dlist_59 **dlist)
     {
         next_node = node->next;
 
-        ERR_59_e err = destroy_dlist_node_59(&node);
+        ERR_59_e err = deinit_dlist_node_59(&node);
         if (err != ERR_NONE)
             return err;
 
@@ -217,7 +217,7 @@ ERR_59_e push_front_dlist_59(dlist_59 *const dlist, dlist_node_59 *const new_fro
  *
  * @param[in] dlist : List to pop the head from.
  * @param[out] front_node : Head of the list returned from function call, @warning this node will need to be deallocated
- * with a call to destroy_node_dlist_59(). @note this may be NULL and will set an ERR_CONTAINER_EMPTY code.
+ * with a call to deinit_node_dlist_59(). @note this may be NULL and will set an ERR_CONTAINER_EMPTY code.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
@@ -245,7 +245,7 @@ ERR_59_e pop_front_dlist_59(dlist_59 *const dlist, dlist_node_59 **front_node)
 
 /***********************************************************************************************************************
  * @brief : Removes the passed node from the doubly linked list. @warning DOES NOT DEALLOCATE the node, use
- * destroy_dlist_node_59() after the use of the node is complete.
+ * deinit_dlist_node_59() after the use of the node is complete.
  *
  * @param[in] dlist : Doubly linked list to remove the node from.
  * @param[out] remove_node : Node to remove, error is returned if not found.
@@ -353,13 +353,13 @@ ERR_59_e init_dlist_node_59(dlist_node_59 **node, dlist_node_59 *next, dlist_nod
 }
 
 /***********************************************************************************************************************
- * @brief : Destroys a doubly linked list node (deallocates memory for both the node and the void pointer object)
+ * @brief : Deinits a doubly linked list node (deallocates memory for both the node and the void pointer object)
  *
- * @param[in] node : Node to destroy.
+ * @param[in] node : Node to deinit.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e destroy_dlist_node_59(dlist_node_59 **node)
+ERR_59_e deinit_dlist_node_59(dlist_node_59 **node)
 {
     if (!node || !(*node))
         return ERR_INV_PARAM;

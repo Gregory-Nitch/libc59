@@ -33,7 +33,7 @@
 ========================================================================================================================
 */
 
-//! TODO: . . .
+#include <stddef.h>
 
 /*
 ========================================================================================================================
@@ -42,6 +42,23 @@
 */
 
 #include "container_common_59.h"
+#include "llist_59.h"
+
+/*
+========================================================================================================================
+- - MACROS - -
+========================================================================================================================
+*/
+
+/***********************************************************************************************************************
+ * @brief : Default size of hash map tables.
+ **********************************************************************************************************************/
+#define DEFAULT_HASH_MAP_TABLE_SIZE 10
+
+/***********************************************************************************************************************
+ * @brief : Default prime number to use in hashing for hash maps.
+ **********************************************************************************************************************/
+#define DEFAULT_HASH_MAP_PRIME 11;
 
 /*
 ========================================================================================================================
@@ -49,7 +66,7 @@
 ========================================================================================================================
 */
 
-//! TODO: . . .
+typedef hash_map_59 hash_map_59;
 
 /*
 ========================================================================================================================
@@ -58,11 +75,26 @@
 */
 
 /***********************************************************************************************************************
- *    //! TODO: . . .
+ * @hash_map_59
+ * @brief : A hash map built with llist_59 and llist_node_59, this hash map does not automatically resize its table.
+ *
+ * @key_type : Type of the key for the hash.
+ * @val_type : Type of the val held at the hashed key.
+ * @table : A pointer to pointer of llist_59(arr).
+ * @table_size : Size of the hash table, call resize to grow or shrink the table.
+ * @_prime : Prime number used in hashing.
+ *
+ * @note Default table size is @DEFAULT_HASH_MAP_TABLE_SIZE. Ideally you should not alter the @_prime member, default
+ * value is 11.
  **********************************************************************************************************************/
 struct hash_map_59
 {
-    //! TODO: . . .
+    TYPE_59_e key_type;
+    TYPE_59_e val_type;
+    size_t val_type_depth;
+    llist_59 **table;
+    size_t table_size;
+    size_t _prime;
 };
 
 /*
@@ -71,4 +103,14 @@ struct hash_map_59
 ========================================================================================================================
 */
 
-//! TODO: . . .
+ERR_59_e init_hash_map_59(hash_map_59 **map,
+                          TYPE_59_e const key_type,
+                          TYPE_59_e const val_type,
+                          size_t const val_type_depth,
+                          size_t const table_size,
+                          size_t const _prime);
+ERR_59_e deinit_hash_map59(hash_map_59 **map);
+ERR_59_e insert_into_hash_map_59(hash_map_59 *const map, void *key, void *val);
+ERR_59_e get_from_hash_map_59(hash_map_59 const *const map, void *key, void **val);
+ERR_59_e remove_from_hash_map_59(hash_map_59 *map, void *key);
+ERR_59_e resize_table_hash_map_59(hash_map_59 *map, size_t const new_size);

@@ -162,7 +162,7 @@ static ERR_59_e _vec_59_check_needs_resize_internal(vec_59 *const vec,
  * of 0 and have their allocated void pointers zeroed.
  *
  * @param[out] vec : Pointer to a vector pointer to initialize a vector in, the new initialized vector is located in
- * this out parameter. @warning This vector must later be freed with destroy_vec_59.
+ * this out parameter. @warning This vector must later be freed with deinit_vec_59.
  * @param[in] capacity : Capacity of the new vector. @note This is only used if the @capacity_lock flag is set,
  * otherwise the vector will be initialized to @VEC_DEFAULT_START_CAPACITY which is normally 4.
  * @param[in] type : Type of values to be held by the vector, this is used to determine how to dereference the void
@@ -214,7 +214,7 @@ ERR_59_e init_vec_59(vec_59 **vec,
  *
  * @retval ERR_59_e : Error state of the function after the call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e destroy_vec_59(vec_59 **vec)
+ERR_59_e deinit_vec_59(vec_59 **vec)
 {
     if (!vec || !(*vec))
         return ERR_INV_PARAM;

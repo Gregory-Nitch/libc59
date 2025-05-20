@@ -100,7 +100,7 @@ struct dlist_59
 */
 
 ERR_59_e init_dlist_59(dlist_59 **dlist, TYPE_59_e const type, size_t const type_depth);
-ERR_59_e destroy_dlist_59(dlist_59 **dlist);
+ERR_59_e deinit_dlist_59(dlist_59 **dlist);
 ERR_59_e push_back_dlist_59(dlist_59 *const dlist, dlist_node_59 *const new_node);
 ERR_59_e pop_back_dlist_59(dlist_59 *const dlist, dlist_node_59 **back_node);
 ERR_59_e push_front_dlist_59(dlist_59 *const dlist, dlist_node_59 *const new_front);
@@ -109,4 +109,4 @@ ERR_59_e remove_given_node_from_dlist_59(dlist_59 *const dlist, dlist_node_59 *r
 ERR_59_e insert_node_into_dlist_59(dlist_59 *const dlist, dlist_node_59 *const new_node, size_t const idx);
 
 ERR_59_e init_dlist_node_59(dlist_node_59 **node, dlist_node_59 *next, dlist_node_59 *last, void *node_obj);
-ERR_59_e destroy_dlist_node_59(dlist_node_59 **node);
+ERR_59_e deinit_dlist_node_59(dlist_node_59 **node);

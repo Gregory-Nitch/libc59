@@ -77,17 +77,17 @@ ERR_59_e test_dlist_59_edge_cases(void)
     assert(ERR_INV_PARAM == err);
     err = ERR_NONE;
 
-    // destroy list
+    // deinit list
     puts("- - - - - - - - - - - - - - - - -");
-    puts("Testing destroy_dlist()...");
+    puts("Testing deinit_dlist()...");
 
-    err = destroy_dlist_59((void *)0);
+    err = deinit_dlist_59((void *)0);
     printf("Assert: err = %d == %d ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
     err = ERR_NONE;
 
     dlist_59 *dummy_list = (void *)0;
-    err = destroy_dlist_59(&dummy_list);
+    err = deinit_dlist_59(&dummy_list);
     printf("Assert: err = %d == %d ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
     err = ERR_NONE;
@@ -219,7 +219,7 @@ ERR_59_e test_dlist_59_edge_cases(void)
     // Test clean up
     puts("- - - - - - - - - - - - - - - - -");
     puts("Test clean up...");
-    err = destroy_dlist_59(&list);
+    err = deinit_dlist_59(&list);
 
     return err;
 }

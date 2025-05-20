@@ -93,16 +93,16 @@ ERR_59_e test_vec_59_edge_cases(void)
     puts("Assert: (void **)0 vec init == ERR_INV_PARAM");
     assert(ERR_INV_PARAM == err);
 
-    // destroy_vec
+    // deinit_vec
     puts("- - - - - - - - - - - - - - - - -");
-    puts("test destroy_vec...");
+    puts("test deinit_vec...");
 
-    err = destroy_vec_59(dummy_vec_pp);
-    puts("Assert: (void **)0 vec destroy == ERR_INV_PARAM");
+    err = deinit_vec_59(dummy_vec_pp);
+    puts("Assert: (void **)0 vec deinit == ERR_INV_PARAM");
     assert(ERR_INV_PARAM == err);
 
-    err = destroy_vec_59(&dummy_vec_p);
-    puts("Assert: (void *)0 vec destroy == ERR_INV_PARAM");
+    err = deinit_vec_59(&dummy_vec_p);
+    puts("Assert: (void *)0 vec deinit == ERR_INV_PARAM");
     assert(ERR_INV_PARAM == err);
 
     // pushback_vec
@@ -212,8 +212,8 @@ ERR_59_e test_vec_59_edge_cases(void)
     puts("Test clean up...");
 
     err = push_back_vec_59(vec, val); // Clean up 59 pointer
-    err = destroy_vec_59(&capped_vec);
-    err = destroy_vec_59(&vec);
+    err = deinit_vec_59(&capped_vec);
+    err = deinit_vec_59(&vec);
 
     return err;
 }

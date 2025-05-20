@@ -101,7 +101,7 @@ struct vec_59
 */
 
 ERR_59_e init_vec_59(vec_59 **vec, size_t const capacity, TYPE_59_e const type, bool const capacity_lock);
-ERR_59_e destroy_vec_59(vec_59 **vec);
+ERR_59_e deinit_vec_59(vec_59 **vec);
 ERR_59_e push_back_vec_59(vec_59 *const vec, void *const new_back);
 ERR_59_e pop_back_vec_59(vec_59 *const vec, void **back_obj);
 ERR_59_e push_front_vec_59(vec_59 *const vec, void *const new_front);

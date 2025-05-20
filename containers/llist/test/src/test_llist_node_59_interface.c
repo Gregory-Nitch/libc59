@@ -68,10 +68,10 @@ ERR_59_e test_llist_node_59_interface(void)
     printf("Assert: node1 = val %lu at %p\n", *((u64 *)node1->node_obj), node1);
     assert(1UL == *((u64 *)node1->node_obj));
 
-    // destroy nodes
+    // deinit nodes
     puts("- - - - - - - - - - -");
-    puts("destroying nodes...");
-    err = destroy_llist_node_59(&node1);
+    puts("deiniting nodes...");
+    err = deinit_llist_node_59(&node1);
     printf("Assert: (void*)0 = %p  == %p = node1(null)\n", (void *)0, node1);
     assert((void *)0 == node1);
 

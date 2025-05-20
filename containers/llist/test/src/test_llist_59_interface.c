@@ -99,10 +99,10 @@ ERR_59_e test_llist_59_interface(void)
     printf("Assert: expected = %lu == %lu = obj\n", 5UL, *((u64 *)node->node_obj));
     assert(*((u64 *)node->node_obj) == 5LU);
 
-    err = destroy_llist_node_59(&node);
+    err = deinit_llist_node_59(&node);
     if (ERR_NONE != err)
         return err;
-    puts("Back node destroyed...");
+    puts("Back node deinited...");
 
     node = list->head;
     for (size_t i = 1; i < 5; i++)
@@ -165,10 +165,10 @@ ERR_59_e test_llist_59_interface(void)
     printf("Assert: expected = %lu == %lu = obj\n", 0UL, *((u64 *)node->node_obj));
     assert(*((u64 *)node->node_obj) == 0UL);
 
-    err = destroy_llist_node_59(&node);
+    err = deinit_llist_node_59(&node);
     if (ERR_NONE != err)
         return err;
-    puts("Popped front node destroyed...");
+    puts("Popped front node deinited...");
 
     node = list->head;
     printf("Assert: expected = %lu == %lu = obj\n", 1UL, *((u64 *)node->node_obj));
@@ -187,10 +187,10 @@ ERR_59_e test_llist_59_interface(void)
     if (ERR_NONE != err)
         return err;
 
-    err = destroy_llist_node_59(&node);
+    err = deinit_llist_node_59(&node);
     if (ERR_NONE != err)
         return err;
-    puts("Removed node destroyed...");
+    puts("Removed node deinited...");
 
     node = list->head;
     while (node)
@@ -226,14 +226,14 @@ ERR_59_e test_llist_59_interface(void)
     printf("Assert: expected = %lu == %lu = obj\n", val, *((u64 *)node->node_obj));
     assert(*((u64 *)node->node_obj) == val);
 
-    // destroy_list()
+    // deinit_list()
     puts("- - - - - - - - - - - - - - - - -");
-    puts("Checking destroy_list()...");
+    puts("Checking deinit_list()...");
 
-    err = destroy_llist_59(&list);
+    err = deinit_llist_59(&list);
     if (ERR_NONE != err)
         return err;
-    puts("List destroyed...");
+    puts("List deinited...");
 
     printf("Assert: expected(void*)0 = %p == %p = obj\n", (void *)0, list);
     assert(list == (void *)0);

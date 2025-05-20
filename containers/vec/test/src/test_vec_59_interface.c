@@ -263,9 +263,9 @@ ERR_59_e test_vec_59_interface(void)
 
     // Test clean up
     puts("- - - - - - - - - - - - - - - - -");
-    puts("Checking destroy_vec()...");
+    puts("Checking deinit_vec()...");
 
-    err = destroy_vec_59(&vec);
+    err = deinit_vec_59(&vec);
 
     return err;
 }

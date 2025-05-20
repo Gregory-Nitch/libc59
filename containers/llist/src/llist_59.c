@@ -81,13 +81,13 @@ ERR_59_e init_llist_59(llist_59 **llist, TYPE_59_e const type, size_t const type
 }
 
 /***********************************************************************************************************************
- * @brief : Destroys the passed linked list and all of the nodes, this also deallocates the used memory.
+ * @brief : Deinits the passed linked list and all of the nodes, this also deallocates the used memory.
  *
- * @param[in] llist : linked list to destroy.
+ * @param[in] llist : linked list to deinit.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e destroy_llist_59(llist_59 **llist)
+ERR_59_e deinit_llist_59(llist_59 **llist)
 {
     if (!llist || !(*llist))
         return ERR_INV_PARAM;
@@ -98,7 +98,7 @@ ERR_59_e destroy_llist_59(llist_59 **llist)
     {
         next_node = node->next;
 
-        ERR_59_e err = destroy_llist_node_59(&node);
+        ERR_59_e err = deinit_llist_node_59(&node);
         if (err != ERR_NONE)
             return err;
 
@@ -205,7 +205,7 @@ ERR_59_e push_front_llist_59(llist_59 *const llist, llist_node_59 *const new_fro
  *
  * @param[in] llist : List to pop the head from.
  * @param[out] front_node : Head of the list returned from function call, @warning this node will need to be deallocated
- * with a call to destroy_node_llist_59(). @note this may be NULL and will set an ERR_CONTAINER_EMPTY code.
+ * with a call to deinit_node_llist_59(). @note this may be NULL and will set an ERR_CONTAINER_EMPTY code.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
@@ -230,7 +230,7 @@ ERR_59_e pop_front_llist_59(llist_59 *const llist, llist_node_59 **front_node)
 
 /***********************************************************************************************************************
  * @brief : Removes the passed node from the linked list. @warning DOES NOT DEALLOCATE the node, use
- * destroy_llist_node_59() after the use of the node is complete.
+ * deinit_llist_node_59() after the use of the node is complete.
  *
  * @param[in] llist : Linked list to remove the node from.
  * @param[out] remove_node : Node to remove, error is returned if not found.
@@ -330,13 +330,13 @@ ERR_59_e init_llist_node_59(llist_node_59 **node, llist_node_59 *next, void *nod
 }
 
 /***********************************************************************************************************************
- * @brief : Destroys a linked list node (deallocates memory for both the node and the void pointer object)
+ * @brief : Deinits a linked list node (deallocates memory for both the node and the void pointer object)
  *
- * @param[in] node : Node to destroy.
+ * @param[in] node : Node to deinit.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e destroy_llist_node_59(llist_node_59 **node)
+ERR_59_e deinit_llist_node_59(llist_node_59 **node)
 {
     if (!node || !(*node))
         return ERR_INV_PARAM;

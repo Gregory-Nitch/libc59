@@ -49,7 +49,7 @@
 ========================================================================================================================
 */
 
-static ERR_59_e _hash_key_internal_hash_map_59(hash_map_59 *map, void *key)
+static ERR_59_e _hash_key_internal_hash_map_59(hash_map_59 *map, void *key, size_t *hash)
 {
     //! TODO: . . .
 }
@@ -65,6 +65,24 @@ static ERR_59_e _check_is_prime_internal_hash_map_59(size_t const prime, bool *i
 ========================================================================================================================
 */
 
+/***********************************************************************************************************************
+ * @brief : Initializes a hash map based on the passed parameters.
+ *
+ * @param[out] map : Pointer to a @hash_map_59 pointer to initialize the hash map in.
+ * @param[in] key_type : Type of the keys for the hash map.
+ * @param[in] val_type : Type of the vals for the hash map.
+ * @param[in] val_type_depth : Depth of the values in the hash map, if values are not of the same size then set this to
+ * 0.
+ * @param[in] table_size : Size of the table in the hash_map, if 0 then the default size of @DEFAULT_HASH_MAP_TABLE_SIZE
+ * is used.
+ * @param[in] prime : Prime number to be used in hashing, if this parameter is not a prime number or 0 then an
+ * ERR_INV_PARAM err will occur. When set as 0 then the default value of @DEFAULT_HASH_MAP_PRIME will be used.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+
+ * @warning This will need to be freed with @deinit_hash_map_59 when its lifetime has expired. If values in the hash_map
+ * are not of the same type depth DO NOT set the @val_type_depth parameter to anything other than 0.
+ **********************************************************************************************************************/
 ERR_59_e init_hash_map_59(hash_map_59 **map,
                           TYPE_59_e const key_type,
                           TYPE_59_e const val_type,
@@ -137,7 +155,16 @@ ERR_59_e init_hash_map_59(hash_map_59 **map,
     return ERR_NONE;
 }
 
-ERR_59_e deinit_hash_map59(hash_map_59 **map)
+/***********************************************************************************************************************
+ * @brief : Deallocates the passed hash map and all of its contents.
+ *
+ * @param[out] map : Pointer to a hash_map_59 pointer that will be freed.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ *
+ * @note The pointer to the map will be (void*)0 on return.
+ **********************************************************************************************************************/
+ERR_59_e deinit_hash_map_59(hash_map_59 **map)
 {
     if (!map || !(*map))
         return ERR_INV_PARAM;
@@ -146,7 +173,7 @@ ERR_59_e deinit_hash_map59(hash_map_59 **map)
 
     for (size_t i = 0; i < (*map)->table_size; i++)
     {
-        err = deinit_llist_59((*map)->table[i]);
+        err = deinit_llist_59(&(*map)->table[i]);
         if (ERR_NONE != err)
             return err;
     }
@@ -158,9 +185,68 @@ ERR_59_e deinit_hash_map59(hash_map_59 **map)
     return ERR_NONE;
 }
 
-ERR_59_e insert_into_hash_map_59(hash_map_59 *const map, void *key, void *val)
+/***********************************************************************************************************************
+ * @brief : Inserts a new key and value as a @key_val_pair_59 into the hash map.
+ *
+ * @param[in] map : Hash map to insert the new pair into.
+ * @param[in] key : Key of the new entry.
+ * @param[in] val : Value of the new entry.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ *
+ * @note If there is already an entry with the same key it is updated with the new value.
+ **********************************************************************************************************************/
+ERR_59_e upsert_into_hash_map_59(hash_map_59 *const map, void *key, void *val)
 {
-    //! TODO: . . .
+    if (!map || !key || !val)
+        return ERR_INV_PARAM;
+
+    ERR_59_e err = ERR_NONE;
+    size_t hash = 0;
+    err = _hash_key_internal_hash_map_59(map, key, &hash);
+    if (ERR_NONE != err)
+        return err;
+
+    llist_node_59 *node = map->table[hash]->head;
+    llist_59 *table_list = map->table[hash];
+    while (node)
+    {
+        key_val_pair_59 *entry = (key_val_pair_59 *)node->node_obj;
+        i64 dif = 0;
+        err = compare_node_obj_59(map->key_type, entry->key, key, &dif);
+        if (ERR_NONE != err)
+            return err;
+
+        if (0 == dif)
+            entry->val = val;
+
+        else if (!node->next)
+        {
+            key_val_pair_59 *new_entry = malloc(sizeof(key_val_pair_59));
+            if (!new_entry)
+                return ERR_NO_MEM;
+
+            llist_node_59 *new_node = (void *)0;
+            err = init_llist_node_59(&new_node, (void *)0, (void *)new_entry);
+            if (ERR_NONE != err)
+            {
+                free(new_entry);
+                return err;
+            }
+            err = push_back_llist_59(table_list, new_node);
+            if (ERR_NONE != err)
+            {
+                free(new_entry);
+                free(new_node);
+                return err;
+            }
+        }
+
+        else
+            node = node->next;
+    }
+
+    return ERR_NONE;
 }
 
 ERR_59_e get_from_hash_map_59(hash_map_59 const *const map, void *key, void **val)

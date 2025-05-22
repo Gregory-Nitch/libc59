@@ -1,3 +1,4 @@
+#pragma once
 /***********************************************************************************************************************
  * MIT License
  *
@@ -66,13 +67,27 @@
 ========================================================================================================================
 */
 
-typedef hash_map_59 hash_map_59;
+typedef struct hash_map_59 hash_map_59;
+typedef struct key_val_pair_59 key_val_pair_59;
 
 /*
 ========================================================================================================================
 - - STRUCTS - -
 ========================================================================================================================
 */
+
+/***********************************************************************************************************************
+ * @key_val_pair_59
+ * @brief : Key value pair struct to represent a hash map entry.
+ *
+ * @key : Key to the values entry, will be unique in the hash map.
+ * @val : Value to the key, is not unique in the hash map.
+ **********************************************************************************************************************/
+struct key_val_pair_59
+{
+    void *key;
+    void *val;
+};
 
 /***********************************************************************************************************************
  * @hash_map_59
@@ -109,8 +124,8 @@ ERR_59_e init_hash_map_59(hash_map_59 **map,
                           size_t const val_type_depth,
                           size_t const table_size,
                           size_t const _prime);
-ERR_59_e deinit_hash_map59(hash_map_59 **map);
-ERR_59_e insert_into_hash_map_59(hash_map_59 *const map, void *key, void *val);
+ERR_59_e deinit_hash_map_59(hash_map_59 **map);
+ERR_59_e upsert_into_hash_map_59(hash_map_59 *const map, void *key, void *val);
 ERR_59_e get_from_hash_map_59(hash_map_59 const *const map, void *key, void **val);
 ERR_59_e remove_from_hash_map_59(hash_map_59 *map, void *key);
 ERR_59_e resize_table_hash_map_59(hash_map_59 *map, size_t const new_size);

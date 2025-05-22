@@ -11,11 +11,13 @@ add_executable(test_hash_map_59_edge_cases src/test_hash_map_59_edge_cases.c)
 # Add test relative paths
 target_include_directories(test_hash_map_59_interface PUBLIC src)
 target_include_directories(test_hash_map_59_interface PUBLIC ../inc)
+target_include_directories(test_hash_map_59_interface PRIVATE ../../llist/inc)
 target_include_directories(test_hash_map_59_interface PUBLIC ../../common/inc)
 target_include_directories(test_hash_map_59_interface PUBLIC ../../../common/inc)
 
 target_include_directories(test_hash_map_59_edge_cases PUBLIC src)
 target_include_directories(test_hash_map_59_edge_cases PUBLIC ../inc)
+target_include_directories(test_hash_map_59_edge_cases PRIVATE ../../llist/inc)
 target_include_directories(test_hash_map_59_edge_cases PUBLIC ../../common/inc)
 target_include_directories(test_hash_map_59_edge_cases PUBLIC ../../../common/inc)
 

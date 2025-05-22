@@ -16,6 +16,8 @@ set_target_properties(hash_map_59 PROPERTIES PUBLIC_HEADER inc/hash_map_59.h)
 # Include relative paths
 target_include_directories(hash_map_59 PRIVATE inc)
 target_include_directories(hash_map_59 PRIVATE src)
+target_include_directories(hash_map_59 PRIVATE ../llist/src)
+target_include_directories(hash_map_59 PRIVATE ../llist/inc)
 target_include_directories(hash_map_59 PRIVATE ../common/src)
 target_include_directories(hash_map_59 PRIVATE ../common/inc)
 target_include_directories(hash_map_59 PRIVATE ../../common/src)

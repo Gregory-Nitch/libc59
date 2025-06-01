@@ -7,9 +7,6 @@ project(dlist_59 VERSION 1.0.0 DESCRIPTION "Doubly linked list container")
 # add source to library
 add_library(dlist_59 SHARED src/dlist_59.c)
 
-# Remove lib from lib file outname
-set(CMAKE_SHARED_LIBRARY_PREFIX "")
-
 # Declare public API of lib
 set_target_properties(dlist_59 PROPERTIES PUBLIC_HEADER inc/dlist_59.h)
 

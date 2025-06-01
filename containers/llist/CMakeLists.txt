@@ -7,9 +7,6 @@ project(llist_59 VERSION 1.0.0 DESCRIPTION "Linked list container")
 # add source to library
 add_library(llist_59 SHARED src/llist_59.c)
 
-# Remove lib from lib file outname
-set(CMAKE_SHARED_LIBRARY_PREFIX "")
-
 # Declare public API of lib
 set_target_properties(llist_59 PROPERTIES PUBLIC_HEADER inc/llist_59.h)
 

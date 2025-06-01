@@ -7,9 +7,6 @@ project(container_common_59 VERSION 1.0.0 DESCRIPTION "Common items for libc59 c
 # add source to library
 add_library(container_common_59 SHARED src/container_common_59.c)
 
-# Remove lib from lib file outname
-set(CMAKE_SHARED_LIBRARY_PREFIX "")
-
 # Declare public API of lib
 set_target_properties(container_common_59 PROPERTIES PUBLIC_HEADER inc/container_common_59.h)
 

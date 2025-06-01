@@ -7,9 +7,6 @@ project(libc59_common VERSION 1.0.0 DESCRIPTION "libc59 common")
 # add source to library
 add_library(libc59_common SHARED src/libc59_common.c)
 
-# Remove lib from lib file outname
-set(CMAKE_SHARED_LIBRARY_PREFIX "")
-
 # Declare public API of lib
 set_target_properties(libc59_common PROPERTIES PUBLIC_HEADER inc/libc59_common.h)
 

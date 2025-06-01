@@ -57,12 +57,15 @@ ERR_59_e test_hash_map_59_interface(void)
     // Init hash_map
     puts("- - - - - - - - - - - - - - - - -");
     puts("Initializing hash_map...");
-
-    //! TODO: . . .
+    hash_map_59 *u64_map = (void *)0;
+    err = init_hash_map_59(&u64_map, U64_PTR, STR, 0, 0, 0);
+    if (ERR_NONE != err)
+        return err;
 
     // Test clean up
     puts("- - - - - - - - - - - - - - - - -");
     puts("Test clean up...");
+    err = deinit_hash_map_59(&u64_map);
 
     return err;
 }

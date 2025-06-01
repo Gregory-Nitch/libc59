@@ -107,5 +107,7 @@ ERR_59_e push_back_vec_59(vec_59 *const vec, void *const new_back);
 ERR_59_e pop_back_vec_59(vec_59 *const vec, void **back_obj);
 ERR_59_e push_front_vec_59(vec_59 *const vec, void *const new_front);
 ERR_59_e pop_front_vec_59(vec_59 *const vec, void **front_obj);
+ERR_59_e find_val_in_vec_59(vec_59 const *const vec, void **val);
+ERR_59_e get_at_idx_llist_59(vec_59 const *const vec, void **node, size_t const idx);
 ERR_59_e remove_given_obj_from_vec_59(vec_59 *const vec, void *remove_obj);
 ERR_59_e insert_obj_into_vec_59(vec_59 *const vec, void *const new_obj, size_t const idx);

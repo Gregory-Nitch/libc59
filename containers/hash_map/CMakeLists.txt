@@ -10,6 +10,7 @@ add_library(hash_map_59 SHARED src/hash_map_59.c)
 # Declare public API of lib
 set_target_properties(hash_map_59 PROPERTIES PUBLIC_HEADER inc/hash_map_59.h)
 
+# Get dependent libraries
 find_library(LLIST_LIBRARY_PATH
     NAMES llist_59 .
     PATHS ../llist/bin 
@@ -20,7 +21,18 @@ if (NOT LLIST_LIBRARY_PATH)
     message(FATAL_ERROR "Could not find llist_59 library. Please set LLIST_LIBRARY_PATH.")
 endif()
 
+find_library(CONTAINER_COMMON_PATH
+    NAMES container_common_59 .
+    PATHS ../common/bin
+    NO_DEFAULT_PATH # It should be here if not then something is wrong or needs to be updated.
+)
+
+if(NOT CONTAINER_COMMON_PATH)
+    message(FATAL_ERROR "Could not find container_common_59 library. Please set CONTAINER_COMMON_PATH.")
+endif()
+
 target_link_libraries(hash_map_59 PRIVATE ${LLIST_LIBRARY_PATH})
+target_link_libraries(hash_map_59 PRIVATE ${CONTAINER_COMMON_PATH})
 
 # Include relative paths
 target_include_directories(hash_map_59 PRIVATE inc)

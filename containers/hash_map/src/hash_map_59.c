@@ -34,7 +34,7 @@
 */
 
 #include <stdlib.h>
-
+#include <stdio.h> //! TODO: Remove this
 /*
 ========================================================================================================================
 - - MODULE INCLUDES - -
@@ -50,6 +50,79 @@
 */
 
 /***********************************************************************************************************************
+ * @brief : Deinits a linked list node held by the hash map table, this includes the void pointer to the node obj and
+ * the key value pairs.
+ *
+ * @param[in] node : Node to deinit.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+static ERR_59_e _deinit_table_node_hash_map_59(llist_node_59 **node)
+{
+    if (!node || !(*node))
+        return ERR_INV_PARAM;
+
+    if ((*node)->node_obj)
+    {
+        key_val_pair_59 *pair = (key_val_pair_59 *)((*node)->node_obj);
+        if (pair->key)
+        {
+            free(pair->key);
+            pair->key = (void *)0;
+        }
+        if (pair->val)
+        {
+            free(pair->val);
+            pair->val = (void *)0;
+        }
+        free((*node)->node_obj);
+    }
+
+    (*node)->node_obj = (void *)0;
+    (*node)->next = (void *)0;
+    free((*node));
+    (*node) = (void *)0;
+
+    return ERR_NONE;
+}
+
+/***********************************************************************************************************************
+ * @brief : This function deallocates the memory for hash map table lists used by the hash_map. This is needed because
+ * the node objects point to two other pointers which have been allocated an need to be freed.
+ *
+ * @param[out] llist : Pointer to a linked list that needs to be freed.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+static ERR_59_e _deinit_table_list_hash_map_59(llist_59 **llist)
+{
+    if (!llist || !(*llist))
+        return ERR_INV_PARAM;
+
+    llist_node_59 *node = (*llist)->head;
+    llist_node_59 *next_node = (void *)0;
+    while (node)
+    {
+        next_node = node->next;
+
+        ERR_59_e err = _deinit_table_node_hash_map_59(&node);
+        if (err != ERR_NONE)
+            return err;
+
+        node = next_node;
+    }
+
+    (*llist)->head = (void *)0;
+    (*llist)->tail = (void *)0;
+    (*llist)->type = VOID_0;
+    (*llist)->type_depth = 0;
+    free((*llist));
+    (*llist) = (void *)0;
+
+    return ERR_NONE;
+}
+
+/***********************************************************************************************************************
  * @brief : Finds the matching linked list node in the passed linked list
  *
  * @param[in] llist : Linked list t search for the node in.
@@ -58,17 +131,24 @@
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-static ERR_59_e _find_node_in_table_list_hash_map_59(llist_59 const *const llist,
+static ERR_59_e _find_node_in_table_list_hash_map_59(hash_map_59 const *const map,
+                                                     llist_59 const *const llist,
                                                      void const *const key,
                                                      llist_node_59 **node)
 {
-    if (!llist || !key || !node || !(*node))
+    if (!llist || !key || !node)
         return ERR_INV_PARAM;
 
     llist_node_59 *search_node = llist->head;
+    i64 dif = 0;
+    ERR_59_e err = ERR_NONE;
     while (search_node)
     {
-        if (((key_val_pair_59 *)search_node->node_obj)->key == key)
+        err = compare_node_obj_59(map->key_type, key, ((key_val_pair_59 *)search_node->node_obj)->key, &dif);
+        if (ERR_NONE != err)
+            return err;
+
+        if (0 == dif)
         {
             *node = search_node;
             break;
@@ -143,7 +223,7 @@ static ERR_59_e _hash_key_internal_hash_map_59(hash_map_59 const *const map, voi
             *hash = *hash + *str;
             str++;
         }
-        *hash = *hash + DEFAULT_HASH_MAP_PRIME % map->table_size;
+        *hash = (*hash + map->_prime) % map->table_size;
         break;
 
     default:
@@ -204,6 +284,8 @@ static ERR_59_e _check_is_prime_internal_hash_map_59(size_t const prime, bool *i
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  *
+ * @note Smaller @prime numbers produce better hashing performance.
+ *
  * @warning This will need to be freed with @deinit_hash_map_59 when its lifetime has expired. If values in the hash_map
  * are not of the same type depth DO NOT set the @val_type_depth parameter to anything other than 0.
  **********************************************************************************************************************/
@@ -252,9 +334,7 @@ ERR_59_e init_hash_map_59(hash_map_59 **map,
     {
         for (size_t i = 0; i < new_map->table_size; i++)
         {
-            llist_59 *llist = malloc(sizeof(llist_59));
-            if (!llist)
-                err = ERR_NONE;
+            llist_59 *llist = (void *)0;
             err = init_llist_59(&llist, val_type, val_type_depth);
             if (ERR_NONE != err)
             {
@@ -297,7 +377,7 @@ ERR_59_e deinit_hash_map_59(hash_map_59 **map)
 
     for (size_t i = 0; i < (*map)->table_size; i++)
     {
-        err = deinit_llist_59(&(*map)->table[i]);
+        err = _deinit_table_list_hash_map_59(&(*map)->table[i]);
         if (ERR_NONE != err)
             return err;
     }
@@ -334,10 +414,7 @@ ERR_59_e upsert_into_hash_map_59(hash_map_59 *const map, void *key, void *val)
     llist_59 *table_list = map->table[hash];
     key_val_pair_59 *pair = (void *)0;
     llist_node_59 *node = (void *)0;
-    err = _find_node_in_table_list_hash_map_59(table_list, key, &node);
-    if (ERR_NONE != err)
-        return err;
-
+    _find_node_in_table_list_hash_map_59(map, table_list, key, &node);
     if (!node)
     {
         pair = malloc(sizeof(key_val_pair_59));
@@ -352,15 +429,23 @@ ERR_59_e upsert_into_hash_map_59(hash_map_59 *const map, void *key, void *val)
             free(pair);
             return err;
         }
+
+        err = push_back_llist_59(table_list, node);
+        if (ERR_NONE != err)
+        {
+            free(pair);
+            free(node);
+            return err;
+        }
+
+        return ERR_NONE;
     }
 
-    err = push_back_llist_59(table_list, node);
-    if (ERR_NONE != err)
-    {
-        free(pair);
-        free(node);
-        return err;
-    }
+    if (!((key_val_pair_59 *)node->node_obj)->val)
+        return ERR_INTRNL;
+
+    free(((key_val_pair_59 *)node->node_obj)->val);
+    ((key_val_pair_59 *)node->node_obj)->val = val;
 
     return ERR_NONE;
 }
@@ -376,7 +461,7 @@ ERR_59_e upsert_into_hash_map_59(hash_map_59 *const map, void *key, void *val)
  **********************************************************************************************************************/
 ERR_59_e get_from_hash_map_59(hash_map_59 const *const map, void *key, void **val)
 {
-    if (!map || !key || !val || !(*val))
+    if (!map || !key || !val)
         return ERR_INV_PARAM;
 
     size_t hash = 0;
@@ -385,7 +470,7 @@ ERR_59_e get_from_hash_map_59(hash_map_59 const *const map, void *key, void **va
         return err;
 
     llist_node_59 *node = (void *)0;
-    err = _find_node_in_table_list_hash_map_59(map->table[hash], &node, key);
+    err = _find_node_in_table_list_hash_map_59(map, map->table[hash], key, &node);
     if (ERR_NONE != err)
         return err;
 
@@ -416,7 +501,7 @@ ERR_59_e remove_from_hash_map_59(hash_map_59 *const map, void *const key, key_va
         return err;
 
     llist_node_59 *node = (void *)0;
-    err = _find_node_in_table_list_hash_map_59(map->table[hash], &node, key);
+    err = _find_node_in_table_list_hash_map_59(map, map->table[hash], key, &node);
     if (ERR_NONE != err)
         return err;
 
@@ -485,7 +570,7 @@ ERR_59_e resize_table_hash_map_59(hash_map_59 *const map, size_t const new_size)
     }
 
     for (size_t i = 0; i < old_size; i++)
-        err = deinit_llist_59(&old_table[i]);
+        err = _deinit_table_list_hash_map_59(&old_table[i]);
     if (ERR_NONE != err)
         return err;
     free(old_table);
@@ -494,7 +579,7 @@ ERR_59_e resize_table_hash_map_59(hash_map_59 *const map, size_t const new_size)
 
 migrate_abort:
     for (size_t i = 0; i < new_size; i++)
-        err = deinit_llist_59(&map->table[i]);
+        err = _deinit_table_list_hash_map_59(&map->table[i]);
     free(map->table);
     map->table = old_table;
     map->table_size = old_size;

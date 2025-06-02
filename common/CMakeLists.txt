@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.22.1)
 #Set project name, version, description
 project(libc59_common VERSION 1.0.0 DESCRIPTION "libc59 common")
 
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
+
 # add source to library
 add_library(libc59_common SHARED src/libc59_common.c)
 

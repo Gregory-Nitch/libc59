@@ -58,6 +58,7 @@ ERR_59_e test_llist_59_interface(void)
     // Init list and nodes
     puts("- - - - - - - - - - - - - - - - -");
     puts("Initializing list...");
+
     llist_59 *list;
     err = init_llist_59(&list, U64, 0);
     if (ERR_NONE != err)
@@ -226,6 +227,37 @@ ERR_59_e test_llist_59_interface(void)
     printf("Assert: expected = %lu == %lu = obj\n", val, *((u64 *)node->node_obj));
     assert(*((u64 *)node->node_obj) == val);
 
+    // Test single node entry and remove case
+    puts("- - - - - - - - - - - - - - - - -");
+    puts("Checking checking single node remove case...");
+
+    llist_59 *list_2;
+    err = init_llist_59(&list_2, U64, 0);
+    if (ERR_NONE != err)
+        return err;
+
+    llist_node_59 *node_2 = (void *)0;
+    u64 *single_remove_test_obj = malloc(sizeof(u64));
+    *single_remove_test_obj = 59;
+    err = init_llist_node_59(&node_2, (void *)0, (void *)single_remove_test_obj);
+    if (ERR_NONE != err)
+        return err;
+
+    err = push_back_llist_59(list_2, node_2); // Push, remove, push for this test!
+    if (ERR_NONE != err)
+        return err;
+
+    err = remove_given_node_from_llist_59(list_2, node_2);
+    if (ERR_NONE != err)
+        return err;
+
+    err = push_back_llist_59(list_2, node_2); // Push, remove, push for this test!
+    if (ERR_NONE != err)
+        return err;
+
+    printf("Assert: expected head = %lu == %lu = obj\n", 59UL, *((u64 *)(list_2->head->node_obj)));
+    assert(59 == *((u64 *)(list_2->head->node_obj)));
+
     // deinit_list()
     puts("- - - - - - - - - - - - - - - - -");
     puts("Checking deinit_list()...");
@@ -233,6 +265,11 @@ ERR_59_e test_llist_59_interface(void)
     err = deinit_llist_59(&list);
     if (ERR_NONE != err)
         return err;
+
+    err = deinit_llist_59(&list_2);
+    if (ERR_NONE != err)
+        return err;
+
     puts("List deinited...");
 
     printf("Assert: expected(void*)0 = %p == %p = obj\n", (void *)0, list);

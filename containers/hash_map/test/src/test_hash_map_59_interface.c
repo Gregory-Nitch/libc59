@@ -164,6 +164,91 @@ ERR_59_e test_hash_map_59_interface(void)
     printf("Assert: val = ghi == %s = \n", (str)val);
     assert(0 == strcmp("ghi\0", (str)val));
 
+    err = get_from_hash_map_59(str_map, str4, &val);
+    printf("Assert: ERR_NONE == %d = get_from_hash_map()\n", err);
+    assert(ERR_NONE == err);
+    printf("Assert: val = 4 == %lu = \n", *(u64 *)val);
+    assert(4 == *(u64 *)val);
+
+    err = get_from_hash_map_59(str_map, str5, &val);
+    printf("Assert: ERR_NONE == %d = get_from_hash_map()\n", err);
+    assert(ERR_NONE == err);
+    printf("Assert: val = 5 == %lu = \n", *(u64 *)val);
+    assert(5 == *(u64 *)val);
+
+    err = get_from_hash_map_59(str_map, str6, &val);
+    printf("Assert: ERR_NONE == %d = get_from_hash_map()\n", err);
+    assert(ERR_NONE == err);
+    printf("Assert: val = 6 == %lu = \n", *(u64 *)val);
+    assert(6 == *(u64 *)val);
+
+    //  Remove from hashmap
+    puts("- - - - - - - - - - - - - - - - -");
+    puts("remove_from_hash_map()...");
+    key_val_pair_59 *pair = (void *)0;
+
+    for (size_t i = 1; i < 4; i++)
+    {
+        err = remove_from_hash_map_59(u64_map, &i, &pair);
+        printf("Assert: ERR_NONE == %d = remove_from_hash_map()\n", err);
+        assert(ERR_NONE == err);
+        printf("Assert: pair->key = %lu == %lu = i\n", i, *(u64 *)(pair->key));
+        assert(i == *(u64 *)(pair->key));
+        free(pair->key);
+        free(pair->val);
+        free(pair);
+        pair = (void *)0;
+    }
+
+    str strs[] = {str4, str5, str6};
+    for (size_t i = 0; i < 3; i++)
+    {
+        err = remove_from_hash_map_59(str_map, strs[i], &pair);
+        printf("Assert: ERR_NONE == %d = remove_from_hash_map()\n", err);
+        assert(ERR_NONE == err);
+        printf("Assert: pair->val = %lu == %lu = i + 4\n", i + 4, *(u64 *)(pair->val));
+        assert(i + 4 == *(u64 *)(pair->val));
+        free(pair->key);
+        free(pair->val);
+        free(pair);
+        pair = (void *)0;
+    }
+
+    // Resize hash map table
+    puts("- - - - - - - - - - - - - - - - -");
+    puts("resize_hash_map_table()...");
+
+    val = (void *)0;
+    for (size_t i = 0; i < 100; i++)
+    {
+        u64 *num = malloc(sizeof(u64));
+        if (!num)
+            return ERR_NO_MEM;
+        *num = i;
+        str a_str = malloc(sizeof(char) * 4);
+        if (!a_str)
+            return ERR_NO_MEM;
+        for (size_t j = 0; j < 3; j++)
+        {
+            a_str[j] = 'a' + j;
+        }
+        a_str[3] = '\0';
+        err = upsert_into_hash_map_59(u64_map, num, a_str);
+        printf("Assert: ERR_NONE == %d = upsert_into_hash_map() for table resize [%lu]\n", err, i);
+        assert(ERR_NONE == err);
+
+        err = get_from_hash_map_59(u64_map, num, &val);
+        printf("Assert: ERR_NONE == %d = get_from_hash_map() for table resize [%lu]\n", err, i);
+        assert(ERR_NONE == err);
+        printf("Assert: a_str = %s == %s = get_from_hash_map() val for table resize [%lu]\n", a_str, (str)val, i);
+        assert(0 == strcmp(a_str, (str)val));
+    }
+
+    puts("resizing table to size 19...");
+    err = resize_table_hash_map_59(u64_map, 19);
+    printf("Assert: ERR_NONE == %d = resize_table_hash_map()\n", err);
+    assert(ERR_NONE == err);
+
     // Test clean up
     puts("- - - - - - - - - - - - - - - - -");
     puts("Test clean up...");

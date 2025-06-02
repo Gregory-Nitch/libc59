@@ -532,16 +532,17 @@ ERR_59_e resize_table_hash_map_59(hash_map_59 *const map, size_t const new_size)
     llist_59 **new_table = malloc(sizeof(llist_59 *) * new_size);
     if (!new_table)
         return ERR_NO_MEM;
-
+    ERR_59_e err = ERR_NONE;
     for (size_t i = 0; i < new_size; i++)
     {
-        llist_59 *list = malloc(sizeof(llist_59));
-        if (!list)
+        llist_59 *list = (void *)0;
+        err = init_llist_59(&list, map->val_type, map->val_type_depth);
+        if (ERR_NONE != err)
         {
             for (size_t j = 0; j < i; j++)
                 free(new_table[j]);
             free(new_table);
-            return ERR_NO_MEM;
+            return err;
         }
         new_table[i] = list;
     }
@@ -551,35 +552,43 @@ ERR_59_e resize_table_hash_map_59(hash_map_59 *const map, size_t const new_size)
     llist_59 **old_table = map->table;
     map->table_size = new_size;
     map->table = new_table;
-    ERR_59_e err = ERR_NONE;
+    err = ERR_NONE;
     for (size_t i = 0; i < old_size; i++)
     {
         llist_node_59 *node = old_table[i]->head;
+        llist_node_59 *next_node = (void *)0;
         while (node)
         {
             err = _hash_key_internal_hash_map_59(map, ((key_val_pair_59 *)node->node_obj)->key, &hash);
             if (ERR_NONE != err)
                 goto migrate_abort;
-
+            next_node = node->next;
+            node->next = (void *)0;
             err = push_back_llist_59(map->table[hash], node);
             if (ERR_NONE != err)
                 goto migrate_abort;
 
-            node = node->next;
+            node = next_node;
         }
     }
 
     for (size_t i = 0; i < old_size; i++)
-        err = _deinit_table_list_hash_map_59(&old_table[i]);
-    if (ERR_NONE != err)
-        return err;
+    {
+        old_table[i]->head = (void *)0;
+        old_table[i]->tail = (void *)0;
+        free(old_table[i]);
+    }
     free(old_table);
 
     return ERR_NONE;
 
 migrate_abort:
     for (size_t i = 0; i < new_size; i++)
-        err = _deinit_table_list_hash_map_59(&map->table[i]);
+    {
+        map->table[i]->head = (void *)0;
+        map->table[i]->tail = (void *)0;
+        free(map->table[i]);
+    }
     free(map->table);
     map->table = old_table;
     map->table_size = old_size;

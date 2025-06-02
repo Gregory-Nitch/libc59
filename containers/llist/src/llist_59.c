@@ -36,6 +36,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h> //! TODO: Remove this
 
 /*
 ========================================================================================================================
@@ -167,7 +168,7 @@ ERR_59_e pop_back_llist_59(llist_59 *const llist, llist_node_59 **back_node)
     else
     { // Only one node in llist ie the head
         llist->head = (void *)0;
-        llist->tail = &llist->head;
+        llist->tail = &(llist->head);
     }
 
     return ERR_NONE;
@@ -229,13 +230,14 @@ ERR_59_e pop_front_llist_59(llist_59 *const llist, llist_node_59 **front_node)
 }
 
 /***********************************************************************************************************************
- * @brief : Removes the passed node from the linked list. @warning DOES NOT DEALLOCATE the node, use
- * deinit_llist_node_59() after the use of the node is complete.
+ * @brief : Removes the passed node from the linked list.
  *
  * @param[in] llist : Linked list to remove the node from.
  * @param[out] remove_node : Node to remove, error is returned if not found.
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ *
+ * @warning DOES NOT DEALLOCATE the node, use deinit_llist_node_59() after the use of the node is complete.
  **********************************************************************************************************************/
 ERR_59_e remove_given_node_from_llist_59(llist_59 *const llist, llist_node_59 *remove_node)
 {
@@ -252,9 +254,16 @@ ERR_59_e remove_given_node_from_llist_59(llist_59 *const llist, llist_node_59 *r
         if (node == remove_node)
         {
             if (last_node)
+            {
                 last_node->next = node->next;
+                if ((void *)0 == last_node->next) // Removed node was the true tail, so tail needs to be moved.
+                    llist->tail = &(last_node->next);
+            }
             else
+            { // Head was only node in the list, tail also needs to be reset.
                 llist->head = node->next;
+                llist->tail = &(llist->head);
+            }
 
             remove_node = node;
             remove_node->next = (void *)0;

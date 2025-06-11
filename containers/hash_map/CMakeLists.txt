@@ -47,7 +47,7 @@ target_include_directories(hash_map_59 PRIVATE ../../common/inc)
 add_subdirectory(test)
 
 # Compile options
-add_compile_options(-std=c11 -Wall -Wextra -Wshadow -Wunused -fdiagnostics-color=always)
+add_compile_options(-std=c11 -g -Wall -Wextra -Wshadow -Wunused -Wconversion -pedantic  -fdiagnostics-color=always -fsanitize=address)
 
 # Output to bin directory
 set_target_properties(hash_map_59 PROPERTIES

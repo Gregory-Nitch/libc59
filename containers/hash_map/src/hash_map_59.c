@@ -309,12 +309,13 @@ ERR_59_e init_hash_map_59(hash_map_59 **map,
     {
         bool is_prime = true;
         err = _check_is_prime_internal_hash_map_59(prime, &is_prime);
-        if (ERR_NONE != err)
+        if (ERR_NONE != err || !is_prime)
+        {
+            free(new_map);
             return err;
-        else if (is_prime)
-            new_map->_prime = prime;
+        }
         else
-            return ERR_INV_PARAM;
+            new_map->_prime = prime;
     }
     else
         new_map->_prime = DEFAULT_HASH_MAP_PRIME;
@@ -492,7 +493,7 @@ ERR_59_e get_from_hash_map_59(hash_map_59 const *const map, void *key, void **va
  **********************************************************************************************************************/
 ERR_59_e remove_from_hash_map_59(hash_map_59 *const map, void *const key, key_val_pair_59 **pair)
 {
-    if (!map || !key)
+    if (!map || !key || !pair)
         return ERR_INV_PARAM;
 
     size_t hash = 0;

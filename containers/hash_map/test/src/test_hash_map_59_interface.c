@@ -266,6 +266,9 @@ ERR_59_e test_hash_map_59_interface(void)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+
     puts("- - -  START OF HASH MAP TEST  - - -");
     puts("- - - INTERFACE TESTS - - -");
 

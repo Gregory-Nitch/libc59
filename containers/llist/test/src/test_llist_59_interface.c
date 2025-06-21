@@ -286,6 +286,9 @@ ERR_59_e test_llist_59_interface(void)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+
     puts("- - -  START OF LLIST TEST  - - -");
     puts("- - - INTERFACE TESTS - - -");
 

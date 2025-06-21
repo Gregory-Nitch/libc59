@@ -34,7 +34,8 @@
 */
 
 #include <stdlib.h>
-#include <stdio.h> //! TODO: Remove this
+#include <math.h>
+
 /*
 ========================================================================================================================
 - - MODULE INCLUDES - -
@@ -250,7 +251,7 @@ static ERR_59_e _check_is_prime_internal_hash_map_59(size_t const prime, bool *i
 
     size_t test = 3;
     *is_prime = true;
-    while (test < prime && true == *is_prime)
+    while (test < sqrt(prime) && true == *is_prime)
     {
         if (test == prime)
             break;

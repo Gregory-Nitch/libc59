@@ -43,7 +43,7 @@
 ========================================================================================================================
 */
 
-#include "libc59_common.h"
+#include "c59_common.h"
 
 /*
 ========================================================================================================================
@@ -63,11 +63,11 @@ ERR_59_e test_common_59_interface(void)
     u64 b = 2UL;
 
     is_same_mem_addr_59(&a, &b, &flag);
-    printf("Assert: addr1 %p != %p addr2\n", &a, &b);
+    printf("Assert: addr1 %p != %p addr2\n", (void *)&a, (void *)&b);
     assert(false == flag);
 
     is_same_mem_addr_59(&a, &a, &flag);
-    printf("Assert: addr1 %p == %p addr1\n", &a, &a);
+    printf("Assert: addr1 %p == %p addr1\n", (void *)&a, (void *)&a);
     assert(true == flag);
 
     return err;
@@ -81,6 +81,9 @@ ERR_59_e test_common_59_interface(void)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+
     puts("- - -  START OF COMMON TEST  - - -");
     puts("- - - COMMON INTERFACE - - -");
 

@@ -232,6 +232,9 @@ ERR_59_e test_dlist_59_edge_cases(void)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+
     puts("- - -  START OF DLIST TEST  - - -");
     puts("- - - DLIST EDGE CASES - - -");
 

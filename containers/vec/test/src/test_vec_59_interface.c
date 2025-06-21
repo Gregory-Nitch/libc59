@@ -278,6 +278,9 @@ ERR_59_e test_vec_59_interface(void)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+
     puts("- - -  START OF vec TEST  - - -");
     puts("- - - INTERFACE TESTS - - -");
 

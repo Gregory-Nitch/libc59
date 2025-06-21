@@ -86,6 +86,9 @@ ERR_59_e test_dlist_node_59_interface(void)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+
     puts("- - -  START OF DLIST TEST  - - -");
     puts("- - - DLIST NODE INTERFACE - - -");
 

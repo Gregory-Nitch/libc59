@@ -86,6 +86,9 @@ ERR_59_e test_common_59_edge_cases(void)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+
     puts("- - -  START OF COMMON CONTAINER TEST  - - -");
     puts("- - - COMMON CONTAINER EDGE CASES - - -");
 

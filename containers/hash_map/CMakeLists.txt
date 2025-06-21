@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.22.1)
 
 #Set project name, version, description
-project(hash_map_59 VERSION 1.0.0 DESCRIPTION "Hash map container")
+project(hash_map_59 VERSION 1.0.0 DESCRIPTION "Hash map container" LANGUAGES C)
 
 # add source to library
 add_library(hash_map_59 SHARED src/hash_map_59.c)
@@ -10,58 +10,27 @@ add_library(hash_map_59 SHARED src/hash_map_59.c)
 # Declare public API of lib
 set_target_properties(hash_map_59 PROPERTIES PUBLIC_HEADER inc/hash_map_59.h)
 
-# Get dependent libraries
-find_library(LLIST_LIBRARY_PATH
-    NAMES llist_59 .
-    PATHS ../llist/bin 
-    NO_DEFAULT_PATH # It should be here if not then something is wrong or needs to be updated.
-)
-
-if (NOT LLIST_LIBRARY_PATH)
-    message(FATAL_ERROR "Could not find llist_59 library. Please set LLIST_LIBRARY_PATH.")
-endif()
-
-find_library(CONTAINER_COMMON_PATH
-    NAMES container_common_59 .
-    PATHS ../common/bin
-    NO_DEFAULT_PATH # It should be here if not then something is wrong or needs to be updated.
-)
-
-if(NOT CONTAINER_COMMON_PATH)
-    message(FATAL_ERROR "Could not find container_common_59 library. Please set CONTAINER_COMMON_PATH.")
-endif()
-
-target_link_libraries(hash_map_59 PRIVATE ${LLIST_LIBRARY_PATH})
-target_link_libraries(hash_map_59 PRIVATE ${CONTAINER_COMMON_PATH})
-
 # Include relative paths
-target_include_directories(hash_map_59 PRIVATE inc)
-target_include_directories(hash_map_59 PRIVATE src)
-target_include_directories(hash_map_59 PRIVATE ../llist/src)
-target_include_directories(hash_map_59 PRIVATE ../llist/inc)
-target_include_directories(hash_map_59 PRIVATE ../common/src)
-target_include_directories(hash_map_59 PRIVATE ../common/inc)
-target_include_directories(hash_map_59 PRIVATE ../../common/src)
-target_include_directories(hash_map_59 PRIVATE ../../common/inc)
+target_include_directories(hash_map_59 PUBLIC inc)
+
+# Add libraries to link too
+target_link_libraries(hash_map_59 PUBLIC m llist_59 container_common_59) # m = <math.h>
+
+if(BUILD_TYPE STREQUAL "debug")
+    target_link_libraries(hash_map_59 PRIVATE -fsanitize=address)
+endif()
 
 add_subdirectory(test)
 
 # Compile options
 if(BUILD_TYPE STREQUAL "debug")
-    add_compile_options(-std=c11 -g -Wall -Wextra -Wshadow -Wunused -Wconversion -pedantic  -fdiagnostics-color=always -fsanitize=address)
+    add_compile_options(-std=c11 -g -Wall -Wextra -Wshadow -Wunused -Wconversion -pedantic  -fdiagnostics-color=always -fsanitize=address -llibasan)
 elseif(BUILD_TYPE STREQUAL "release")
     add_compile_options(-std=c11 -O2 -fPIC -D_FORTIFY_SOURCE=2 -Wl,-z,relro -Wl,-z,now 
     -Wall -Wextra -Wshadow -Wunused -Wconversion -pedantic  -fdiagnostics-color=always)
 else()
     message(FATAL_ERROR "Invalid build type, use -DBUILD_TYPE and set 'release' or 'debug'")
 endif()
-
-# Output to bin directory
-set_target_properties(hash_map_59 PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ../bin 
-    LIBRARY_OUTPUT_DIRECTORY ../bin
-    RUNTIME_OUTPUT_DIRECTORY ../bin     
-)
 
 # Install rules
 include(GNUInstallDirs)
@@ -75,7 +44,7 @@ include(CTest)
 # Add test suite with valgrind -> # -s = show suppressed errors
 add_test(NAME test_hash_map_59_interface
     COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
-    ../bin/test_hash_map_59_interface
+    $<TARGET_FILE:test_hash_map_59_interface>
 )
 set_tests_properties(test_hash_map_59_interface
     PROPERTIES PASS_REGULAR_EXPRESSION 
@@ -84,13 +53,9 @@ set_tests_properties(test_hash_map_59_interface
 
 add_test(NAME test_hash_map_59_edge_cases
     COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
-    ../bin/test_hash_map_59_edge_cases
+    $<TARGET_FILE:test_hash_map_59_edge_cases>
 )
 set_tests_properties(test_hash_map_59_edge_cases
     PROPERTIES PASS_REGULAR_EXPRESSION 
     ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
 )
-
-#-----------------------------------------------------------------------------------------------------------------------
-# CLI CMake commands -> cmake .. -> cmake --build . -> sudo cmake install (this last one works?)
-#-----------------------------------------------------------------------------------------------------------------------

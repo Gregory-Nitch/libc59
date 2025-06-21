@@ -43,7 +43,7 @@
 ========================================================================================================================
 */
 
-#include "libc59_common.h"
+#include "c59_common.h"
 
 /*
 ========================================================================================================================
@@ -87,6 +87,9 @@ ERR_59_e test_common_59_edge_cases(void)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+
     puts("- - -  START OF CONTAINER COMMON TEST  - - -");
     puts("- - - CONTAINER COMMON EDGE CASES - - -");
 

@@ -232,6 +232,9 @@ ERR_59_e test_llist_59_edge_cases(void)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+
     puts("- - -  START OF LLIST TEST  - - -");
     puts("- - - LLIST EDGE CASES - - -");
 

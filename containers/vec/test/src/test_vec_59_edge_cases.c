@@ -226,6 +226,9 @@ ERR_59_e test_vec_59_edge_cases(void)
 
 int main(int argc, char const *argv[])
 {
+    (void)argc;
+    (void)argv;
+
     puts("- - -  START OF VEC TEST  - - -");
     puts("- - - VEC EDGE CASES - - -");
 

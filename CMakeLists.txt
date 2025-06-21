@@ -30,15 +30,151 @@ add_subdirectory(containers/hash_map)
 
 include(GNUInstallDirs)
 
-# Enable testing for the top-level project
-enable_testing()
+# Get them tests running
+include(CTest)
 
-# If you want to run all tests from the top level, you can use a custom target
-# This assumes your sub-projects register their tests with CTest
-add_custom_target(run_all_tests COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
-                  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                  COMMENT "Running all tests. . .")
+# Add test suite with valgrind -> # -s = show suppressed errors
+add_test(NAME test_common_59_interface
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_common_59_interface>
+)
+set_tests_properties(test_common_59_interface
+    PROPERTIES PASS_REGULAR_EXPRESSION
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
 
-# To make 'make test' at the top level run all tests
-add_test(NAME AllSubprojectTests COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
-         WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME test_common_59_edge_cases
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_common_59_edge_cases>
+)
+set_tests_properties(test_common_59_edge_cases
+    PROPERTIES PASS_REGULAR_EXPRESSION
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_container_common_59_interface
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_container_common_59_interface>
+)
+set_tests_properties(test_container_common_59_interface
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_container_common_59_edge_cases
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_container_common_59_edge_cases>
+)
+set_tests_properties(test_container_common_59_edge_cases
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_dlist_59_interface
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_dlist_59_interface>
+)
+set_tests_properties(test_dlist_59_interface
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_dlist_59_edge_cases
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_dlist_59_edge_cases>
+)
+set_tests_properties(test_dlist_59_edge_cases
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_dlist_node_59_interface
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_dlist_node_59_interface>
+)
+set_tests_properties(test_dlist_node_59_interface
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_dlist_node_59_edge_cases
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_dlist_node_59_edge_cases>
+)
+set_tests_properties(test_dlist_node_59_edge_cases
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_hash_map_59_interface
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_hash_map_59_interface>
+)
+set_tests_properties(test_hash_map_59_interface
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_hash_map_59_edge_cases
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_hash_map_59_edge_cases>
+)
+set_tests_properties(test_hash_map_59_edge_cases
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_llist_59_interface
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_llist_59_interface>
+)
+set_tests_properties(test_llist_59_interface
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_llist_59_edge_cases
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_llist_59_edge_cases>
+)
+set_tests_properties(test_llist_59_edge_cases
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_llist_node_59_interface
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_llist_node_59_interface>
+)
+set_tests_properties(test_llist_node_59_interface
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_llist_node_59_edge_cases
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_llist_node_59_edge_cases>
+)
+set_tests_properties(test_llist_node_59_edge_cases
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_vec_59_interface
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_vec_59_interface>
+)
+set_tests_properties(test_vec_59_interface
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+
+add_test(NAME test_vec_59_edge_cases
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    $<TARGET_FILE:test_vec_59_edge_cases>
+)
+set_tests_properties(test_vec_59_edge_cases
+    PROPERTIES PASS_REGULAR_EXPRESSION 
+    ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
+)
+

@@ -143,7 +143,7 @@ static ERR_59_e _vec_59_check_needs_resize_internal(vec_59 *const vec,
         break;
 
     default:
-        err == ERR_NOT_SUPPORTED;
+        err = ERR_NOT_SUPPORTED;
         break;
     }
 
@@ -370,7 +370,7 @@ ERR_59_e remove_given_obj_from_vec_59(vec_59 *const vec, void *remove_obj)
 
             vec->size--;
 
-            ERR_59_e err = _vec_59_check_needs_resize_internal(vec, VEC_59_RESIZE_MODE_SHRINK);
+            err = _vec_59_check_needs_resize_internal(vec, VEC_59_RESIZE_MODE_SHRINK);
             if (err != ERR_NONE)
                 return err;
 

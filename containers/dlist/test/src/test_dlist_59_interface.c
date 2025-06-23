@@ -118,7 +118,7 @@ ERR_59_e test_dlist_59_interface(void)
         printf("Assert: i = %lu == %lu = obj\n", i, *((u64 *)node->node_obj));
         node = node->next;
     }
-    printf("Assert: (void*)0 = %p == %p = node(expect null)\n", (void *)0, node);
+    printf("Assert: (void*)0 = %p == %p = node(expect null)\n", (void *)0, (void *)node);
     assert((void *)0 == node);
 
     // push_back()
@@ -254,7 +254,7 @@ ERR_59_e test_dlist_59_interface(void)
         return err;
     puts("List deinited...");
 
-    printf("Assert: expected(void*)0 = %p == %p = obj\n", (void *)0, list);
+    printf("Assert: expected(void*)0 = %p == %p = obj\n", (void *)0, (void *)list);
     assert(list == (void *)0);
 
     return err;

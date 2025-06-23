@@ -60,6 +60,8 @@ ERR_59_e test_common_59_edge_cases(void)
     puts("Initializing memory...");
     u64 *obj_A = malloc(sizeof(u64));
     u64 *obj_B = malloc(sizeof(u64));
+    *obj_A = 11; // Values assigned to prevent uninitialized compiler warnings, though these values are not acutally used.
+    *obj_B = 59; // Values assigned to prevent uninitialized compiler warnings, though these values are not acutally used.
 
     // Test is same mem addr
     puts("- - - - - - - - - - -");

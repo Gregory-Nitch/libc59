@@ -230,7 +230,7 @@ ERR_59_e test_hash_map_59_interface(void)
             return ERR_NO_MEM;
         for (size_t j = 0; j < 3; j++)
         {
-            a_str[j] = 'a' + j;
+            a_str[j] = (char)('a' + j);
         }
         a_str[3] = '\0';
         err = upsert_into_hash_map_59(u64_map, num, a_str);

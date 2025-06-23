@@ -35,6 +35,7 @@
 
 #include <stdlib.h>
 #include <math.h>
+#include <float.h>
 
 /*
 ========================================================================================================================
@@ -198,31 +199,32 @@ static ERR_59_e _hash_key_internal_hash_map_59(hash_map_59 const *const map, voi
         break;
 
     case I8_PTR:
-        *hash = (*(i8 *)key) % map->table_size;
+        *hash = ((size_t)*(i8 *)key) % map->table_size;
         break;
 
     case I16_PTR:
-        *hash = (*(i16 *)key) % map->table_size;
+        *hash = ((size_t)*(i16 *)key) % map->table_size;
         break;
 
     case I32_PTR:
-        *hash = (*(i32 *)key) % map->table_size;
+        *hash = ((size_t)*(i32 *)key) % map->table_size;
         break;
 
     case I64_PTR:
-        *hash = (*(i64 *)key) % map->table_size;
+        *hash = ((size_t)*(i64 *)key) % map->table_size;
         break;
 
     case CHAR_PTR:
-        *hash = (*(char *)key) % map->table_size;
+        *hash = ((size_t)*(unsigned char *)key) % map->table_size;
         break;
 
     case STR: // Assumes null termination
-        char *str = (char *)key;
-        while (*str)
+        ;     // Null statement -> so pedantic
+        str s = (str)key;
+        while (*s)
         {
-            *hash = *hash + *str;
-            str++;
+            *hash = *hash + ((unsigned char)*s);
+            s++;
         }
         *hash = (*hash + map->_prime) % map->table_size;
         break;
@@ -246,12 +248,12 @@ static ERR_59_e _hash_key_internal_hash_map_59(hash_map_59 const *const map, voi
  **********************************************************************************************************************/
 static ERR_59_e _check_is_prime_internal_hash_map_59(size_t const prime, bool *is_prime)
 {
-    if (!is_prime || 3 > prime)
+    if (!is_prime || 3 > prime || DBL_MAX < prime)
         return ERR_INV_PARAM;
 
     size_t test = 3;
     *is_prime = true;
-    while (test < sqrt(prime) && true == *is_prime)
+    while (test < sqrt((double)prime) && true == *is_prime)
     {
         if (test == prime)
             break;

@@ -66,14 +66,14 @@ void test_unsigned_node_obj_59_comparisons(TYPE_59_e const type,
             *((u64 *)obj_B) = j;
             compare_node_obj_59(type, obj_A, obj_B, &dif);
             printf("Assert: obj1 : %lu - obj2 : %lu == %ld : dif \n", i, j, dif);
-            assert((i - j) == dif);
+            assert(((i64)i - (i64)j) == dif); // We only send at most INT32_MAX to this function so this i64 cast should be acceptable.
         }
         for (u64 j = max; j > 0; j >>= 1)
         {
             *((u64 *)obj_B) = j;
             compare_node_obj_59(type, obj_A, obj_B, &dif);
             printf("Assert: obj1 : %lu - obj2 : %lu == %ld : dif \n", i, j, dif);
-            assert((i - j) == dif);
+            assert(((i64)i - (i64)j) == dif); // We only send at most INT32_MAX to this function so this i64 cast should be acceptable.
         }
     }
     puts("- - - - - - - - - - -");
@@ -165,7 +165,7 @@ ERR_59_e test_container_common_59_interface(void)
     test_unsigned_node_obj_59_comparisons(U8_PTR, UINT8_MAX, &a, &b);
     test_unsigned_node_obj_59_comparisons(U16_PTR, UINT16_MAX, &a, &b);
     test_unsigned_node_obj_59_comparisons(U32_PTR, UINT32_MAX, &a, &b);
-    test_unsigned_node_obj_59_comparisons(U64_PTR, UINT32_MAX, &a, &b); // over 32 tested below
+    test_unsigned_node_obj_59_comparisons(U64_PTR, UINT32_MAX, &a, &b); // We only send at most INT32_MAX here to prevent overflow.
 
     // Signed comparison iterations
     i64 x = 0;
@@ -174,7 +174,7 @@ ERR_59_e test_container_common_59_interface(void)
     test_signed_node_obj_59_comparisons(CHAR_PTR, sizeof(char), &x, &y);
     test_signed_node_obj_59_comparisons(I16_PTR, sizeof(i16), &x, &y);
     test_signed_node_obj_59_comparisons(I32_PTR, sizeof(i32), &x, &y);
-    test_signed_node_obj_59_comparisons(I64_PTR, sizeof(i32), &x, &y); // over 32 tested below
+    test_signed_node_obj_59_comparisons(I64_PTR, sizeof(i32), &x, &y);
 
     // String comparisons
     char str_A[] = "abc";

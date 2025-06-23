@@ -72,10 +72,10 @@ ERR_59_e test_vec_59_interface(void)
     for (size_t i = 0; i < 4; i++)
     {
         val = malloc(sizeof(i64));
-        *val = i;
+        *val = (i64)i;
         push_back_vec_59(vec, val);
         printf("Assert: i = %lu == %ld = vec->data[%lu]\n", i, *(i64 *)(vec->data[i]), i);
-        assert(i == *(i64 *)(vec->data[i]));
+        assert(i == (size_t)*(i64 *)(vec->data[i]));
     }
 
     puts("Checking size and capacity...");
@@ -133,7 +133,7 @@ ERR_59_e test_vec_59_interface(void)
     for (size_t i = 1; i < vec->size; i++)
     {
         printf("Assert: i = %lu == %ld = vec->data[%lu]\n", i - 1, *(i64 *)(vec->data[i]), i - 1);
-        assert(i - 1 == *(i64 *)(vec->data[i]));
+        assert(i - 1 == (size_t)*(i64 *)(vec->data[i]));
     }
 
     // Pop_front

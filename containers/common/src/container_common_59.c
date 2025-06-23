@@ -91,7 +91,7 @@ ERR_59_e compare_node_obj_59(TYPE_59_e const type,
         *diff_out = (i64)(*((u32 *)obj_A)) - (i64)(*((u32 *)obj_B));
         break;
 
-    case U64_PTR:
+    case U64_PTR:; // Pedantic null statement. ':' then ';'
         u64 u64_A = *((u64 *)obj_A);
         u64 u64_B = *((u64 *)obj_B);
         u64 u64_dist = 0;
@@ -110,12 +110,12 @@ ERR_59_e compare_node_obj_59(TYPE_59_e const type,
             if (u64_dist > ((u64)INT64_MAX) + 1) // INT64_MIN is + 1 in abs val
                 *diff_out = INT64_MIN;
             else
-                *diff_out = u64_A - u64_B;
+                *diff_out = (i64)(u64_A - u64_B);
         }
 
         break;
 
-    case SIZE_PTR:
+    case SIZE_PTR:; // Pendantic null statement. ':' then ';'
         size_t size_A = *((size_t *)obj_A);
         size_t size_B = *((size_t *)obj_B);
         size_t size_dist = 0;
@@ -126,7 +126,7 @@ ERR_59_e compare_node_obj_59(TYPE_59_e const type,
             if (size_dist > INT64_MAX)
                 *diff_out = INT64_MAX;
             else
-                *diff_out = (size_t)size_dist;
+                *diff_out = (i64)size_dist;
         }
         else
         {
@@ -134,7 +134,7 @@ ERR_59_e compare_node_obj_59(TYPE_59_e const type,
             if (size_dist > ((u64)INT64_MAX) + 1) // INT64_MIN is + 1 in abs val
                 *diff_out = INT64_MIN;
             else
-                *diff_out = size_A - size_B;
+                *diff_out = (i64)(size_A - size_B);
         }
 
         break;
@@ -152,7 +152,7 @@ ERR_59_e compare_node_obj_59(TYPE_59_e const type,
         *diff_out = *((i32 *)obj_A) - *((i32 *)obj_B);
         break;
 
-    case I64_PTR:
+    case I64_PTR:; // Pedantic null statement. ':' then ';'
         i64 i64_A = *((i64 *)obj_A);
         i64 i64_B = *((i64 *)obj_B);
         i64 dist_to_max = 0;

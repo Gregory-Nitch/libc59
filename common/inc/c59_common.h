@@ -98,14 +98,16 @@ typedef enum TYPE_59_e
 
 /***********************************************************************************************************************
  * @ERR_59_e
- * @brief : Represents the various possible fail states of the containers.
+ * @brief : Represents the various possible fail states of libc59 libraries.
  *
  * @NONE : no error state -> all ok.
  * @NO_MEM : no memory was available on allocation (during malloc).
  * @INV_PARAM : an invalid parameter was given to a container function.
  * @OBJ_NOT_FOUND : object was not found in container.
+ * @CONTAINER_EMPTY : container was empty.
  * @INTRNL : an internal error occured.
  * @NOT_SUPPORTED : user attempted an unsupported operation.
+ * @CONTAINER_AT_CAPACITY : container being used has no more room for objects.
  **********************************************************************************************************************/
 typedef enum ERR_59_e
 {

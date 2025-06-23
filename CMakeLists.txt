@@ -177,4 +177,3 @@ set_tests_properties(test_vec_59_edge_cases
     PROPERTIES PASS_REGULAR_EXPRESSION 
     ".*in use at exit: 0 bytes in 0 blocks.*0 errors from 0 contexts.*suppressed: 0 from 0.*"
 )
-

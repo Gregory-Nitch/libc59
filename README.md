@@ -10,9 +10,12 @@ C Library of useful C modules
 # Building, Testing, Installing w/ CMAKE CLI
 - Make build directory -> **From Repo Root Dir** $ mkdir bld
 - Change to bld directory -> $ cd bld
-- Configure CMake -> $ cmake -DBUILD_TYPE=<debug||release>  .. 
+- Configure CMake -> $ cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_TYPE=<release||debug> ..
 - Build -> $ cmake --build . [-jX]
 - Run tests -> $ ctest [-jX]
-- Install -> $ sudo cmake install (Not tested)
+- Install -> $ sudo cmake --install .
 
 *-jX is optional; X is number of cores to use during test or building ie, -j8 or -j16*
+
+Then:
+    #include "libc59/common.h" or #include "libc59/vec.h"

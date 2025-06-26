@@ -8,7 +8,7 @@ project(common VERSION 1.0.0 DESCRIPTION "libc59 common" LANGUAGES C)
 add_library(common SHARED src/common.c)
 
 # Declare public API of lib
-set_target_properties(common PROPERTIES PUBLIC_HEADER inc/common.h)
+set_target_properties(common PROPERTIES PUBLIC_HEADER common/inc/common.h)
 
 # Include relative paths
 target_include_directories(common PUBLIC 

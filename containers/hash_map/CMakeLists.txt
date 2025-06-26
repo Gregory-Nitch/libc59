@@ -8,13 +8,13 @@ project(hash_map VERSION 1.0.0 DESCRIPTION "Hash map container" LANGUAGES C)
 add_library(hash_map SHARED src/hash_map.c)
 
 # Declare public API of lib
-set_target_properties(hash_map PROPERTIES PUBLIC_HEADER inc/hash_map.h)
+set_target_properties(hash_map PROPERTIES PUBLIC_HEADER containers/hash_map/inc/hash_map.h)
 
 # Include relative paths
 target_include_directories(hash_map PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
     $<INSTALL_INTERFACE:include>)
-    
+
 # Add libraries to link too
 target_link_libraries(hash_map PUBLIC m llist containers_common) # m = <math.h>
 

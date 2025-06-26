@@ -8,7 +8,7 @@ project(vec VERSION 1.0.0 DESCRIPTION "Vector container" LANGUAGES C)
 add_library(vec SHARED src/vec.c)
 
 # Declare public API of lib
-set_target_properties(vec PROPERTIES PUBLIC_HEADER inc/vec.h)
+set_target_properties(vec PROPERTIES PUBLIC_HEADER containers/vec/inc/vec.h)
 
 # Include relative paths
 target_include_directories(vec PUBLIC

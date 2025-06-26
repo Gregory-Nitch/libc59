@@ -8,7 +8,7 @@ project(llist VERSION 1.0.0 DESCRIPTION "Linked list container" LANGUAGES C)
 add_library(llist SHARED src/llist.c)
 
 # Declare public API of lib
-set_target_properties(llist PROPERTIES PUBLIC_HEADER inc/llist.h)
+set_target_properties(llist PROPERTIES PUBLIC_HEADER containers/llist/inc/llist.h)
 
 # Include relative paths
 target_include_directories(llist PUBLIC

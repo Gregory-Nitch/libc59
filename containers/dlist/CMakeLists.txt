@@ -8,13 +8,13 @@ project(dlist VERSION 1.0.0 DESCRIPTION "Doubly linked list container" LANGUAGES
 add_library(dlist SHARED src/dlist.c)
 
 # Declare public API of lib
-set_target_properties(dlist PROPERTIES PUBLIC_HEADER inc/dlist.h)
+set_target_properties(dlist PROPERTIES PUBLIC_HEADER containers/dlist/inc/dlist.h)
 
 # Include relative paths
 target_include_directories(dlist PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
     $<INSTALL_INTERFACE:include>)
-    
+
 # Add linking libraries
 target_link_libraries(dlist PUBLIC containers_common)
 

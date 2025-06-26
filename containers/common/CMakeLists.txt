@@ -8,7 +8,7 @@ project(containers_common VERSION 1.0.0 DESCRIPTION "Common items for libc59 con
 add_library(containers_common SHARED src/containers_common.c)
 
 # Declare public API of lib
-set_target_properties(containers_common PROPERTIES PUBLIC_HEADER inc/containers_common.h)
+set_target_properties(containers_common PROPERTIES PUBLIC_HEADER containers/common/inc/containers_common.h)
 
 # Includes
 target_include_directories(containers_common PUBLIC

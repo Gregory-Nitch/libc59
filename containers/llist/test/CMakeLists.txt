@@ -2,31 +2,31 @@
 cmake_minimum_required(VERSION 3.22.1)
 
 #Set project name, version, description
-project(llist_59_test_suite VERSION 1.0.0 DESCRIPTION "Linked list unit tests" LANGUAGES C)
+project(llist_test_suite VERSION 1.0.0 DESCRIPTION "Linked list unit tests" LANGUAGES C)
 
 # Add test executables
-add_executable(test_llist_59_interface src/test_llist_59_interface.c)
-add_executable(test_llist_59_edge_cases src/test_llist_59_edge_cases.c)
-add_executable(test_llist_node_59_interface src/test_llist_node_59_interface.c)
-add_executable(test_llist_node_59_edge_cases src/test_llist_node_59_edge_cases.c)
+add_executable(test_llist_interface src/test_llist_interface.c)
+add_executable(test_llist_edge_cases src/test_llist_edge_cases.c)
+add_executable(test_llist_node_interface src/test_llist_node_interface.c)
+add_executable(test_llist_node_edge_cases src/test_llist_node_edge_cases.c)
 
 # Add test relative paths
-target_include_directories(test_llist_59_interface PRIVATE src)
-target_include_directories(test_llist_59_edge_cases PRIVATE src)
-target_include_directories(test_llist_node_59_interface PRIVATE src)
-target_include_directories(test_llist_node_59_edge_cases PRIVATE src)
+target_include_directories(test_llist_interface PRIVATE src)
+target_include_directories(test_llist_edge_cases PRIVATE src)
+target_include_directories(test_llist_node_interface PRIVATE src)
+target_include_directories(test_llist_node_edge_cases PRIVATE src)
 
 # Add linking libraries
-target_link_libraries(test_llist_59_interface PRIVATE llist_59)
-target_link_libraries(test_llist_59_edge_cases PRIVATE llist_59)
-target_link_libraries(test_llist_node_59_interface PRIVATE llist_59)
-target_link_libraries(test_llist_node_59_edge_cases PRIVATE llist_59)
+target_link_libraries(test_llist_interface PRIVATE llist)
+target_link_libraries(test_llist_edge_cases PRIVATE llist)
+target_link_libraries(test_llist_node_interface PRIVATE llist)
+target_link_libraries(test_llist_node_edge_cases PRIVATE llist)
 
 if(BUILD_TYPE STREQUAL "debug")
-    target_link_libraries(test_llist_59_interface PRIVATE -fsanitize=address)
-    target_link_libraries(test_llist_59_edge_cases PRIVATE -fsanitize=address)
-    target_link_libraries(test_llist_node_59_interface PRIVATE -fsanitize=address)
-    target_link_libraries(test_llist_node_59_edge_cases PRIVATE -fsanitize=address)
+    target_link_libraries(test_llist_interface PRIVATE -fsanitize=address)
+    target_link_libraries(test_llist_edge_cases PRIVATE -fsanitize=address)
+    target_link_libraries(test_llist_node_interface PRIVATE -fsanitize=address)
+    target_link_libraries(test_llist_node_edge_cases PRIVATE -fsanitize=address)
 endif()
 
 # Compile options

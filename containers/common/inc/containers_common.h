@@ -1,3 +1,4 @@
+#pragma once
 /***********************************************************************************************************************
  * MIT License
  *
@@ -21,10 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-03-22
+ * @date : 2025-03-18
  * @author : Gregory Nitch
  *
- * @brief : Contains all the common definitions for libc59.
+ * @brief : This file contains all the common pieces required by the various containers, node obj comparisons.
  **********************************************************************************************************************/
 
 /*
@@ -41,26 +42,15 @@
 ========================================================================================================================
 */
 
-#include "c59_common.h"
+#include "common.h"
 
-/***********************************************************************************************************************
- * @brief : Compares two memory addresses and returns true if they are the same address, and false if they are not.
- *
- * @param[in] obj_A : Obj to compare.
- * @param[in] obj_B : Other obj to compare.
- * @param[out] is_same : bool value returned from comparison.
- *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
- **********************************************************************************************************************/
-ERR_59_e is_same_mem_addr_59(void const *const obj_A, void const *const obj_B, bool *const is_same)
-{
-    if (!is_same)
-        return ERR_INV_PARAM;
+/*
+========================================================================================================================
+- - FUNCTION DECLARATIONS - -
+========================================================================================================================
+*/
 
-    if (!obj_A || !obj_B)
-        *is_same = false;
-    else
-        *is_same = obj_A == obj_B;
-
-    return ERR_NONE;
-}
+ERR_59_e compare_node_obj_59(TYPE_59_e const type,
+                             void const *const obj_A,
+                             void const *const obj_B,
+                             i64 *const diff_out);

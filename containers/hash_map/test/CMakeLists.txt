@@ -2,23 +2,23 @@
 cmake_minimum_required(VERSION 3.22.1)
 
 #Set project name, version, description
-project(hash_map_59_test_suite VERSION 1.0.0 DESCRIPTION "Hash map unit tests" LANGUAGES C)
+project(hash_map_test_suite VERSION 1.0.0 DESCRIPTION "Hash map unit tests" LANGUAGES C)
 
 # Add test executables
-add_executable(test_hash_map_59_interface src/test_hash_map_59_interface.c)
-add_executable(test_hash_map_59_edge_cases src/test_hash_map_59_edge_cases.c)
+add_executable(test_hash_map_interface src/test_hash_map_interface.c)
+add_executable(test_hash_map_edge_cases src/test_hash_map_edge_cases.c)
 
 # Add test relative paths
-target_include_directories(test_hash_map_59_interface PRIVATE src)
-target_include_directories(test_hash_map_59_edge_cases PRIVATE src)
+target_include_directories(test_hash_map_interface PRIVATE src)
+target_include_directories(test_hash_map_edge_cases PRIVATE src)
 
 # Add linking libraries
-target_link_libraries(test_hash_map_59_interface PRIVATE hash_map_59)
-target_link_libraries(test_hash_map_59_edge_cases PRIVATE hash_map_59)
+target_link_libraries(test_hash_map_interface PRIVATE hash_map)
+target_link_libraries(test_hash_map_edge_cases PRIVATE hash_map)
 
 if(BUILD_TYPE STREQUAL "debug")
-    target_link_libraries(test_hash_map_59_interface PRIVATE -fsanitize=address)
-    target_link_libraries(test_hash_map_59_edge_cases PRIVATE -fsanitize=address)
+    target_link_libraries(test_hash_map_interface PRIVATE -fsanitize=address)
+    target_link_libraries(test_hash_map_edge_cases PRIVATE -fsanitize=address)
 endif()
 
 # Compile options

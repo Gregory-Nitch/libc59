@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-05-01
+ * @date : 2025-04-12
  * @author : Gregory Nitch
  *
- * @brief : Test cases for dlist_node_59 types that cover edge cases the interface might encounter.
+ * @brief : Test cases for llist_node_59 types that cover the basic interface functions.
  **********************************************************************************************************************/
 
 /*
@@ -33,6 +33,7 @@
 ========================================================================================================================
 */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -42,7 +43,7 @@
 ========================================================================================================================
 */
 
-#include "dlist_59.h"
+#include "llist.h"
 
 /*
 ========================================================================================================================
@@ -50,34 +51,29 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_dlist_node_59_edge_cases(void)
+ERR_59_e test_llist_node_59_interface(void)
 {
     ERR_59_e err = ERR_NONE;
-
-    // Test init_dlist_node
+    // init nodes
     puts("- - - - - - - - - - -");
-    puts("Checking init_dlist_node()");
+    puts("Initializing nodes...");
+    llist_node_59 *node1;
 
-    dlist_node_59 *dummy_node = (void *)0;
+    err = init_llist_node_59(&node1, (void *)0, malloc(sizeof(u64)));
+    if (ERR_NONE != err)
+        return err;
 
-    err = init_dlist_node_59((void *)0, (void *)0, (void *)0, (void *)0);
-    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
-    assert(ERR_INV_PARAM == err);
-    err = ERR_NONE;
+    *((u64 *)node1->node_obj) = 1UL;
 
-    // Test deinit node
+    printf("Assert: node1 = val %lu at %p\n", *((u64 *)node1->node_obj), (void *)node1);
+    assert(1UL == *((u64 *)node1->node_obj));
+
+    // deinit nodes
     puts("- - - - - - - - - - -");
-    puts("Checking deinit_dlist_node()");
-
-    err = deinit_dlist_node_59((void *)0);
-    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
-    assert(ERR_INV_PARAM == err);
-    err = ERR_NONE;
-
-    err = deinit_dlist_node_59(&dummy_node);
-    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
-    assert(ERR_INV_PARAM == err);
-    err = ERR_NONE;
+    puts("deiniting nodes...");
+    err = deinit_llist_node_59(&node1);
+    printf("Assert: (void*)0 = %p  == %p = node1(null)\n", (void *)0, (void *)node1);
+    assert((void *)0 == node1);
 
     return err;
 }
@@ -93,13 +89,13 @@ int main(int argc, char const *argv[])
     (void)argc;
     (void)argv;
 
-    puts("- - -  START OF DLIST TEST  - - -");
-    puts("- - - DLIST NODE EDGE CASES - - -");
+    puts("- - -  START OF LLIST TEST  - - -");
+    puts("- - - LLIST NODE INTERFACE - - -");
 
-    ERR_59_e err = test_dlist_node_59_edge_cases();
+    ERR_59_e err = test_llist_node_59_interface();
     printf("ERROR CODE : %d\n", err);
     assert(ERR_NONE == err);
 
-    puts("- - - - END OF DLIST TEST - - - -");
+    puts("- - - - END OF LLIST TEST - - - -");
     return err;
 }

@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-04-29
+ * @date : 2025-03-22
  * @author : Gregory Nitch
  *
- * @brief : Test cases for conatiner common functions that cover edge cases the interface might encounter.
+ * @brief : Contains all the common definitions for libc59.
  **********************************************************************************************************************/
 
 /*
@@ -33,9 +33,7 @@
 ========================================================================================================================
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <assert.h>
+#include <stdbool.h>
 
 /*
 ========================================================================================================================
@@ -43,59 +41,26 @@
 ========================================================================================================================
 */
 
-#include "container_common_59.h"
+#include "common.h"
 
-/*
-========================================================================================================================
-- - UNIT TESTS - -
-========================================================================================================================
-*/
-
-ERR_59_e test_common_59_edge_cases(void)
+/***********************************************************************************************************************
+ * @brief : Compares two memory addresses and returns true if they are the same address, and false if they are not.
+ *
+ * @param[in] obj_A : Obj to compare.
+ * @param[in] obj_B : Other obj to compare.
+ * @param[out] is_same : bool value returned from comparison.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+ERR_59_e is_same_mem_addr_59(void const *const obj_A, void const *const obj_B, bool *const is_same)
 {
-    ERR_59_e err = ERR_NONE;
+    if (!is_same)
+        return ERR_INV_PARAM;
 
-    // compare_node_obj()
-    puts("- - - - - - - - - - -");
-    puts("Testing compare_node_obj()...");
-    TYPE_59_e type = U64;
-    u64 a = 1UL;
-    u64 b = 2UL;
-    i64 dif = 0;
-
-    err = compare_node_obj_59(type, (void *)0, &b, &dif);
-    printf("Assert : err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
-    assert(ERR_INV_PARAM == err);
-
-    err = compare_node_obj_59(type, &a, (void *)0, &dif);
-    printf("Assert : err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
-    assert(ERR_INV_PARAM == err);
-
-    err = compare_node_obj_59(type, &a, &b, (void *)0);
-    printf("Assert : err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
-    assert(ERR_INV_PARAM == err);
+    if (!obj_A || !obj_B)
+        *is_same = false;
+    else
+        *is_same = obj_A == obj_B;
 
     return ERR_NONE;
-}
-
-/*
-========================================================================================================================
-- - MAIN - -
-========================================================================================================================
-*/
-
-int main(int argc, char const *argv[])
-{
-    (void)argc;
-    (void)argv;
-
-    puts("- - -  START OF COMMON CONTAINER TEST  - - -");
-    puts("- - - COMMON CONTAINER EDGE CASES - - -");
-
-    ERR_59_e err = test_common_59_edge_cases();
-    printf("ERROR CODE : %d\n", err);
-    assert(ERR_NONE == err);
-
-    puts("- - - - END OF COMMON CONTAINER TEST - - - -");
-    return err;
 }

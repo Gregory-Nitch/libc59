@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-04-30
+ * @date : 2025-05-01
  * @author : Gregory Nitch
  *
- * @brief : Test cases for libc59 common that cover the basic interface functions.
+ * @brief : Test cases for dlist_node_59 types that cover edge cases the interface might encounter.
  **********************************************************************************************************************/
 
 /*
@@ -33,7 +33,6 @@
 ========================================================================================================================
 */
 
-#include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -43,7 +42,7 @@
 ========================================================================================================================
 */
 
-#include "c59_common.h"
+#include "dlist.h"
 
 /*
 ========================================================================================================================
@@ -51,24 +50,34 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_common_59_interface(void)
+ERR_59_e test_dlist_node_59_edge_cases(void)
 {
     ERR_59_e err = ERR_NONE;
 
-    // is_same_mem_addr()
+    // Test init_dlist_node
     puts("- - - - - - - - - - -");
-    puts("Testing is_same_mem_addr()...");
-    bool flag = false;
-    u64 a = 1UL;
-    u64 b = 2UL;
+    puts("Checking init_dlist_node()");
 
-    is_same_mem_addr_59(&a, &b, &flag);
-    printf("Assert: addr1 %p != %p addr2\n", (void *)&a, (void *)&b);
-    assert(false == flag);
+    dlist_node_59 *dummy_node = (void *)0;
 
-    is_same_mem_addr_59(&a, &a, &flag);
-    printf("Assert: addr1 %p == %p addr1\n", (void *)&a, (void *)&a);
-    assert(true == flag);
+    err = init_dlist_node_59((void *)0, (void *)0, (void *)0, (void *)0);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    // Test deinit node
+    puts("- - - - - - - - - - -");
+    puts("Checking deinit_dlist_node()");
+
+    err = deinit_dlist_node_59((void *)0);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    err = deinit_dlist_node_59(&dummy_node);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
 
     return err;
 }
@@ -84,13 +93,13 @@ int main(int argc, char const *argv[])
     (void)argc;
     (void)argv;
 
-    puts("- - -  START OF COMMON TEST  - - -");
-    puts("- - - COMMON INTERFACE - - -");
+    puts("- - -  START OF DLIST TEST  - - -");
+    puts("- - - DLIST NODE EDGE CASES - - -");
 
-    ERR_59_e err = test_common_59_interface();
+    ERR_59_e err = test_dlist_node_59_edge_cases();
     printf("ERROR CODE : %d\n", err);
     assert(ERR_NONE == err);
 
-    puts("- - - - END OF COMMON TEST - - - -");
+    puts("- - - - END OF DLIST TEST - - - -");
     return err;
 }

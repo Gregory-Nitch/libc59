@@ -22,10 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-05-18
+ * @date : 2025-05-08
  * @author : Gregory Nitch
  *
- * @brief : This file contians all the declarations for the hash map struct.
+ * @brief : This file contians all the declarations for the vector struct.
  **********************************************************************************************************************/
 
 /*
@@ -34,6 +34,7 @@
 ========================================================================================================================
 */
 
+#include <stdbool.h>
 #include <stddef.h>
 
 /*
@@ -42,8 +43,7 @@
 ========================================================================================================================
 */
 
-#include "container_common_59.h"
-#include "llist_59.h"
+#include "containers_common.h"
 
 /*
 ========================================================================================================================
@@ -52,14 +52,14 @@
 */
 
 /***********************************************************************************************************************
- * @brief : Default size of hash map tables.
+ * @brief : Defines all vectors default starting capacity.
  **********************************************************************************************************************/
-#define DEFAULT_HASH_MAP_TABLE_SIZE 10
+#define VEC_DEFAULT_START_CAPACITY 4
 
 /***********************************************************************************************************************
- * @brief : Default prime number to use in hashing for hash maps.
+ * @brief : Defines the maximum vector size based on 1 in the MSB binary position.
  **********************************************************************************************************************/
-#define DEFAULT_HASH_MAP_PRIME (11UL)
+#define STANDARD_MAX_VEC_CAPACITY 0x8000000000000000
 
 /*
 ========================================================================================================================
@@ -67,8 +67,7 @@
 ========================================================================================================================
 */
 
-typedef struct hash_map_59 hash_map_59;
-typedef struct key_val_pair_59 key_val_pair_59;
+typedef struct vec_59 vec_59;
 
 /*
 ========================================================================================================================
@@ -77,39 +76,24 @@ typedef struct key_val_pair_59 key_val_pair_59;
 */
 
 /***********************************************************************************************************************
- * @key_val_pair_59
- * @brief : Key value pair struct to represent a hash map entry.
+ * @vec_59
+ * @brief : Represents a vector.
  *
- * @key : Key to the values entry, will be unique in the hash map.
- * @val : Value to the key, is not unique in the hash map.
+ * @data : void pointer array to serve as the vector container
+ * @size : size of the data in the container
+ * @capacity : size of the container, ie the actual amount of memory it is taking up.
+ * @type : type of the objects contained in the vector, this can be any type so be sure you document what you're
+ *         pointing at.
+ * @capacity_lock : if the capacity of the vector is locked then it will not be resized on push pull and insert. You are
+ *                  expected to ensure the vector is of appropriate size.
  **********************************************************************************************************************/
-struct key_val_pair_59
+struct vec_59
 {
-    void *key;
-    void *val;
-};
-
-/***********************************************************************************************************************
- * @hash_map_59
- * @brief : A hash map built with llist_59 and llist_node_59, this hash map does not automatically resize its table.
- *
- * @key_type : Type of the key for the hash.
- * @val_type : Type of the val held at the hashed key.
- * @table : A pointer to pointer of llist_59(arr).
- * @table_size : Size of the hash table, call resize to grow or shrink the table.
- * @_prime : Prime number used in hashing.
- *
- * @note Default table size is @DEFAULT_HASH_MAP_TABLE_SIZE. Ideally you should not alter the @_prime member, default
- * value is 11.
- **********************************************************************************************************************/
-struct hash_map_59
-{
-    TYPE_59_e key_type;
-    TYPE_59_e val_type;
-    size_t val_type_depth;
-    llist_59 **table;
-    size_t table_size;
-    size_t _prime;
+    void **data;
+    size_t size;
+    size_t capacity;
+    TYPE_59_e type;
+    bool capacity_lock;
 };
 
 /*
@@ -118,14 +102,13 @@ struct hash_map_59
 ========================================================================================================================
 */
 
-ERR_59_e init_hash_map_59(hash_map_59 **map,
-                          TYPE_59_e const key_type,
-                          TYPE_59_e const val_type,
-                          size_t const val_type_depth,
-                          size_t const table_size,
-                          size_t const _prime);
-ERR_59_e deinit_hash_map_59(hash_map_59 **map);
-ERR_59_e upsert_into_hash_map_59(hash_map_59 *const map, void *key, void *val);
-ERR_59_e get_from_hash_map_59(hash_map_59 const *const map, void *key, void **val);
-ERR_59_e remove_from_hash_map_59(hash_map_59 *const map, void *const key, key_val_pair_59 **pair);
-ERR_59_e resize_table_hash_map_59(hash_map_59 *map, size_t const new_size);
+ERR_59_e init_vec_59(vec_59 **vec, size_t const capacity, TYPE_59_e const type, bool const capacity_lock);
+ERR_59_e deinit_vec_59(vec_59 **vec);
+ERR_59_e push_back_vec_59(vec_59 *const vec, void *const new_back);
+ERR_59_e pop_back_vec_59(vec_59 *const vec, void **back_obj);
+ERR_59_e push_front_vec_59(vec_59 *const vec, void *const new_front);
+ERR_59_e pop_front_vec_59(vec_59 *const vec, void **front_obj);
+ERR_59_e find_val_in_vec_59(vec_59 const *const vec, void **val);
+ERR_59_e get_at_idx_llist_59(vec_59 const *const vec, void **node, size_t const idx);
+ERR_59_e remove_given_obj_from_vec_59(vec_59 *const vec, void *remove_obj);
+ERR_59_e insert_obj_into_vec_59(vec_59 *const vec, void *const new_obj, size_t const idx);

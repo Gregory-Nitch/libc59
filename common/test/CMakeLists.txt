@@ -2,23 +2,23 @@
 cmake_minimum_required(VERSION 3.22.1)
 
 #Set project name, version, description
-project(c59_common_test_suite VERSION 1.0.0 DESCRIPTION "libc59 common unit tests." LANGUAGES C)
+project(common_test_suite VERSION 1.0.0 DESCRIPTION "libc59 common unit tests." LANGUAGES C)
 
 # Add test executables
-add_executable(test_common_59_interface src/test_common_59_interface.c)
-add_executable(test_common_59_edge_cases src/test_common_59_edge_cases.c)
+add_executable(test_common_interface src/test_common_interface.c)
+add_executable(test_common_edge_cases src/test_common_edge_cases.c)
 
 # Add test relative paths
-target_include_directories(test_common_59_interface PRIVATE src)
-target_include_directories(test_common_59_edge_cases PRIVATE src)
+target_include_directories(test_common_interface PRIVATE src)
+target_include_directories(test_common_edge_cases PRIVATE src)
 
 # Add common shared lib
-target_link_libraries(test_common_59_interface PRIVATE c59_common)
-target_link_libraries(test_common_59_edge_cases PRIVATE c59_common)
+target_link_libraries(test_common_interface PRIVATE common)
+target_link_libraries(test_common_edge_cases PRIVATE common)
 
 if(BUILD_TYPE STREQUAL "debug")
-    target_link_libraries(test_common_59_interface PRIVATE -fsanitize=address)
-    target_link_libraries(test_common_59_edge_cases PRIVATE -fsanitize=address)
+    target_link_libraries(test_common_interface PRIVATE -fsanitize=address)
+    target_link_libraries(test_common_edge_cases PRIVATE -fsanitize=address)
 endif()
 
 # Compile options

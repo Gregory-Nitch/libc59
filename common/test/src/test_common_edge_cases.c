@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-04-12
+ * @date : 2025-04-30
  * @author : Gregory Nitch
  *
- * @brief : Test cases for llist_node_59 types that cover edge cases the interface might encounter.
+ * @brief : Test cases for common functions that cover edge cases the interface might encounter.
  **********************************************************************************************************************/
 
 /*
@@ -33,6 +33,7 @@
 ========================================================================================================================
 */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -42,7 +43,7 @@
 ========================================================================================================================
 */
 
-#include "llist_59.h"
+#include "common.h"
 
 /*
 ========================================================================================================================
@@ -50,36 +51,35 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_llist_node_59_edge_cases(void)
+ERR_59_e test_common_59_edge_cases(void)
 {
     ERR_59_e err = ERR_NONE;
 
-    // Test init_llist_node
+    // Allocate objects
     puts("- - - - - - - - - - -");
-    puts("Checking init_llist_node()");
+    puts("Initializing memory...");
+    u64 *obj_A = malloc(sizeof(u64));
+    u64 *obj_B = malloc(sizeof(u64));
+    /* Values assigned to prevent uninitialized compiler warnings, though these values are not acutally used. */
+    *obj_A = 11;
+    *obj_B = 59;
 
-    llist_node_59 *dummy_node = (void *)0;
-
-    err = init_llist_node_59((void *)0, (void *)0, (void *)0);
-    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
-    assert(ERR_INV_PARAM == err);
-    err = ERR_NONE;
-
-    // Test deinit node
+    // Test is same mem addr
     puts("- - - - - - - - - - -");
-    puts("Checking deinit_llist_node()");
+    puts("Checking is_same_mem_addr()");
 
-    err = deinit_llist_node_59((void *)0);
+    err = is_same_mem_addr_59(obj_A, obj_B, (void *)0);
     printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
-    err = ERR_NONE;
 
-    err = deinit_llist_node_59(&dummy_node);
-    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
-    assert(ERR_INV_PARAM == err);
-    err = ERR_NONE;
+    // Test cleanup
+    puts("- - - - - - - - - - -");
+    puts("Cleaning up test assets...");
 
-    return err;
+    free(obj_A);
+    free(obj_B);
+
+    return ERR_NONE;
 }
 
 /*
@@ -93,13 +93,13 @@ int main(int argc, char const *argv[])
     (void)argc;
     (void)argv;
 
-    puts("- - -  START OF LLIST TEST  - - -");
-    puts("- - - LLIST NODE EDGE CASES - - -");
+    puts("- - -  START OF CONTAINER COMMON TEST  - - -");
+    puts("- - - CONTAINER COMMON EDGE CASES - - -");
 
-    ERR_59_e err = test_llist_node_59_edge_cases();
+    ERR_59_e err = test_common_59_edge_cases();
     printf("ERROR CODE : %d\n", err);
     assert(ERR_NONE == err);
 
-    puts("- - - - END OF LLIST TEST - - - -");
+    puts("- - - - END OF CONTAINER COMMON TEST - - - -");
     return err;
 }

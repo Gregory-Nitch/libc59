@@ -2,22 +2,24 @@
 cmake_minimum_required(VERSION 3.22.1)
 
 #Set project name, version, description
-project(dlist_59 VERSION 1.0.0 DESCRIPTION "Doubly linked list container" LANGUAGES C)
+project(dlist VERSION 1.0.0 DESCRIPTION "Doubly linked list container" LANGUAGES C)
 
 # add source to library
-add_library(dlist_59 SHARED src/dlist_59.c)
+add_library(dlist SHARED src/dlist.c)
 
 # Declare public API of lib
-set_target_properties(dlist_59 PROPERTIES PUBLIC_HEADER inc/dlist_59.h)
+set_target_properties(dlist PROPERTIES PUBLIC_HEADER inc/dlist.h)
 
 # Include relative paths
-target_include_directories(dlist_59 PUBLIC inc)
-
+target_include_directories(dlist PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
+    $<INSTALL_INTERFACE:include>)
+    
 # Add linking libraries
-target_link_libraries(dlist_59 PUBLIC container_common_59)
+target_link_libraries(dlist PUBLIC containers_common)
 
 if(BUILD_TYPE STREQUAL "debug")
-    target_link_libraries(dlist_59 PRIVATE -fsanitize=address)
+    target_link_libraries(dlist PRIVATE -fsanitize=address)
 endif()
 
 add_subdirectory(test)
@@ -31,9 +33,3 @@ elseif(BUILD_TYPE STREQUAL "release")
 else()
     message(FATAL_ERROR "Invalid build type, use -DBUILD_TYPE and set 'release' or 'debug'")
 endif()
-
-# Install rules
-include(GNUInstallDirs)
-install(TARGETS dlist_59
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

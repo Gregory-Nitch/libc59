@@ -24,7 +24,7 @@
  * @date : 2025-04-30
  * @author : Gregory Nitch
  *
- * @brief : Test cases for common functions that cover edge cases the interface might encounter.
+ * @brief : Test cases for libc59 common that cover the basic interface functions.
  **********************************************************************************************************************/
 
 /*
@@ -43,7 +43,7 @@
 ========================================================================================================================
 */
 
-#include "c59_common.h"
+#include "common.h"
 
 /*
 ========================================================================================================================
@@ -51,35 +51,26 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_common_59_edge_cases(void)
+ERR_59_e test_common_59_interface(void)
 {
     ERR_59_e err = ERR_NONE;
 
-    // Allocate objects
+    // is_same_mem_addr()
     puts("- - - - - - - - - - -");
-    puts("Initializing memory...");
-    u64 *obj_A = malloc(sizeof(u64));
-    u64 *obj_B = malloc(sizeof(u64));
-    /* Values assigned to prevent uninitialized compiler warnings, though these values are not acutally used. */
-    *obj_A = 11;
-    *obj_B = 59;
+    puts("Testing is_same_mem_addr()...");
+    bool flag = false;
+    u64 a = 1UL;
+    u64 b = 2UL;
 
-    // Test is same mem addr
-    puts("- - - - - - - - - - -");
-    puts("Checking is_same_mem_addr()");
+    is_same_mem_addr_59(&a, &b, &flag);
+    printf("Assert: addr1 %p != %p addr2\n", (void *)&a, (void *)&b);
+    assert(false == flag);
 
-    err = is_same_mem_addr_59(obj_A, obj_B, (void *)0);
-    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
-    assert(ERR_INV_PARAM == err);
+    is_same_mem_addr_59(&a, &a, &flag);
+    printf("Assert: addr1 %p == %p addr1\n", (void *)&a, (void *)&a);
+    assert(true == flag);
 
-    // Test cleanup
-    puts("- - - - - - - - - - -");
-    puts("Cleaning up test assets...");
-
-    free(obj_A);
-    free(obj_B);
-
-    return ERR_NONE;
+    return err;
 }
 
 /*
@@ -93,13 +84,13 @@ int main(int argc, char const *argv[])
     (void)argc;
     (void)argv;
 
-    puts("- - -  START OF CONTAINER COMMON TEST  - - -");
-    puts("- - - CONTAINER COMMON EDGE CASES - - -");
+    puts("- - -  START OF COMMON TEST  - - -");
+    puts("- - - COMMON INTERFACE - - -");
 
-    ERR_59_e err = test_common_59_edge_cases();
+    ERR_59_e err = test_common_59_interface();
     printf("ERROR CODE : %d\n", err);
     assert(ERR_NONE == err);
 
-    puts("- - - - END OF CONTAINER COMMON TEST - - - -");
+    puts("- - - - END OF COMMON TEST - - - -");
     return err;
 }

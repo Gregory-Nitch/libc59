@@ -2,22 +2,24 @@
 cmake_minimum_required(VERSION 3.22.1)
 
 #Set project name, version, description
-project(container_common_59 VERSION 1.0.0 DESCRIPTION "Common items for libc59 containers" LANGUAGES C)
+project(containers_common VERSION 1.0.0 DESCRIPTION "Common items for libc59 containers" LANGUAGES C)
 
 # add source to library
-add_library(container_common_59 SHARED src/container_common_59.c)
+add_library(containers_common SHARED src/containers_common.c)
 
 # Declare public API of lib
-set_target_properties(container_common_59 PROPERTIES PUBLIC_HEADER inc/container_common_59.h)
+set_target_properties(containers_common PROPERTIES PUBLIC_HEADER inc/containers_common.h)
 
 # Includes
-target_include_directories(container_common_59 PUBLIC inc)
+target_include_directories(containers_common PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
+    $<INSTALL_INTERFACE:include>)
 
 # Library Links
-target_link_libraries(container_common_59 PUBLIC c59_common)
+target_link_libraries(containers_common PUBLIC common)
 
 if(BUILD_TYPE STREQUAL "debug")
-    target_link_libraries(container_common_59 PRIVATE -fsanitize=address)
+    target_link_libraries(containers_common PRIVATE -fsanitize=address)
 endif()
 
 add_subdirectory(test)
@@ -31,9 +33,3 @@ elseif(BUILD_TYPE STREQUAL "release")
 else()
     message(FATAL_ERROR "Invalid build type, use -DBUILD_TYPE and set 'release' or 'debug'")
 endif()
-
-# Install rules
-include(GNUInstallDirs)
-install(TARGETS container_common_59
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

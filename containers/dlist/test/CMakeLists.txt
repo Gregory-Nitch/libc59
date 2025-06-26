@@ -2,31 +2,31 @@
 cmake_minimum_required(VERSION 3.22.1)
 
 #Set project name, version, description
-project(dlist_59_test_suite VERSION 1.0.0 DESCRIPTION "Doubly linked list unit tests" LANGUAGES C)
+project(dlist_test_suite VERSION 1.0.0 DESCRIPTION "Doubly linked list unit tests" LANGUAGES C)
 
 # Add test executables
-add_executable(test_dlist_59_interface src/test_dlist_59_interface.c)
-add_executable(test_dlist_59_edge_cases src/test_dlist_59_edge_cases.c)
-add_executable(test_dlist_node_59_interface src/test_dlist_node_59_interface.c)
-add_executable(test_dlist_node_59_edge_cases src/test_dlist_node_59_edge_cases.c)
+add_executable(test_dlist_interface src/test_dlist_interface.c)
+add_executable(test_dlist_edge_cases src/test_dlist_edge_cases.c)
+add_executable(test_dlist_node_interface src/test_dlist_node_interface.c)
+add_executable(test_dlist_node_edge_cases src/test_dlist_node_edge_cases.c)
 
 # Add includes
-target_include_directories(test_dlist_59_interface PRIVATE src)
-target_include_directories(test_dlist_59_edge_cases PRIVATE src)
-target_include_directories(test_dlist_node_59_interface PRIVATE src)
-target_include_directories(test_dlist_node_59_edge_cases PRIVATE src)
+target_include_directories(test_dlist_interface PRIVATE src)
+target_include_directories(test_dlist_edge_cases PRIVATE src)
+target_include_directories(test_dlist_node_interface PRIVATE src)
+target_include_directories(test_dlist_node_edge_cases PRIVATE src)
 
 # Add linking libraries
-target_link_libraries(test_dlist_59_interface PRIVATE  dlist_59)
-target_link_libraries(test_dlist_59_edge_cases PRIVATE dlist_59)
-target_link_libraries(test_dlist_node_59_interface PRIVATE dlist_59)
-target_link_libraries(test_dlist_node_59_edge_cases PRIVATE dlist_59)
+target_link_libraries(test_dlist_interface PRIVATE  dlist)
+target_link_libraries(test_dlist_edge_cases PRIVATE dlist)
+target_link_libraries(test_dlist_node_interface PRIVATE dlist)
+target_link_libraries(test_dlist_node_edge_cases PRIVATE dlist)
 
 if(BUILD_TYPE STREQUAL "debug")
-    target_link_libraries(test_dlist_59_interface PRIVATE -fsanitize=address)
-    target_link_libraries(test_dlist_59_edge_cases PRIVATE -fsanitize=address)
-    target_link_libraries(test_dlist_node_59_interface PRIVATE -fsanitize=address)
-    target_link_libraries(test_dlist_node_59_edge_cases PRIVATE -fsanitize=address)
+    target_link_libraries(test_dlist_interface PRIVATE -fsanitize=address)
+    target_link_libraries(test_dlist_edge_cases PRIVATE -fsanitize=address)
+    target_link_libraries(test_dlist_node_interface PRIVATE -fsanitize=address)
+    target_link_libraries(test_dlist_node_edge_cases PRIVATE -fsanitize=address)
 endif()
 
 # Compile options

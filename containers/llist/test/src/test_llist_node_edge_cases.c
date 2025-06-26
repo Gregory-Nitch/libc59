@@ -1,4 +1,3 @@
-#pragma once
 /***********************************************************************************************************************
  * MIT License
  *
@@ -22,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-03-18
+ * @date : 2025-04-12
  * @author : Gregory Nitch
  *
- * @brief : This file contains all the common pieces required by the various containers, node obj comparisons.
+ * @brief : Test cases for llist_node_59 types that cover edge cases the interface might encounter.
  **********************************************************************************************************************/
 
 /*
@@ -34,7 +33,8 @@
 ========================================================================================================================
 */
 
-#include <stdbool.h>
+#include <stdio.h>
+#include <assert.h>
 
 /*
 ========================================================================================================================
@@ -42,15 +42,64 @@
 ========================================================================================================================
 */
 
-#include "c59_common.h"
+#include "llist.h"
 
 /*
 ========================================================================================================================
-- - FUNCTION DECLARATIONS - -
+- - UNIT TESTS - -
 ========================================================================================================================
 */
 
-ERR_59_e compare_node_obj_59(TYPE_59_e const type,
-                             void const *const obj_A,
-                             void const *const obj_B,
-                             i64 *const diff_out);
+ERR_59_e test_llist_node_59_edge_cases(void)
+{
+    ERR_59_e err = ERR_NONE;
+
+    // Test init_llist_node
+    puts("- - - - - - - - - - -");
+    puts("Checking init_llist_node()");
+
+    llist_node_59 *dummy_node = (void *)0;
+
+    err = init_llist_node_59((void *)0, (void *)0, (void *)0);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    // Test deinit node
+    puts("- - - - - - - - - - -");
+    puts("Checking deinit_llist_node()");
+
+    err = deinit_llist_node_59((void *)0);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    err = deinit_llist_node_59(&dummy_node);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    return err;
+}
+
+/*
+========================================================================================================================
+- - MAIN - -
+========================================================================================================================
+*/
+
+int main(int argc, char const *argv[])
+{
+    (void)argc;
+    (void)argv;
+
+    puts("- - -  START OF LLIST TEST  - - -");
+    puts("- - - LLIST NODE EDGE CASES - - -");
+
+    ERR_59_e err = test_llist_node_59_edge_cases();
+    printf("ERROR CODE : %d\n", err);
+    assert(ERR_NONE == err);
+
+    puts("- - - - END OF LLIST TEST - - - -");
+    return err;
+}

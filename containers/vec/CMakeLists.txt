@@ -2,22 +2,24 @@
 cmake_minimum_required(VERSION 3.22.1)
 
 #Set project name, version, description
-project(vec_59 VERSION 1.0.0 DESCRIPTION "Vector container" LANGUAGES C)
+project(vec VERSION 1.0.0 DESCRIPTION "Vector container" LANGUAGES C)
 
 # add source to library
-add_library(vec_59 SHARED src/vec_59.c)
+add_library(vec SHARED src/vec.c)
 
 # Declare public API of lib
-set_target_properties(vec_59 PROPERTIES PUBLIC_HEADER inc/vec_59.h)
+set_target_properties(vec PROPERTIES PUBLIC_HEADER inc/vec.h)
 
 # Include relative paths
-target_include_directories(vec_59 PUBLIC inc)
+target_include_directories(vec PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
+    $<INSTALL_INTERFACE:include>)
 
 # Add Linking libraries
-target_link_libraries(vec_59 PUBLIC container_common_59)
+target_link_libraries(vec PUBLIC containers_common)
 
 if(BUILD_TYPE STREQUAL "debug")
-    target_link_libraries(vec_59 PRIVATE -fsanitize=address)
+    target_link_libraries(vec PRIVATE -fsanitize=address)
 endif()
 
 add_subdirectory(test)
@@ -31,9 +33,3 @@ elseif(BUILD_TYPE STREQUAL "release")
 else()
     message(FATAL_ERROR "Invalid build type, use -DBUILD_TYPE and set 'release' or 'debug'")
 endif()
-
-# Install rules
-include(GNUInstallDirs)
-install(TARGETS vec_59
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

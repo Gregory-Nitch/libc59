@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-04-12
+ * @date : 2025-05-01
  * @author : Gregory Nitch
  *
- * @brief : Test cases for llist_node_59 types that cover the basic interface functions.
+ * @brief : Test cases for dlist_node_59 types that cover the basic interface functions.
  **********************************************************************************************************************/
 
 /*
@@ -43,7 +43,7 @@
 ========================================================================================================================
 */
 
-#include "llist_59.h"
+#include "dlist.h"
 
 /*
 ========================================================================================================================
@@ -51,15 +51,15 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_llist_node_59_interface(void)
+ERR_59_e test_dlist_node_59_interface(void)
 {
     ERR_59_e err = ERR_NONE;
     // init nodes
     puts("- - - - - - - - - - -");
     puts("Initializing nodes...");
-    llist_node_59 *node1;
+    dlist_node_59 *node1;
 
-    err = init_llist_node_59(&node1, (void *)0, malloc(sizeof(u64)));
+    err = init_dlist_node_59(&node1, (void *)0, (void *)0, malloc(sizeof(u64)));
     if (ERR_NONE != err)
         return err;
 
@@ -71,7 +71,7 @@ ERR_59_e test_llist_node_59_interface(void)
     // deinit nodes
     puts("- - - - - - - - - - -");
     puts("deiniting nodes...");
-    err = deinit_llist_node_59(&node1);
+    err = deinit_dlist_node_59(&node1);
     printf("Assert: (void*)0 = %p  == %p = node1(null)\n", (void *)0, (void *)node1);
     assert((void *)0 == node1);
 
@@ -89,13 +89,13 @@ int main(int argc, char const *argv[])
     (void)argc;
     (void)argv;
 
-    puts("- - -  START OF LLIST TEST  - - -");
-    puts("- - - LLIST NODE INTERFACE - - -");
+    puts("- - -  START OF DLIST TEST  - - -");
+    puts("- - - DLIST NODE INTERFACE - - -");
 
-    ERR_59_e err = test_llist_node_59_interface();
+    ERR_59_e err = test_dlist_node_59_interface();
     printf("ERROR CODE : %d\n", err);
     assert(ERR_NONE == err);
 
-    puts("- - - - END OF LLIST TEST - - - -");
+    puts("- - - - END OF DLIST TEST - - - -");
     return err;
 }

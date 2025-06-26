@@ -225,7 +225,6 @@ install(DIRECTORY containers/hash_map/inc/
 )
 
 # CMake package configuration files and target exports
-# This will now correctly install the 'libc59Targets' export set
 install(EXPORT libc59Targets
     NAMESPACE libc59::
     FILE libc59Targets.cmake

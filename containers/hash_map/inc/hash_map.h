@@ -35,6 +35,7 @@
 */
 
 #include <stddef.h>
+#include <stdbool.h>
 
 /*
 ========================================================================================================================
@@ -110,6 +111,7 @@ struct hash_map_59
     llist_59 **table;
     size_t table_size;
     size_t _prime;
+    bool _collision_detected;
 };
 
 /*
@@ -126,6 +128,6 @@ ERR_59_e init_hash_map_59(hash_map_59 **map,
                           size_t const _prime);
 ERR_59_e deinit_hash_map_59(hash_map_59 **map);
 ERR_59_e upsert_into_hash_map_59(hash_map_59 *const map, void *key, void *val);
-ERR_59_e get_from_hash_map_59(hash_map_59 const *const map, void *key, void **val);
+ERR_59_e get_from_hash_map_59(hash_map_59 *const map, void *key, void **val);
 ERR_59_e remove_from_hash_map_59(hash_map_59 *const map, void *const key, key_val_pair_59 **pair);
 ERR_59_e resize_table_hash_map_59(hash_map_59 *map, size_t const new_size);

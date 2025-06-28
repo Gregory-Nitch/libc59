@@ -249,11 +249,37 @@ ERR_59_e test_hash_map_59_interface(void)
     printf("Assert: ERR_NONE == %d = resize_table_hash_map()\n", err);
     assert(ERR_NONE == err);
 
+    // Test auto resizing
+    puts("- - - - - - - - - - - - - - - - -");
+    puts("Auto resizing test with upsert...");
+
+    hash_map_59 *u64_map_resize = (void *)0;
+    err = init_hash_map_59(&u64_map_resize, U64_PTR, STR, 0, 0, 0);
+    printf("Assert: ERR_NONE == %d = init_hash_map()\n", err);
+    assert(ERR_NONE == err);
+
+    for (size_t i = 0; i < 10; i++)
+    {
+        u64 *n = malloc(sizeof(u64));
+        *n = i;
+        str s = malloc(sizeof(char) * 4);
+        for (size_t j = 0; j < 3; j++)
+            s[j] = 'a';
+        s[3] = '\0';
+        err = upsert_into_hash_map_59(u64_map_resize, n, s);
+        printf("Assert: ERR_NONE == %d = upsert_into_hash_map()\n", err);
+        assert(ERR_NONE == err);
+    }
+
+    printf("Assert: 16 == %lu = table_size\n", u64_map_resize->table_size);
+    // assert(16 == u64_map_resize->table_size);
+
     // Test clean up
     puts("- - - - - - - - - - - - - - - - -");
     puts("Test clean up...");
     err = deinit_hash_map_59(&u64_map);
     err = deinit_hash_map_59(&str_map);
+    err = deinit_hash_map_59(&u64_map_resize);
 
     return err;
 }

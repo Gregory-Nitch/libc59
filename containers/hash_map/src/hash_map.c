@@ -133,7 +133,7 @@ static ERR_59_e _deinit_table_list_hash_map_59(llist_59 **llist)
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-static ERR_59_e _find_node_in_table_list_hash_map_59(hash_map_59 const *const map,
+static ERR_59_e _find_node_in_table_list_hash_map_59(hash_map_59 *const map,
                                                      llist_59 const *const llist,
                                                      void const *const key,
                                                      llist_node_59 **node)
@@ -156,6 +156,7 @@ static ERR_59_e _find_node_in_table_list_hash_map_59(hash_map_59 const *const ma
             break;
         }
         search_node = search_node->next;
+        map->_collision_detected = true; // More than one node in the llist = collision.
     }
 
     if (!(*node))
@@ -357,6 +358,7 @@ ERR_59_e init_hash_map_59(hash_map_59 **map,
     new_map->val_type = val_type;
     new_map->val_type_depth = val_type_depth;
     new_map->table = new_table;
+    new_map->_collision_detected = false;
 
     *map = new_map;
 
@@ -442,13 +444,26 @@ ERR_59_e upsert_into_hash_map_59(hash_map_59 *const map, void *key, void *val)
             return err;
         }
 
+        // If new size is less than the current size we have overflowed and our hash map table size is maxed.
+        size_t new_size = map->table_size << 1;
+        if (new_size > map->table_size && map->_collision_detected)
+        {
+
+            err = resize_table_hash_map_59(map, new_size);
+            if (ERR_NONE != err)
+                return err;
+            map->_collision_detected = false;
+        }
+        else if (map->_collision_detected)
+            return ERR_CONTAINER_AT_CAPACITY;
+
         return ERR_NONE;
     }
 
     if (!((key_val_pair_59 *)node->node_obj)->val)
         return ERR_INTRNL;
 
-    free(((key_val_pair_59 *)node->node_obj)->val);
+    free(((key_val_pair_59 *)node->node_obj)->val); // Remember that the value is being replaced, therefore free
     ((key_val_pair_59 *)node->node_obj)->val = val;
 
     return ERR_NONE;
@@ -463,7 +478,7 @@ ERR_59_e upsert_into_hash_map_59(hash_map_59 *const map, void *key, void *val)
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e get_from_hash_map_59(hash_map_59 const *const map, void *key, void **val)
+ERR_59_e get_from_hash_map_59(hash_map_59 *const map, void *key, void **val)
 {
     if (!map || !key || !val)
         return ERR_INV_PARAM;

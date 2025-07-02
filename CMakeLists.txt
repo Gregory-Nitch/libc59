@@ -230,3 +230,22 @@ install(EXPORT libc59Targets
     FILE libc59Targets.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/libc59
 )
+
+# Install a package config file
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/libc59ConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/libc59Config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/libc59Config.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/libc59
+)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/libc59Config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/libc59ConfigVersion.cmake"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/libc59
+)

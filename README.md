@@ -18,4 +18,13 @@ C Library of useful C modules
 *-jX is optional; X is number of cores to use during test or building ie, -j8 or -j16*
 
 Then:
-    #include "libc59/common.h" or #include "libc59/vec.h"
+```C
+#include "libc59/common.h"
+#include "libc59/vec.h"
+```
+And in other projects CMakeLists.txt:
+```CMake
+list(APPEND CMAKE_PREFIX_PATH "/usr/local/lib/cmake/libc59")
+find_package(libc59 REQUIRED)
+target_link_libraries(mod-15-c PUBLIC libc59::common libc59::vec)
+```

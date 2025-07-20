@@ -33,7 +33,7 @@ include(CTest)
 
 # Add test suite with valgrind -> # -s = show suppressed errors
 add_test(NAME test_common_interface
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_common_interface>
 )
 set_tests_properties(test_common_interface
@@ -42,7 +42,7 @@ set_tests_properties(test_common_interface
 )
 
 add_test(NAME test_common_edge_cases
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_common_edge_cases>
 )
 set_tests_properties(test_common_edge_cases
@@ -51,7 +51,7 @@ set_tests_properties(test_common_edge_cases
 )
 
 add_test(NAME test_containers_common_interface
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_containers_common_interface>
 )
 set_tests_properties(test_containers_common_interface
@@ -60,7 +60,7 @@ set_tests_properties(test_containers_common_interface
 )
 
 add_test(NAME test_containers_common_edge_cases
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_containers_common_edge_cases>
 )
 set_tests_properties(test_containers_common_edge_cases
@@ -69,7 +69,7 @@ set_tests_properties(test_containers_common_edge_cases
 )
 
 add_test(NAME test_dlist_interface
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_dlist_interface>
 )
 set_tests_properties(test_dlist_interface
@@ -78,7 +78,7 @@ set_tests_properties(test_dlist_interface
 )
 
 add_test(NAME test_dlist_edge_cases
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_dlist_edge_cases>
 )
 set_tests_properties(test_dlist_edge_cases
@@ -87,7 +87,7 @@ set_tests_properties(test_dlist_edge_cases
 )
 
 add_test(NAME test_dlist_node_interface
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_dlist_node_interface>
 )
 set_tests_properties(test_dlist_node_interface
@@ -96,7 +96,7 @@ set_tests_properties(test_dlist_node_interface
 )
 
 add_test(NAME test_dlist_node_edge_cases
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_dlist_node_edge_cases>
 )
 set_tests_properties(test_dlist_node_edge_cases
@@ -105,7 +105,7 @@ set_tests_properties(test_dlist_node_edge_cases
 )
 
 add_test(NAME test_hash_map_interface
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_hash_map_interface>
 )
 set_tests_properties(test_hash_map_interface
@@ -114,7 +114,7 @@ set_tests_properties(test_hash_map_interface
 )
 
 add_test(NAME test_hash_map_edge_cases
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_hash_map_edge_cases>
 )
 set_tests_properties(test_hash_map_edge_cases
@@ -123,7 +123,7 @@ set_tests_properties(test_hash_map_edge_cases
 )
 
 add_test(NAME test_llist_interface
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_llist_interface>
 )
 set_tests_properties(test_llist_interface
@@ -132,7 +132,7 @@ set_tests_properties(test_llist_interface
 )
 
 add_test(NAME test_llist_edge_cases
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_llist_edge_cases>
 )
 set_tests_properties(test_llist_edge_cases
@@ -141,7 +141,7 @@ set_tests_properties(test_llist_edge_cases
 )
 
 add_test(NAME test_llist_node_interface
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_llist_node_interface>
 )
 set_tests_properties(test_llist_node_interface
@@ -150,7 +150,7 @@ set_tests_properties(test_llist_node_interface
 )
 
 add_test(NAME test_llist_node_edge_cases
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_llist_node_edge_cases>
 )
 set_tests_properties(test_llist_node_edge_cases
@@ -159,7 +159,7 @@ set_tests_properties(test_llist_node_edge_cases
 )
 
 add_test(NAME test_vec_interface
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_vec_interface>
 )
 set_tests_properties(test_vec_interface
@@ -168,7 +168,7 @@ set_tests_properties(test_vec_interface
 )
 
 add_test(NAME test_vec_edge_cases
-    COMMAND valgrind --leak-check=full --show-leak-kinds=all --verbose -s
+    COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose -s
     $<TARGET_FILE:test_vec_edge_cases>
 )
 set_tests_properties(test_vec_edge_cases

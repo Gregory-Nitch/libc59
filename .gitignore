@@ -1,6 +1,7 @@
-# Build files and Binaries
+# Build files and Binaries and Documentaion
 bld/
 bin/
+dox/
 
 # Prerequisites
 *.d

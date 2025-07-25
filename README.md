@@ -28,3 +28,7 @@ list(APPEND CMAKE_PREFIX_PATH "/usr/local/lib/cmake/libc59")
 find_package(libc59 REQUIRED)
 target_link_libraries(mod-15-c PUBLIC libc59::common libc59::vec)
 ```
+
+# Documentaion
+- Run `doxygen ./Doxyfile`
+- Output will go to ~/dox

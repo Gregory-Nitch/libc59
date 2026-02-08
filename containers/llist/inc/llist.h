@@ -105,8 +105,8 @@ ERR_59_e push_front_llist_59(llist_59 *const llist, llist_node_59 *const new_fro
 ERR_59_e pop_front_llist_59(llist_59 *const llist, llist_node_59 **front_node);
 ERR_59_e remove_given_node_from_llist_59(llist_59 *const llist, llist_node_59 *remove_node);
 ERR_59_e insert_node_into_llist_59(llist_59 *const llist, llist_node_59 *const new_node, size_t const idx);
-ERR_59_e find_node_in_llist_59(llist_59 const *const llist, llist_node_59 **node, void *val);
-ERR_59_e get_at_idx_llist_59(llist_59 const *const llist, llist_node_59 **node, size_t const idx);
+ERR_59_e find_node_in_llist_59(llist_59 const *const llist, llist_node_59 const *const node, void *val);
+ERR_59_e get_at_idx_llist_59(llist_59 const *const llist, size_t const idx, llist_node_59 **node);
 
 ERR_59_e init_llist_node_59(llist_node_59 **node, llist_node_59 *next, void *node_obj);
 ERR_59_e deinit_llist_node_59(llist_node_59 **node);

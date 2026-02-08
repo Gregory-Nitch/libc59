@@ -313,6 +313,81 @@ ERR_59_e insert_node_into_llist_59(llist_59 *const llist, llist_node_59 *const n
 }
 
 /***********************************************************************************************************************
+ * @brief Finds the given node in the linked list and returns its value, value will be null if not found. @note This
+ * matches by memory address of the given node, not value.
+ *
+ * @param[in] llist The linked list to search.
+ * @param[in] node the node to search for.
+ * @param[out] val The pointer to place the found value in.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+ERR_59_e find_node_in_llist_59(llist_59 const *const llist, llist_node_59 const *const node, void *val)
+{
+    if (!llist || !node)
+    {
+        return ERR_NONE;
+    }
+
+    val = (void *)0;
+
+    ERR_59_e err = ERR_NONE;
+    llist_node_59 const *current = llist->head;
+    bool is_same = false;
+    while (current)
+    {
+        err = is_same_mem_addr_59(node, current, is_same);
+        if (ERR_NONE != err)
+        {
+            return err;
+        }
+        else if (is_same)
+        {
+            val = current->node_obj;
+            return err;
+        }
+        current = current->next;
+    }
+
+    return ERR_OBJ_NOT_FOUND;
+}
+
+/***********************************************************************************************************************
+ * @brief Gets the node in the linked list at the given index, if the index is out of range the node out parameter will
+ * be null.
+ *
+ * @param[in] llist The linked list to retrive the node from.
+ * @param[in] idx Index in the linked list to retreive.
+ * @param[out] node Pointer to a pointer which shall return the node in the llist if idx is in range.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+ERR_59_e get_at_idx_llist_59(llist_59 const *const llist, size_t const idx, llist_node_59 **node)
+{
+    if (!llist)
+    {
+        return ERR_INV_PARAM;
+    }
+
+    *node = (void *)0;
+    llist_node_59 *current = llist->head;
+    for (size_t i = 0; i <= idx; i++)
+    {
+        if (current)
+        {
+            current = current->next;
+        }
+        else
+        {
+            return ERR_INV_PARAM;
+        }
+    }
+
+    *node = current;
+    return ERR_NONE;
+}
+
+/***********************************************************************************************************************
  * @brief : Initializes a node for a @llist_59, @next and @node_obj can be NULL.
  *
  * @param[in] node : Pointer to initialize new node in. @warning This node must be freed to end its lifetime.

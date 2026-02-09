@@ -322,28 +322,28 @@ ERR_59_e insert_node_into_llist_59(llist_59 *const llist, llist_node_59 *const n
  *
  * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e find_node_in_llist_59(llist_59 const *const llist, llist_node_59 const *const node, void *val)
+ERR_59_e find_node_in_llist_59(llist_59 const *const llist, llist_node_59 const *const node, void **val)
 {
-    if (!llist || !node)
+    if (!llist || !node || !val)
     {
         return ERR_INV_PARAM;
     }
 
-    val = (void *)0;
+    *val = (void *)0;
 
     ERR_59_e err = ERR_NONE;
     llist_node_59 const *current = llist->head;
     bool is_same = false;
     while (current)
     {
-        err = is_same_mem_addr_59(node, current, is_same);
+        err = is_same_mem_addr_59(node, current, &is_same);
         if (ERR_NONE != err)
         {
             return err;
         }
         else if (is_same)
         {
-            val = current->node_obj;
+            *val = current->node_obj;
             return err;
         }
         current = current->next;

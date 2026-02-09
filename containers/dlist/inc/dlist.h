@@ -108,7 +108,7 @@ ERR_59_e push_front_dlist_59(dlist_59 *const dlist, dlist_node_59 *const new_fro
 ERR_59_e pop_front_dlist_59(dlist_59 *const dlist, dlist_node_59 **front_node);
 ERR_59_e remove_given_node_from_dlist_59(dlist_59 *const dlist, dlist_node_59 *remove_node);
 ERR_59_e insert_node_into_dlist_59(dlist_59 *const dlist, dlist_node_59 *const new_node, size_t const idx);
-ERR_59_e find_node_in_dlist_59(dlist_59 const *const dlist, dlist_node_59 const *const node, void *val);
+ERR_59_e find_node_in_dlist_59(dlist_59 const *const dlist, dlist_node_59 const *const node, void **val);
 ERR_59_e get_at_idx_dlist_59(dlist_59 const *const dlist, size_t const idx, dlist_node_59 **node);
 
 ERR_59_e init_dlist_node_59(dlist_node_59 **node, dlist_node_59 *next, dlist_node_59 *last, void *node_obj);

@@ -326,7 +326,7 @@ ERR_59_e find_node_in_llist_59(llist_59 const *const llist, llist_node_59 const 
 {
     if (!llist || !node)
     {
-        return ERR_NONE;
+        return ERR_INV_PARAM;
     }
 
     val = (void *)0;

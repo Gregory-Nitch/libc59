@@ -326,6 +326,79 @@ ERR_59_e insert_node_into_dlist_59(dlist_59 *const dlist, dlist_node_59 *const n
 }
 
 /***********************************************************************************************************************
+ * @brief Finds a node in a doubly linked list and returns its value or null if the node was not in the list.
+ *
+ * @param[in] dlist Double linked list to find the node in.
+ * @param[in] node Node to find in the list.
+ * @param[out] val value of the found node, null if node is not in list.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+ERR_59_e find_node_in_dlist_59(dlist_59 const *const dlist, dlist_node_59 const *const node, void *val)
+{
+    if (!dlist || !node)
+    {
+        return ERR_INV_PARAM;
+    }
+
+    val = (void *)0;
+
+    ERR_59_e err = ERR_NONE;
+    dlist_node_59 const *current = dlist->head;
+    bool is_same = false;
+    while (current)
+    {
+        err = is_same_mem_addr_59(node, current, is_same);
+        if (ERR_NONE != err)
+        {
+            return err;
+        }
+        else if (is_same)
+        {
+            val = current->node_obj;
+            return err;
+        }
+        current = current->next;
+    }
+
+    return ERR_OBJ_NOT_FOUND;
+}
+
+/***********************************************************************************************************************
+ * @brief Gets the node from the list at the given index, or null if its out of range.
+ *
+ * @param[in] dlist Doubly linked list to get the node from.
+ * @param[in] idx Index in the doubly linked list to get the node at.
+ * @param[out] node Out parameter which contains the node at the given index, or null if out of range.
+ *
+ * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+ERR_59_e get_at_idx_dlist_59(dlist_59 const *const dlist, size_t const idx, dlist_node_59 **node)
+{
+    if (!dlist)
+    {
+        return ERR_INV_PARAM;
+    }
+
+    *node = (void *)0;
+    dlist_node_59 *current = dlist->head;
+    for (size_t i = 0; i <= idx; i++)
+    {
+        if (current)
+        {
+            current = current->next;
+        }
+        else
+        {
+            return ERR_INV_PARAM;
+        }
+    }
+
+    *node = current;
+    return ERR_NONE;
+}
+
+/***********************************************************************************************************************
  * @brief : Initializes a node for a @dlist_59, @next, @last and @node_obj can be NULL.
  *
  * @param[in] node : Pointer to initialize new node in. @warning This node must be freed to end its lifetime.

@@ -245,6 +245,29 @@ ERR_59_e test_dlist_59_interface(void)
     printf("Assert: expected = %lu == %lu = next obj\n", 4UL, *((u64 *)node->next->node_obj));
     assert(*((u64 *)node->next->node_obj) == 4UL);
 
+    // find_node()
+    puts("- - - - - - - - - - - - - - - - -");
+    puts("Checking find_node_in_dlist()...");
+
+    void *v_out = (void *)0;
+    err = find_node_in_dlist_59(list, node, &v_out);
+    if (ERR_NONE != err)
+        return err;
+
+    printf("Assert: expected = %lu == %lu = obj\n", val, *((u64 *)v_out));
+    assert(*((u64 *)v_out) == val);
+
+    // get_at_idx
+    puts("- - - - - - - - - - - - - - - - -");
+    puts("Checking get_at_idx_dlist()...");
+
+    err = get_at_idx_dlist_59(list, idx, &node);
+    if (ERR_NONE != err)
+        return err;
+
+    printf("Assert: expected = %lu == %lu = obj\n", val, *((u64 *)node->node_obj));
+    assert(*((u64 *)node->node_obj) == val);
+
     // deinit_list()
     puts("- - - - - - - - - - - - - - - - -");
     puts("Checking deinit_list()...");

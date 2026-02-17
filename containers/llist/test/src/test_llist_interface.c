@@ -258,6 +258,29 @@ ERR_59_e test_llist_59_interface(void)
     printf("Assert: expected head = %lu == %lu = obj\n", 59UL, *((u64 *)(list_2->head->node_obj)));
     assert(59 == *((u64 *)(list_2->head->node_obj)));
 
+    // find_node()
+    puts("- - - - - - - - - - - - - - - - -");
+    puts("Checking find_node_in_llist()...");
+
+    void *v_out = (void *)0;
+    err = find_node_in_llist_59(list, node, &v_out);
+    if (ERR_NONE != err)
+        return err;
+
+    printf("Assert: expected = %lu == %lu = obj\n", val, *((u64 *)v_out));
+    assert(*((u64 *)v_out) == val);
+
+    // get_at_idx
+    puts("- - - - - - - - - - - - - - - - -");
+    puts("Checking get_at_idx_llist()...");
+
+    err = get_at_idx_llist_59(list, idx, &node);
+    if (ERR_NONE != err)
+        return err;
+
+    printf("Assert: expected = %lu == %lu = obj\n", val, *((u64 *)node->node_obj));
+    assert(*((u64 *)node->node_obj) == val);
+
     // deinit_list()
     puts("- - - - - - - - - - - - - - - - -");
     puts("Checking deinit_list()...");

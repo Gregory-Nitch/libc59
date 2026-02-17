@@ -61,12 +61,15 @@ ERR_59_e test_dlist_59_edge_cases(void)
     dlist_59 *list = (void *)0;
     dlist_node_59 *node1 = (void *)0;
     dlist_node_59 *node2 = (void *)0;
+    dlist_node_59 *node3 = (void *)0;
     dlist_node_59 *dummy_node = (void *)0;
     err = init_dlist_59(&list, I64_PTR, 0);
     err = init_dlist_node_59(&node1, (void *)0, (void *)0, malloc(sizeof(i64 *)));
     err = init_dlist_node_59(&node2, (void *)0, (void *)0, malloc(sizeof(i64 *)));
+    err = init_dlist_node_59(&node3, (void *)0, (void *)0, malloc(sizeof(i64 *)));
     *((i64 *)node1->node_obj) = 33;
     *((i64 *)node2->node_obj) = 59;
+    *((i64 *)node3->node_obj) = 42;
 
     // init list
     puts("- - - - - - - - - - - - - - - - -");
@@ -215,6 +218,51 @@ ERR_59_e test_dlist_59_edge_cases(void)
     assert(33 == *(i64 *)(list->head->node_obj));
     printf("Assert: head = %ld == %ld\n", *(i64 *)(list->head->next->node_obj), 59UL);
     assert(59 == *(i64 *)(list->head->next->node_obj));
+
+    // find node in list
+    puts("- - - - - - - - - - - - - - - - -");
+    puts("Testing find_node_in_dlist_59()...");
+
+    void *val = (void *)0;
+    err = find_node_in_dlist_59(dummy_list, node1, &val);
+    printf("Assert: err = %d == %d ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    err = find_node_in_dlist_59(list, dummy_node, &val);
+    printf("Assert: err = %d == %d ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    err = find_node_in_dlist_59(list, node1, (void *)0);
+    printf("Assert: err = %d == %d ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    err = find_node_in_dlist_59(list, node3, &val);
+    printf("Assert: err = %d == %d ERR_OBJ_NOT_FOUND\n", err, ERR_OBJ_NOT_FOUND);
+    assert(ERR_OBJ_NOT_FOUND == err);
+    err = ERR_NONE;
+
+    // Put node in list for clean up
+    err = push_back_dlist_59(list, node3);
+    printf("Assert: err = %d == %d ERR_NONE\n", err, ERR_NONE);
+    assert(ERR_NONE == err);
+
+    // find node in list
+    puts("- - - - - - - - - - - - - - - - -");
+    puts("Testing find_node_in_dlist_59()...");
+
+    dlist_node_59 *test_node = (void *)0;
+    err = get_at_idx_dlist_59(dummy_list, 1, &test_node);
+    printf("Assert: err = %d == %d ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
+
+    err = get_at_idx_dlist_59(list, 10, &test_node);
+    printf("Assert: err = %d == %d ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    assert(ERR_INV_PARAM == err);
+    err = ERR_NONE;
 
     // Test clean up
     puts("- - - - - - - - - - - - - - - - -");

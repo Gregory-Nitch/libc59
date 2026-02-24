@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-04-12
- * @author : Gregory Nitch
+ * @date: 2025-04-12
+ * @author: Gregory Nitch
  *
- * @brief : Test cases for llist_node_59 types that cover the basic interface functions.
+ * @brief: Test cases for llist_node_59 types that cover the basic interface functions.
  **********************************************************************************************************************/
 
 /*
@@ -93,7 +93,7 @@ int main(int argc, char const *argv[])
     puts("- - - LLIST NODE INTERFACE - - -");
 
     ERR_59_e err = test_llist_node_59_interface();
-    printf("ERROR CODE : %d\n", err);
+    printf("ERROR CODE: %d\n", err);
     assert(ERR_NONE == err);
 
     puts("- - - - END OF LLIST TEST - - - -");

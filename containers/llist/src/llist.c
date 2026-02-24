@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-03-18
- * @author : Gregory Nitch
+ * @date: 2025-03-18
+ * @author: Gregory Nitch
  *
- * @brief : Contains all the definitions for the linked list container.
+ * @brief: Contains all the definitions for the linked list container.
  **********************************************************************************************************************/
 
 /*
@@ -52,15 +52,15 @@
 */
 
 /***********************************************************************************************************************
- * @brief : Initializes a linked list, this also allocates memory to the @llist pointer.
+ * @brief: Initializes a linked list, this also allocates memory to the @llist pointer.
  *
- * @param[out] llist : linked list pointer to initialize, this will need to be freed later. @note @head and
+ * @param[out] llist: linked list pointer to initialize, this will need to be freed later. @note @head and
  * @tail will be NULL. @warning This must be freed when its lifetime has ended.
- * @param[in] type : type of the linked list to initalize.
- * @param[in] type_depth : size of the node elements, all must be the same size, if not set as 0. If there are nodes of
+ * @param[in] type: type of the linked list to initalize.
+ * @param[in] type_depth: size of the node elements, all must be the same size, if not set as 0. If there are nodes of
  * different sizes the implementation will need to define comparisons and indexing into those elements.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e init_llist_59(llist_59 **llist, TYPE_59_e const type, size_t const type_depth)
 {
@@ -81,11 +81,11 @@ ERR_59_e init_llist_59(llist_59 **llist, TYPE_59_e const type, size_t const type
 }
 
 /***********************************************************************************************************************
- * @brief : Deinits the passed linked list and all of the nodes, this also deallocates the used memory.
+ * @brief: Deinits the passed linked list and all of the nodes, this also deallocates the used memory.
  *
- * @param[in] llist : linked list to deinit.
+ * @param[in] llist: linked list to deinit.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e deinit_llist_59(llist_59 **llist)
 {
@@ -116,12 +116,12 @@ ERR_59_e deinit_llist_59(llist_59 **llist)
 }
 
 /***********************************************************************************************************************
- * @brief : Adds a new node to the end of the linked list, this node should already be memory allocated.
+ * @brief: Adds a new node to the end of the linked list, this node should already be memory allocated.
  *
- * @param[in] llist : Linked list to add the node to.
- * @param[in] new_node : New node to add to the linked list.
+ * @param[in] llist: Linked list to add the node to.
+ * @param[in] new_node: New node to add to the linked list.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e push_back_llist_59(llist_59 *const llist, llist_node_59 *const new_node)
 {
@@ -135,13 +135,13 @@ ERR_59_e push_back_llist_59(llist_59 *const llist, llist_node_59 *const new_node
 }
 
 /***********************************************************************************************************************
- * @brief : Removes the node at the end of the linked list, and provides it via the @back_node parameter.
+ * @brief: Removes the node at the end of the linked list, and provides it via the @back_node parameter.
  *
- * @param[in] llist : Linked list to pop the tail from.
- * @param[out] back_node : pointer to hold the reference of the tail node, @warning this node will still need to be
+ * @param[in] llist: Linked list to pop the tail from.
+ * @param[out] back_node: pointer to hold the reference of the tail node, @warning this node will still need to be
  * deallocated with a call to destory_llist_node_59().
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e pop_back_llist_59(llist_59 *const llist, llist_node_59 **back_node)
 {
@@ -174,12 +174,12 @@ ERR_59_e pop_back_llist_59(llist_59 *const llist, llist_node_59 **back_node)
 }
 
 /***********************************************************************************************************************
- * @brief : Pushes the @new_front to the front of the linked list.
+ * @brief: Pushes the @new_front to the front of the linked list.
  *
- * @param[in] llist : Linked list to add the node to the front of.
- * @param[in] new_front : node to place at the front of the linked list.
+ * @param[in] llist: Linked list to add the node to the front of.
+ * @param[in] new_front: node to place at the front of the linked list.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e push_front_llist_59(llist_59 *const llist, llist_node_59 *const new_front)
 {
@@ -201,13 +201,13 @@ ERR_59_e push_front_llist_59(llist_59 *const llist, llist_node_59 *const new_fro
 }
 
 /***********************************************************************************************************************
- * @brief : Pops the head node from the linked list.
+ * @brief: Pops the head node from the linked list.
  *
- * @param[in] llist : List to pop the head from.
- * @param[out] front_node : Head of the list returned from function call, @warning this node will need to be deallocated
+ * @param[in] llist: List to pop the head from.
+ * @param[out] front_node: Head of the list returned from function call, @warning this node will need to be deallocated
  * with a call to deinit_node_llist_59(). @note this may be NULL and will set an ERR_CONTAINER_EMPTY code.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e pop_front_llist_59(llist_59 *const llist, llist_node_59 **front_node)
 {
@@ -229,12 +229,12 @@ ERR_59_e pop_front_llist_59(llist_59 *const llist, llist_node_59 **front_node)
 }
 
 /***********************************************************************************************************************
- * @brief : Removes the passed node from the linked list.
+ * @brief: Removes the passed node from the linked list.
  *
- * @param[in] llist : Linked list to remove the node from.
- * @param[out] remove_node : Node to remove, error is returned if not found.
+ * @param[in] llist: Linked list to remove the node from.
+ * @param[out] remove_node: Node to remove, error is returned if not found.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  *
  * @warning DOES NOT DEALLOCATE the node, use deinit_llist_node_59() after the use of the node is complete.
  **********************************************************************************************************************/
@@ -276,14 +276,14 @@ ERR_59_e remove_given_node_from_llist_59(llist_59 *const llist, llist_node_59 *r
 }
 
 /***********************************************************************************************************************
- * @brief : Inserts a node into the linked list at the passed index, if the index is passed the end of the list it
+ * @brief: Inserts a node into the linked list at the passed index, if the index is passed the end of the list it
  * appends the node to the end of the list.
  *
- * @param[in] llist : Linked list to add the new node too.
- * @param[in] new_node : New node to add to the linked list.
- * @param[in] idx : Index in the linked list to add the node at.
+ * @param[in] llist: Linked list to add the new node too.
+ * @param[in] new_node: New node to add to the linked list.
+ * @param[in] idx: Index in the linked list to add the node at.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e insert_node_into_llist_59(llist_59 *const llist, llist_node_59 *const new_node, size_t const idx)
 {
@@ -320,7 +320,7 @@ ERR_59_e insert_node_into_llist_59(llist_59 *const llist, llist_node_59 *const n
  * @param[in] node the node to search for.
  * @param[out] val The pointer to place the found value in.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e find_node_in_llist_59(llist_59 const *const llist, llist_node_59 const *const node, void **val)
 {
@@ -360,7 +360,7 @@ ERR_59_e find_node_in_llist_59(llist_59 const *const llist, llist_node_59 const 
  * @param[in] idx Index in the linked list to retreive.
  * @param[out] node Pointer to a pointer which shall return the node in the llist if idx is in range.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e get_at_idx_llist_59(llist_59 const *const llist, size_t const idx, llist_node_59 **node)
 {
@@ -388,15 +388,15 @@ ERR_59_e get_at_idx_llist_59(llist_59 const *const llist, size_t const idx, llis
 }
 
 /***********************************************************************************************************************
- * @brief : Initializes a node for a @llist_59, @next and @node_obj can be NULL.
+ * @brief: Initializes a node for a @llist_59, @next and @node_obj can be NULL.
  *
- * @param[in] node : Pointer to initialize new node in. @warning This node must be freed to end its lifetime.
- * @param[in] next : Next node in the llinked list to point at, may be NULL.
- * @param[in] node_obj : Object that the new node shall point to, may be NULL.
+ * @param[in] node: Pointer to initialize new node in. @warning This node must be freed to end its lifetime.
+ * @param[in] next: Next node in the llinked list to point at, may be NULL.
+ * @param[in] node_obj: Object that the new node shall point to, may be NULL.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e init_llist_node_59(llist_node_59 **node, llist_node_59 *next, void *node_obj)
+ERR_59_e init_llist_node_59(llist_node_59 **node, llist_node_59 *const next, void *node_obj)
 {
     if (!node)
         return ERR_INV_PARAM;
@@ -413,11 +413,11 @@ ERR_59_e init_llist_node_59(llist_node_59 **node, llist_node_59 *next, void *nod
 }
 
 /***********************************************************************************************************************
- * @brief : Deinits a linked list node (deallocates memory for both the node and the void pointer object)
+ * @brief: Deinits a linked list node (deallocates memory for both the node and the void pointer object)
  *
- * @param[in] node : Node to deinit.
+ * @param[in] node: Node to deinit.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e deinit_llist_node_59(llist_node_59 **node)
 {

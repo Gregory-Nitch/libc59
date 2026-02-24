@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-04-12
- * @author : Gregory Nitch
+ * @date: 2025-04-12
+ * @author: Gregory Nitch
  *
- * @brief : Test cases for llist_59 types that cover edge cases that the interface might encounter.
+ * @brief: Test cases for llist_59 types that cover edge cases that the interface might encounter.
  **********************************************************************************************************************/
 
 /*
@@ -287,7 +287,7 @@ int main(int argc, char const *argv[])
     puts("- - - LLIST EDGE CASES - - -");
 
     ERR_59_e err = test_llist_59_edge_cases();
-    printf("ERROR CODE : %d\n", err);
+    printf("ERROR CODE: %d\n", err);
     assert(ERR_NONE == err);
 
     puts("- - - - END OF LLIST TEST - - - -");

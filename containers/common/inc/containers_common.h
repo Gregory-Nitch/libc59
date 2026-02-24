@@ -1,4 +1,3 @@
-#pragma once
 /***********************************************************************************************************************
  * MIT License
  *
@@ -22,11 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-03-18
- * @author : Gregory Nitch
+ * @date: 2025-03-18
+ * @author: Gregory Nitch
  *
- * @brief : This file contains all the common pieces required by the various containers, node obj comparisons.
+ * @brief: This file contains all the common pieces required by the various containers, node obj comparisons.
  **********************************************************************************************************************/
+
+#pragma once
 
 /*
 ========================================================================================================================

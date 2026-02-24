@@ -1,4 +1,3 @@
-#pragma once
 /***********************************************************************************************************************
  * MIT License
  *
@@ -22,11 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-04-30
- * @author : Gregory Nitch
+ * @date: 2025-04-30
+ * @author: Gregory Nitch
  *
- * @brief : This file contians all the declarations for the double linked list struct.
+ * @brief: This file contians all the declarations for the double linked list struct.
  **********************************************************************************************************************/
+
+#pragma once
 
 /*
 ========================================================================================================================
@@ -62,11 +63,11 @@ typedef struct dlist_59 dlist_59;
 
 /***********************************************************************************************************************
  * @dlist_node_59
- * @brief : Reprents a doubly linked list node within the doubly linked list.
+ * @brief: Reprents a doubly linked list node within the doubly linked list.
  *
- * @next : pointer to the next node.
- * @last : pointer to the last node.
- * @node_obj : pointer the object at the node, this type is stored in the dlist_59 struct and may be any type.
+ * @next: pointer to the next node.
+ * @last: pointer to the last node.
+ * @node_obj: pointer the object at the node, this type is stored in the dlist_59 struct and may be any type.
  *
  * @see dlist_59
  **********************************************************************************************************************/
@@ -79,12 +80,12 @@ struct dlist_node_59
 
 /***********************************************************************************************************************
  * @dlist_59
- * @brief : Represents a linked list with a head.
+ * @brief: Represents a linked list with a head.
  *
- * @head : start of the linked list.
- * @tail : end of the linked list inplemented as a pointer to a pointer. Begins as address of @head.
- * @type : type of the linked list's nodes, this can be any type so besure you document what you're pointing at.
- * @type_depth : if pointing at arrays with consistent size, place the size of the arrays here, otherwise leave as 0.
+ * @head: start of the linked list.
+ * @tail: end of the linked list inplemented as a pointer to a pointer. Begins as address of @head.
+ * @type: type of the linked list's nodes, this can be any type so besure you document what you're pointing at.
+ * @type_depth: if pointing at arrays with consistent size, place the size of the arrays here, otherwise leave as 0.
  **********************************************************************************************************************/
 struct dlist_59
 {
@@ -111,5 +112,5 @@ ERR_59_e insert_node_into_dlist_59(dlist_59 *const dlist, dlist_node_59 *const n
 ERR_59_e find_node_in_dlist_59(dlist_59 const *const dlist, dlist_node_59 const *const node, void **val);
 ERR_59_e get_at_idx_dlist_59(dlist_59 const *const dlist, size_t const idx, dlist_node_59 **node);
 
-ERR_59_e init_dlist_node_59(dlist_node_59 **node, dlist_node_59 *next, dlist_node_59 *last, void *node_obj);
+ERR_59_e init_dlist_node_59(dlist_node_59 **node, dlist_node_59 *const next, dlist_node_59 *const last, void *node_obj);
 ERR_59_e deinit_dlist_node_59(dlist_node_59 **node);

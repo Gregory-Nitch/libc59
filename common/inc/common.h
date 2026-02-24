@@ -1,4 +1,3 @@
-#pragma once
 /***********************************************************************************************************************
  * MIT License
  *
@@ -22,11 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-03-19
- * @author : Gregory Nitch
+ * @date: 2025-03-19
+ * @author: Gregory Nitch
  *
- * @brief : This header contains all the interfaces common across the entire libraries set of modules.
+ * @brief: This header contains all the interfaces common across the entire libraries set of modules.
  **********************************************************************************************************************/
+
+#pragma once
 
 /*
 ========================================================================================================================
@@ -61,7 +62,7 @@ typedef char *str;
 
 /***********************************************************************************************************************
  * @TYPE_59_e
- * @brief : Represents all the various possible data types in use for things such as containers to store for a key,
+ * @brief: Represents all the various possible data types in use for things such as containers to store for a key,
  * value, at a node, etc. All members that are pointers to objects may be arrays, this is on the user to implement
  * properly.
  **********************************************************************************************************************/
@@ -98,16 +99,16 @@ typedef enum TYPE_59_e
 
 /***********************************************************************************************************************
  * @ERR_59_e
- * @brief : Represents the various possible fail states of libc59 libraries.
+ * @brief: Represents the various possible fail states of libc59 libraries.
  *
- * @NONE : no error state -> all ok.
- * @NO_MEM : no memory was available on allocation (during malloc).
- * @INV_PARAM : an invalid parameter was given to a container function.
- * @OBJ_NOT_FOUND : object was not found in container.
- * @CONTAINER_EMPTY : container was empty.
- * @INTRNL : an internal error occured.
- * @NOT_SUPPORTED : user attempted an unsupported operation.
- * @CONTAINER_AT_CAPACITY : container being used has no more room for objects.
+ * @NONE: no error state -> all ok.
+ * @NO_MEM: no memory was available on allocation (during malloc).
+ * @INV_PARAM: an invalid parameter was given to a container function.
+ * @OBJ_NOT_FOUND: object was not found in container.
+ * @CONTAINER_EMPTY: container was empty.
+ * @INTRNL: an internal error occured.
+ * @NOT_SUPPORTED: user attempted an unsupported operation.
+ * @CONTAINER_AT_CAPACITY: container being used has no more room for objects.
  **********************************************************************************************************************/
 typedef enum ERR_59_e
 {

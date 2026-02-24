@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-05-08
- * @author : Gregory Nitch
+ * @date: 2025-05-08
+ * @author: Gregory Nitch
  *
- * @brief : Test cases for vec_59 types that cover edge cases that the interface might encounter.
+ * @brief: Test cases for vec_59 types that cover edge cases that the interface might encounter.
  **********************************************************************************************************************/
 
 /*
@@ -233,7 +233,7 @@ int main(int argc, char const *argv[])
     puts("- - - VEC EDGE CASES - - -");
 
     ERR_59_e err = test_vec_59_edge_cases();
-    printf("ERROR CODE : %d\n", err);
+    printf("ERROR CODE: %d\n", err);
     assert(ERR_NONE == err);
 
     puts("- - - - END OF VEC TEST - - - -");

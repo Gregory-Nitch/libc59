@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-05-18
- * @author : Gregory Nitch
+ * @date: 2025-05-18
+ * @author: Gregory Nitch
  *
- * @brief : Contains all the definitions for the hash map container.
+ * @brief: Contains all the definitions for the hash map container.
  **********************************************************************************************************************/
 
 /*
@@ -52,12 +52,12 @@
 */
 
 /***********************************************************************************************************************
- * @brief : Deinits a linked list node held by the hash map table, this includes the void pointer to the node obj and
+ * @brief: Deinits a linked list node held by the hash map table, this includes the void pointer to the node obj and
  * the key value pairs.
  *
- * @param[in] node : Node to deinit.
+ * @param[in] node: Node to deinit.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 static ERR_59_e _deinit_table_node_hash_map_59(llist_node_59 **node)
 {
@@ -89,12 +89,12 @@ static ERR_59_e _deinit_table_node_hash_map_59(llist_node_59 **node)
 }
 
 /***********************************************************************************************************************
- * @brief : This function deallocates the memory for hash map table lists used by the hash_map. This is needed because
+ * @brief: This function deallocates the memory for hash map table lists used by the hash_map. This is needed because
  * the node objects point to two other pointers which have been allocated an need to be freed.
  *
- * @param[out] llist : Pointer to a linked list that needs to be freed.
+ * @param[out] llist: Pointer to a linked list that needs to be freed.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 static ERR_59_e _deinit_table_list_hash_map_59(llist_59 **llist)
 {
@@ -125,13 +125,13 @@ static ERR_59_e _deinit_table_list_hash_map_59(llist_59 **llist)
 }
 
 /***********************************************************************************************************************
- * @brief : Finds the matching linked list node in the passed linked list
+ * @brief: Finds the matching linked list node in the passed linked list
  *
- * @param[in] llist : Linked list t search for the node in.
- * @param[in] key : Key to match the node against, this matches the memory address not the value.
- * @param[out] node : Pointer to linked list node to return the matched node in.
+ * @param[in] llist: Linked list t search for the node in.
+ * @param[in] key: Key to match the node against, this matches the memory address not the value.
+ * @param[out] node: Pointer to linked list node to return the matched node in.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 static ERR_59_e _find_node_in_table_list_hash_map_59(hash_map_59 *const map,
                                                      llist_59 const *const llist,
@@ -166,13 +166,13 @@ static ERR_59_e _find_node_in_table_list_hash_map_59(hash_map_59 *const map,
 }
 
 /***********************************************************************************************************************
- * @brief : Hashes the passed @key based on the passed @map @table_size member.
+ * @brief: Hashes the passed @key based on the passed @map @table_size member.
  *
- * @param[in] map : Map to hash the key for.
- * @param[in] key : Key to hash for the map.
- * @param[out] hash : Value to place the hash in.
+ * @param[in] map: Map to hash the key for.
+ * @param[in] key: Key to hash for the map.
+ * @param[out] hash: Value to place the hash in.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  *
  * @warning This function assumes that passed strings are null terminated.
  **********************************************************************************************************************/
@@ -238,12 +238,12 @@ static ERR_59_e _hash_key_internal_hash_map_59(hash_map_59 const *const map, voi
 }
 
 /***********************************************************************************************************************
- * @brief : Checks if the passed unsigned value is a prime number.
+ * @brief: Checks if the passed unsigned value is a prime number.
  *
- * @param[in] prime : Number to check which must be equal to or greater than 3.
- * @param[out] is_prime : Pointer to store the bool out value.
+ * @param[in] prime: Number to check which must be equal to or greater than 3.
+ * @param[out] is_prime: Pointer to store the bool out value.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  *
  * @note Use of smaller numbers equates to more performance.
  **********************************************************************************************************************/
@@ -274,19 +274,19 @@ static ERR_59_e _check_is_prime_internal_hash_map_59(size_t const prime, bool *i
 */
 
 /***********************************************************************************************************************
- * @brief : Initializes a hash map based on the passed parameters.
+ * @brief: Initializes a hash map based on the passed parameters.
  *
- * @param[out] map : Pointer to a @hash_map_59 pointer to initialize the hash map in.
- * @param[in] key_type : Type of the keys for the hash map.
- * @param[in] val_type : Type of the vals for the hash map.
- * @param[in] val_type_depth : Depth of the values in the hash map, if values are not of the same size then set this to
+ * @param[out] map: Pointer to a @hash_map_59 pointer to initialize the hash map in.
+ * @param[in] key_type: Type of the keys for the hash map.
+ * @param[in] val_type: Type of the vals for the hash map.
+ * @param[in] val_type_depth: Depth of the values in the hash map, if values are not of the same size then set this to
  * 0.
- * @param[in] table_size : Size of the table in the hash_map, if 0 then the default size of @DEFAULT_HASH_MAP_TABLE_SIZE
+ * @param[in] table_size: Size of the table in the hash_map, if 0 then the default size of @DEFAULT_HASH_MAP_TABLE_SIZE
  * is used.
- * @param[in] prime : Prime number to be used in hashing, if this parameter is not a prime number or 0 then an
+ * @param[in] prime: Prime number to be used in hashing, if this parameter is not a prime number or 0 then an
  * ERR_INV_PARAM err will occur. When set as 0 then the default value of @DEFAULT_HASH_MAP_PRIME will be used.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  *
  * @note Smaller @prime numbers produce better hashing performance.
  *
@@ -366,11 +366,11 @@ ERR_59_e init_hash_map_59(hash_map_59 **map,
 }
 
 /***********************************************************************************************************************
- * @brief : Deallocates the passed hash map and all of its contents.
+ * @brief: Deallocates the passed hash map and all of its contents.
  *
- * @param[out] map : Pointer to a hash_map_59 pointer that will be freed.
+ * @param[out] map: Pointer to a hash_map_59 pointer that will be freed.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  *
  * @note The pointer to the map will be (void*)0 on return.
  **********************************************************************************************************************/
@@ -396,13 +396,13 @@ ERR_59_e deinit_hash_map_59(hash_map_59 **map)
 }
 
 /***********************************************************************************************************************
- * @brief : Inserts a new key and value as a @key_val_pair_59 into the hash map.
+ * @brief: Inserts a new key and value as a @key_val_pair_59 into the hash map.
  *
- * @param[in] map : Hash map to insert the new pair into.
- * @param[in] key : Key of the new entry.
- * @param[in] val : Value of the new entry.
+ * @param[in] map: Hash map to insert the new pair into.
+ * @param[in] key: Key of the new entry.
+ * @param[in] val: Value of the new entry.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  *
  * @note If there is already an entry with the same key it is updated with the new value.
  **********************************************************************************************************************/
@@ -470,13 +470,13 @@ ERR_59_e upsert_into_hash_map_59(hash_map_59 *const map, void *key, void *val)
 }
 
 /***********************************************************************************************************************
- * @brief : Gets the value for the passed key from the hash map if it is present.
+ * @brief: Gets the value for the passed key from the hash map if it is present.
  *
- * @param[in] map : Hash map to get the value from.
- * @param[in] key : Key to match to the value.
- * @param[out] val : Void pointer to place the out value into.
+ * @param[in] map: Hash map to get the value from.
+ * @param[in] key: Key to match to the value.
+ * @param[out] val: Void pointer to place the out value into.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e get_from_hash_map_59(hash_map_59 *const map, void *key, void **val)
 {
@@ -499,13 +499,13 @@ ERR_59_e get_from_hash_map_59(hash_map_59 *const map, void *key, void **val)
 }
 
 /***********************************************************************************************************************
- * @brief : Removes the @key_val_pair_59 that has the matching key from the hash map.
+ * @brief: Removes the @key_val_pair_59 that has the matching key from the hash map.
  *
- * @param[in] map : Hash map to remove the pair from.
- * @param[in] key : Key to the pair that should be removed.
- * @param[out] pair : Pointer to place the pair in.
+ * @param[in] map: Hash map to remove the pair from.
+ * @param[in] key: Key to the pair that should be removed.
+ * @param[out] pair: Pointer to place the pair in.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  *
  * @warning This DOES NOT deallocate the pair, this will need to be freed after use.
  **********************************************************************************************************************/
@@ -536,12 +536,12 @@ ERR_59_e remove_from_hash_map_59(hash_map_59 *const map, void *const key, key_va
 }
 
 /***********************************************************************************************************************
- * @brief : Resizes the hash table to prevent collisions or reduce it size due to sparseness.
+ * @brief: Resizes the hash table to prevent collisions or reduce it size due to sparseness.
  *
- * @param[in] map : Hash map to resize.
- * @param[in] new_size : New size to use for the hash map table.
+ * @param[in] map: Hash map to resize.
+ * @param[in] new_size: New size to use for the hash map table.
  *
- * @retval ERR_59_e : error value encountered during the function call, ERR_NONE = all ok.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e resize_table_hash_map_59(hash_map_59 *const map, size_t const new_size)
 {

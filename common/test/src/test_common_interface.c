@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-04-30
- * @author : Gregory Nitch
+ * @date: 2025-04-30
+ * @author: Gregory Nitch
  *
- * @brief : Test cases for libc59 common that cover the basic interface functions.
+ * @brief: Test cases for libc59 common that cover the basic interface functions.
  **********************************************************************************************************************/
 
 /*
@@ -88,7 +88,7 @@ int main(int argc, char const *argv[])
     puts("- - - COMMON INTERFACE - - -");
 
     ERR_59_e err = test_common_59_interface();
-    printf("ERROR CODE : %d\n", err);
+    printf("ERROR CODE: %d\n", err);
     assert(ERR_NONE == err);
 
     puts("- - - - END OF COMMON TEST - - - -");

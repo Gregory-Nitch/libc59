@@ -23,6 +23,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # Add subdirectories for each library
 add_subdirectory(common)
 add_subdirectory(containers/common)
+add_subdirectory(containers/btree)
 add_subdirectory(containers/dlist)
 add_subdirectory(containers/llist)
 add_subdirectory(containers/vec)
@@ -187,6 +188,7 @@ include(GNUInstallDirs)
 install(TARGETS
     common
     containers_common
+    btree
     dlist
     llist
     vec
@@ -204,6 +206,10 @@ install(DIRECTORY common/inc/
     FILES_MATCHING PATTERN "*.h"
 )
 install(DIRECTORY containers/common/inc/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libc59
+    FILES_MATCHING PATTERN "*.h"
+)
+install(DIRECTORY containers/btree/inc/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libc59
     FILES_MATCHING PATTERN "*.h"
 )

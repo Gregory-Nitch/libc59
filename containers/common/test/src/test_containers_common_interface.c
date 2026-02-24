@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-04-30
- * @author : Gregory Nitch
+ * @date: 2025-04-30
+ * @author: Gregory Nitch
  *
- * @brief : Test cases for llist_node_59 types that cover the basic interface functions.
+ * @brief: Test cases for llist_node_59 types that cover the basic interface functions.
  **********************************************************************************************************************/
 
 /*
@@ -65,14 +65,14 @@ void test_unsigned_node_obj_59_comparisons(TYPE_59_e const type,
         {
             *((u64 *)obj_B) = j;
             compare_node_obj_59(type, obj_A, obj_B, &dif);
-            printf("Assert: obj1 : %lu - obj2 : %lu == %ld : dif \n", i, j, dif);
+            printf("Assert: obj1: %lu - obj2: %lu == %ld: dif \n", i, j, dif);
             assert(((i64)i - (i64)j) == dif); // We only send at most INT32_MAX to this function so this i64 cast should be acceptable.
         }
         for (u64 j = max; j > 0; j >>= 1)
         {
             *((u64 *)obj_B) = j;
             compare_node_obj_59(type, obj_A, obj_B, &dif);
-            printf("Assert: obj1 : %lu - obj2 : %lu == %ld : dif \n", i, j, dif);
+            printf("Assert: obj1: %lu - obj2: %lu == %ld: dif \n", i, j, dif);
             assert(((i64)i - (i64)j) == dif); // We only send at most INT32_MAX to this function so this i64 cast should be acceptable.
         }
     }
@@ -101,7 +101,7 @@ void test_signed_node_obj_59_comparisons(TYPE_59_e const type,
         {
             *((i64 *)obj_B) = j;
             compare_node_obj_59(type, obj_A, obj_B, &dif);
-            printf("Assert: obj1 : %ld - obj2 : %ld == %ld : dif \n", i, j, dif);
+            printf("Assert: obj1: %ld - obj2: %ld == %ld: dif \n", i, j, dif);
             assert((i - j) == dif);
 
             if (j_sign_flag)
@@ -150,15 +150,15 @@ ERR_59_e test_container_common_59_interface(void)
     u64 c = 3UL;
 
     compare_node_obj_59(U64_PTR, &a, &b, &dif);
-    printf("Assert: node1 obj < node2 obj : dif == %ld\n", dif);
+    printf("Assert: node1 obj < node2 obj: dif == %ld\n", dif);
     assert(-1 == dif);
 
     compare_node_obj_59(U64_PTR, &b, &b, &dif);
-    printf("Assert: node2 obj == node2 obj : dif == %ld\n", dif);
+    printf("Assert: node2 obj == node2 obj: dif == %ld\n", dif);
     assert(0 == dif);
 
     compare_node_obj_59(U64_PTR, &c, &b, &dif);
-    printf("Assert: node3 obj > node2 obj : dif == %ld\n", dif);
+    printf("Assert: node3 obj > node2 obj: dif == %ld\n", dif);
     assert(1 == dif);
 
     // Unsigned comparison Iterations
@@ -210,7 +210,7 @@ int main(int argc, char const *argv[])
     puts("- - - CONTAINER COMMON INTERFACE - - -");
 
     ERR_59_e err = test_container_common_59_interface();
-    printf("ERROR CODE : %d\n", err);
+    printf("ERROR CODE: %d\n", err);
     assert(ERR_NONE == err);
 
     puts("- - - - END OF CONTAINER COMMON TEST - - - -");

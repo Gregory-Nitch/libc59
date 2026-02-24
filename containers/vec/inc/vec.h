@@ -1,4 +1,3 @@
-#pragma once
 /***********************************************************************************************************************
  * MIT License
  *
@@ -22,11 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-05-08
- * @author : Gregory Nitch
+ * @date: 2025-05-08
+ * @author: Gregory Nitch
  *
- * @brief : This file contians all the declarations for the vector struct.
+ * @brief: This file contians all the declarations for the vector struct.
  **********************************************************************************************************************/
+
+#pragma once
 
 /*
 ========================================================================================================================
@@ -52,12 +53,12 @@
 */
 
 /***********************************************************************************************************************
- * @brief : Defines all vectors default starting capacity.
+ * @brief: Defines all vectors default starting capacity.
  **********************************************************************************************************************/
 #define VEC_DEFAULT_START_CAPACITY 4
 
 /***********************************************************************************************************************
- * @brief : Defines the maximum vector size based on 1 in the MSB binary position.
+ * @brief: Defines the maximum vector size based on 1 in the MSB binary position.
  **********************************************************************************************************************/
 #define STANDARD_MAX_VEC_CAPACITY 0x8000000000000000
 
@@ -77,14 +78,14 @@ typedef struct vec_59 vec_59;
 
 /***********************************************************************************************************************
  * @vec_59
- * @brief : Represents a vector.
+ * @brief: Represents a vector.
  *
- * @data : void pointer array to serve as the vector container
- * @size : size of the data in the container
- * @capacity : size of the container, ie the actual amount of memory it is taking up.
- * @type : type of the objects contained in the vector, this can be any type so be sure you document what you're
+ * @data: void pointer array to serve as the vector container
+ * @size: size of the data in the container
+ * @capacity: size of the container, ie the actual amount of memory it is taking up.
+ * @type: type of the objects contained in the vector, this can be any type so be sure you document what you're
  *         pointing at.
- * @capacity_lock : if the capacity of the vector is locked then it will not be resized on push pull and insert. You are
+ * @capacity_lock: if the capacity of the vector is locked then it will not be resized on push pull and insert. You are
  *                  expected to ensure the vector is of appropriate size.
  **********************************************************************************************************************/
 struct vec_59

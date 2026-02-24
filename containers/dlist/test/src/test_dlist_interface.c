@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-05-01
- * @author : Gregory Nitch
+ * @date: 2025-05-01
+ * @author: Gregory Nitch
  *
- * @brief : Test cases for doubly linked lists that cover the basic interface interactions.
+ * @brief: Test cases for doubly linked lists that cover the basic interface interactions.
  **********************************************************************************************************************/
 
 /*
@@ -298,7 +298,7 @@ int main(int argc, char const *argv[])
     puts("- - - INTERFACE TESTS - - -");
 
     ERR_59_e err = test_dlist_59_interface();
-    printf("ERROR CODE : %d\n", err);
+    printf("ERROR CODE: %d\n", err);
     assert(ERR_NONE == err);
 
     puts("- - - - END OF DLIST TEST - - - -");

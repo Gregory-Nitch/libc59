@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date : 2025-04-29
- * @author : Gregory Nitch
+ * @date: 2025-04-29
+ * @author: Gregory Nitch
  *
- * @brief : Test cases for conatiner common functions that cover edge cases the interface might encounter.
+ * @brief: Test cases for conatiner common functions that cover edge cases the interface might encounter.
  **********************************************************************************************************************/
 
 /*
@@ -64,15 +64,15 @@ ERR_59_e test_common_59_edge_cases(void)
     i64 dif = 0;
 
     err = compare_node_obj_59(type, (void *)0, &b, &dif);
-    printf("Assert : err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
 
     err = compare_node_obj_59(type, &a, (void *)0, &dif);
-    printf("Assert : err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
 
     err = compare_node_obj_59(type, &a, &b, (void *)0);
-    printf("Assert : err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
+    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
 
     return ERR_NONE;
@@ -93,7 +93,7 @@ int main(int argc, char const *argv[])
     puts("- - - COMMON CONTAINER EDGE CASES - - -");
 
     ERR_59_e err = test_common_59_edge_cases();
-    printf("ERROR CODE : %d\n", err);
+    printf("ERROR CODE: %d\n", err);
     assert(ERR_NONE == err);
 
     puts("- - - - END OF COMMON CONTAINER TEST - - - -");

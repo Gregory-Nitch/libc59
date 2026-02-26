@@ -51,10 +51,10 @@
 */
 
 /***********************************************************************************************************************
- * @brief Deletes all nodes under the given node.
+ * @brief: Deletes all nodes under the given node.
  *
- * @param[in] node node to free all the children from.
- * @warning this is inclusive, ie the passed node will also be freed.
+ * @param[in]: node node to free all the children from.
+ * @warning: this is inclusive, ie the passed node will also be freed.
  *
  * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
@@ -67,16 +67,13 @@ static ERR_59_e delete_from_node(btree_node_59 **node)
 
     delete_all_nodes((*node)->left);
     delete_all_nodes((*node)->right);
-    free((*node)->node_obj);
-    (*node)->node_obj = (void *)0;
-    free((*node));
-    (*node) = (void *)0;
+    ERR_59_e err = deinit_btree_node_59(&node);
 
-    return ERR_NONE;
+    return err;
 }
 
 /***********************************************************************************************************************
- * @brief Initializes a binary search tree, this allocates memory into the @btree pointer
+ * @brief: Initializes a binary search tree, this allocates memory into the @btree pointer
  *
  * @param[out] btree: pointer to a pointer to hold the allocated binary search tree made during initialization.
  * @param[in] type: type of node objects held in the tree.
@@ -102,24 +99,24 @@ ERR_59_e init_btree_59(btree_59 **btree, TYPE_59_e const type, size_t const type
 }
 
 /***********************************************************************************************************************
- * @brief Frees an entire binary search tree.
+ * @brief: Frees an entire binary search tree.
  *
- * @param[in] btree point to pointer of a binary search tree to free.
- * @note the contained pointer will be null after calling this function.
+ * @param[in] btree: point to pointer of a binary search tree to free.
+ * @note: the contained pointer will be null after calling this function.
  *
- * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ * @retval: ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e deinit_btree_59(btree_59 **btree)
 {
     if (!btree || !(*btree))
         return ERR_INV_PARAM;
 
-    delete_from_node(&(*btree)->root);
+    ERR_59_e err = delete_from_node(&(*btree)->root);
 
     free((*btree));
     *btree = (void *)0;
 
-    return ERR_NONE;
+    return err;
 }
 
 /***********************************************************************************************************************
@@ -266,30 +263,52 @@ ERR_59_e get_btree_height_59(btree_59 const *const btree, size_t *out)
 }
 
 /***********************************************************************************************************************
- * @brief TODO
+ * @brief: Allocates a new node for a binary search tree.
  *
- * @param[TODO] TODO TODO.
- * @param[TODO] TODO TODO.
+ * @param[inout] node: pointer to a pointer that shall hold the created node.
+ * @param[in] left: the left child of the new node.
+ * @param[in] right: the right child of the new node.
+ * @param[in] node_obj: the node object to store at the new node.
  *
- * @retval TODO TODO.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e init_btree_node_59(btree_node_59 **node,
                             btree_node_59 const *const left,
                             btree_node_59 const *const right,
                             void const *const node_obj)
 {
-    //! TODO: this
+    if (!node)
+        return ERR_INV_PARAM;
+
+    (*node) = malloc(sizeof(btree_node_59));
+
+    if (!(*node))
+        return ERR_NO_MEM;
+
+    (*node)->node_obj = node_obj;
+    (*node)->left = left;
+    (*node)->right = right;
+
+    return ERR_NONE;
 }
 
 /***********************************************************************************************************************
- * @brief TODO
+ * @brief: Frees the passed binary search tree node.
  *
- * @param[TODO] TODO TODO.
- * @param[TODO] TODO TODO.
+ * @param[in] node: pointer to a node pointer to free.
+ * @note: this also deallocates the node object pointer's memory.
  *
- * @retval TODO TODO.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e deinit_btree_node_59(btree_node_59 **node)
 {
-    //! TODO: this
+    if (!node || !(*node))
+        return ERR_INV_PARAM;
+
+    free((*node)->node_obj);
+    (*node)->node_obj = (void *)0;
+    free((*node));
+    (*node) = (void *)0;
+
+    return ERR_NONE;
 }

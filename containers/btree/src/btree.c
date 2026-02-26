@@ -34,6 +34,7 @@
 */
 
 #include <stddef.h>
+#include <stdlib.h>
 
 /*
 ========================================================================================================================
@@ -50,29 +51,75 @@
 */
 
 /***********************************************************************************************************************
- * @brief TODO
+ * @brief Deletes all nodes under the given node.
  *
- * @param[TODO] TODO TODO.
- * @param[TODO] TODO TODO.
+ * @param[in] node node to free all the children from.
+ * @warning this is inclusive, ie the passed node will also be freed.
  *
- * @retval TODO TODO.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e init_btree_59(btree_59 **btree, TYPE_59_e const type, size_t const type_depth)
+static ERR_59_e delete_from_node(btree_node_59 **node)
 {
-    //! TODO: this
+    if (!node)
+        return ERR_INV_PARAM;
+    if (!(*node))
+        return ERR_NONE;
+
+    delete_all_nodes((*node)->left);
+    delete_all_nodes((*node)->right);
+    free((*node)->node_obj);
+    (*node)->node_obj = (void *)0;
+    free((*node));
+    (*node) = (void *)0;
+
+    return ERR_NONE;
 }
 
 /***********************************************************************************************************************
- * @brief TODO
+ * @brief Initializes a binary search tree, this allocates memory into the @btree pointer
  *
- * @param[TODO] TODO TODO.
- * @param[TODO] TODO TODO.
+ * @param[out] btree: pointer to a pointer to hold the allocated binary search tree made during initialization.
+ * @param[in] type: type of node objects held in the tree.
+ * @param[in] type_depth: size of the node elements if it is an array type, if not set as 0. If there nodes of different sizes the implementaion will need to define comparisons and indexing into those elements.
  *
- * @retval TODO TODO.
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+ERR_59_e init_btree_59(btree_59 **btree, TYPE_59_e const type, size_t const type_depth)
+{
+    if (!btree)
+        return ERR_INV_PARAM;
+
+    *btree = malloc(sizeof(btree_59));
+    if (!(*btree))
+        return ERR_NO_MEM;
+
+    (*btree)->root = (void *)0;
+    (*btree)->type = type;
+    (*btree)->type_depth = type_depth;
+    (*btree)->size = 0;
+
+    return ERR_NONE;
+}
+
+/***********************************************************************************************************************
+ * @brief Frees an entire binary search tree.
+ *
+ * @param[in] btree point to pointer of a binary search tree to free.
+ * @note the contained pointer will be null after calling this function.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
 ERR_59_e deinit_btree_59(btree_59 **btree)
 {
-    //! TODO: this
+    if (!btree || !(*btree))
+        return ERR_INV_PARAM;
+
+    delete_from_node(&(*btree)->root);
+
+    free((*btree));
+    *btree = (void *)0;
+
+    return ERR_NONE;
 }
 
 /***********************************************************************************************************************

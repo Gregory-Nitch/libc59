@@ -77,7 +77,8 @@ static ERR_59_e delete_from_node(btree_node_59 **node)
  *
  * @param[out] btree: pointer to a pointer to hold the allocated binary search tree made during initialization.
  * @param[in] type: type of node objects held in the tree.
- * @param[in] type_depth: size of the node elements if it is an array type, if not set as 0. If there nodes of different sizes the implementaion will need to define comparisons and indexing into those elements.
+ * @param[in] type_depth: size of the node elements if it is an array type, if not set as 0. If there nodes of different
+ * sizes the implementaion will need to define comparisons and indexing into those elements.
  *
  * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/

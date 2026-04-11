@@ -67,7 +67,7 @@ static ERR_59_e delete_from_node(btree_node_59 **node)
 
     delete_all_nodes((*node)->left);
     delete_all_nodes((*node)->right);
-    ERR_59_e err = deinit_btree_node_59(&node);
+    ERR_59_e err = deinit_btree_node_59(node);
 
     return err;
 }

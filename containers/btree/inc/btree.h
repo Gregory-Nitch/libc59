@@ -102,7 +102,7 @@ struct btree_59
 
 ERR_59_e init_btree_59(btree_59 **btree, TYPE_59_e const type, size_t const type_depth);
 ERR_59_e deinit_btree_59(btree_59 **btree);
-ERR_59_e insert_node_into_btree_59(btree_59 const *const btree, btree_node_59 *const new_node);
+ERR_59_e insert_node_into_btree_59(btree_59 *const btree, btree_node_59 *const new_node);
 ERR_59_e find_node_in_btree_59(btree_59 const *const btree, void const *const val, btree_node_59 **out);
 ERR_59_e remove_given_node_from_btree_59(btree_59 const *const btree, btree_node_59 *const remove_node);
 ERR_59_e btree_preorder_traverse_59(btree_59 const *const btree, vec_59 **vec);

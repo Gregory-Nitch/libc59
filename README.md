@@ -34,4 +34,4 @@ target_link_libraries(mod-15-c PUBLIC libc59::common libc59::vec)
 - Output will go to ~/dox
 
 # Symbolic Link For Compile Commands
-project-root/> `ln -s build/compile_commands.json .`
+project-root/> `ln -s bld/compile_commands.json .`

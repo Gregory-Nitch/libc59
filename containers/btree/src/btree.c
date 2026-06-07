@@ -64,9 +64,8 @@ static ERR_59_e delete_from_node(btree_node_59 **node)
         return ERR_INV_PARAM;
     if (!(*node))
         return ERR_NONE;
-
-    delete_all_nodes((*node)->left);
-    delete_all_nodes((*node)->right);
+    delete_from_node(&(*node)->left);
+    delete_from_node(&(*node)->right);
     ERR_59_e err = deinit_btree_node_59(node);
 
     return err;

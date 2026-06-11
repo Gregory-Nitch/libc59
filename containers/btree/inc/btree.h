@@ -108,8 +108,6 @@ ERR_59_e btree_inorder_traverse_59(btree_59 const* const btree, vec_59** vec);
 ERR_59_e btree_postorder_traverse_59(btree_59 const* const btree, vec_59** vec);
 ERR_59_e btree_levelorder_traverse_59(btree_59 const* const btree, vec_59** vec);
 ERR_59_e rebalance_btree_59(btree_59* const btree);
-ERR_59_e get_btree_min_59(btree_59 const* const btree, btree_node_59** out);
-ERR_59_e get_btree_max_59(btree_59 const* const btree, btree_node_59** out);
 ERR_59_e get_btree_height_59(btree_59 const* const btree, size_t* out);
 
 ERR_59_e init_btree_node_59(btree_node_59** node, btree_node_59 const* const left, btree_node_59 const* const right,

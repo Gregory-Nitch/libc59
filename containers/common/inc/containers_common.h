@@ -51,7 +51,5 @@
 ========================================================================================================================
 */
 
-ERR_59_e compare_node_obj_59(TYPE_59_e const type,
-                             void const *const obj_A,
-                             void const *const obj_B,
-                             i64 *const diff_out);
+ERR_59_e compare_node_obj_59(TYPE_59_e const type, void const* const obj_A, void const* const obj_B,
+                             i64* const diff_out);

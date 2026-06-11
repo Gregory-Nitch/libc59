@@ -33,9 +33,9 @@
 ========================================================================================================================
 */
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /*
 ========================================================================================================================
@@ -51,29 +51,27 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_llist_node_59_interface(void)
-{
+ERR_59_e test_llist_node_59_interface(void) {
     ERR_59_e err = ERR_NONE;
     // init nodes
     puts("- - - - - - - - - - -");
     puts("Initializing nodes...");
-    llist_node_59 *node1;
+    llist_node_59* node1;
 
-    err = init_llist_node_59(&node1, (void *)0, malloc(sizeof(u64)));
-    if (ERR_NONE != err)
-        return err;
+    err = init_llist_node_59(&node1, (void*)0, malloc(sizeof(u64)));
+    if (ERR_NONE != err) return err;
 
-    *((u64 *)node1->node_obj) = 1UL;
+    *((u64*)node1->node_obj) = 1UL;
 
-    printf("Assert: node1 = val %lu at %p\n", *((u64 *)node1->node_obj), (void *)node1);
-    assert(1UL == *((u64 *)node1->node_obj));
+    printf("Assert: node1 = val %lu at %p\n", *((u64*)node1->node_obj), (void*)node1);
+    assert(1UL == *((u64*)node1->node_obj));
 
     // deinit nodes
     puts("- - - - - - - - - - -");
     puts("deiniting nodes...");
     err = deinit_llist_node_59(&node1);
-    printf("Assert: (void*)0 = %p  == %p = node1(null)\n", (void *)0, (void *)node1);
-    assert((void *)0 == node1);
+    printf("Assert: (void*)0 = %p  == %p = node1(null)\n", (void*)0, (void*)node1);
+    assert((void*)0 == node1);
 
     return err;
 }
@@ -84,8 +82,7 @@ ERR_59_e test_llist_node_59_interface(void)
 ========================================================================================================================
 */
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const* argv[]) {
     (void)argc;
     (void)argv;
 

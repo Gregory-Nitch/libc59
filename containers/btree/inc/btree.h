@@ -71,11 +71,10 @@ typedef struct btree_59 btree_59;
  *
  * @see btree_59
  **********************************************************************************************************************/
-struct btree_node_59
-{
-    btree_node_59 *left;
-    btree_node_59 *right;
-    void *node_obj;
+struct btree_node_59 {
+    btree_node_59* left;
+    btree_node_59* right;
+    void* node_obj;
 };
 
 /***********************************************************************************************************************
@@ -86,9 +85,8 @@ struct btree_node_59
  * @type: the type of the node objects in the tree.
  * @type_depth: if pointing at arrays with consistant size, place the size of the arrayss here, otherwise leave as 0.
  **********************************************************************************************************************/
-struct btree_59
-{
-    btree_node_59 *root;
+struct btree_59 {
+    btree_node_59* root;
     TYPE_59_e type;
     size_t type_depth;
     size_t size;
@@ -100,22 +98,20 @@ struct btree_59
 ========================================================================================================================
 */
 
-ERR_59_e init_btree_59(btree_59 **btree, TYPE_59_e const type, size_t const type_depth);
-ERR_59_e deinit_btree_59(btree_59 **btree);
-ERR_59_e insert_node_into_btree_59(btree_59 *const btree, btree_node_59 *const new_node);
-ERR_59_e find_node_in_btree_59(btree_59 const *const btree, void const *const val, btree_node_59 **out);
-ERR_59_e remove_given_node_from_btree_59(btree_59 const *const btree, btree_node_59 *const remove_node);
-ERR_59_e btree_preorder_traverse_59(btree_59 const *const btree, vec_59 **vec);
-ERR_59_e btree_inorder_traverse_59(btree_59 const *const btree, vec_59 **vec);
-ERR_59_e btree_postorder_traverse_59(btree_59 const *const btree, vec_59 **vec);
-ERR_59_e btree_levelorder_traverse_59(btree_59 const *const btree, vec_59 **vec);
-ERR_59_e rebalance_btree_59(btree_59 *const btree);
-ERR_59_e get_btree_min_59(btree_59 const *const btree, btree_node_59 **out);
-ERR_59_e get_btree_max_59(btree_59 const *const btree, btree_node_59 **out);
-ERR_59_e get_btree_height_59(btree_59 const *const btree, size_t *out);
+ERR_59_e init_btree_59(btree_59** btree, TYPE_59_e const type, size_t const type_depth);
+ERR_59_e deinit_btree_59(btree_59** btree);
+ERR_59_e insert_node_into_btree_59(btree_59* const btree, btree_node_59* const new_node);
+ERR_59_e find_node_in_btree_59(btree_59 const* const btree, void const* const val, btree_node_59** out);
+ERR_59_e remove_given_node_from_btree_59(btree_59 const* const btree, btree_node_59* const remove_node);
+ERR_59_e btree_preorder_traverse_59(btree_59 const* const btree, vec_59** vec);
+ERR_59_e btree_inorder_traverse_59(btree_59 const* const btree, vec_59** vec);
+ERR_59_e btree_postorder_traverse_59(btree_59 const* const btree, vec_59** vec);
+ERR_59_e btree_levelorder_traverse_59(btree_59 const* const btree, vec_59** vec);
+ERR_59_e rebalance_btree_59(btree_59* const btree);
+ERR_59_e get_btree_min_59(btree_59 const* const btree, btree_node_59** out);
+ERR_59_e get_btree_max_59(btree_59 const* const btree, btree_node_59** out);
+ERR_59_e get_btree_height_59(btree_59 const* const btree, size_t* out);
 
-ERR_59_e init_btree_node_59(btree_node_59 **node,
-                            btree_node_59 const *const left,
-                            btree_node_59 const *const right,
-                            void const *const node_obj);
-ERR_59_e deinit_btree_node_59(btree_node_59 **node);
+ERR_59_e init_btree_node_59(btree_node_59** node, btree_node_59 const* const left, btree_node_59 const* const right,
+                            void const* const node_obj);
+ERR_59_e deinit_btree_node_59(btree_node_59** node);

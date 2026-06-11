@@ -33,8 +33,8 @@
 ========================================================================================================================
 */
 
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 /*
 ========================================================================================================================
@@ -50,17 +50,16 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_dlist_node_59_edge_cases(void)
-{
+ERR_59_e test_dlist_node_59_edge_cases(void) {
     ERR_59_e err = ERR_NONE;
 
     // Test init_dlist_node
     puts("- - - - - - - - - - -");
     puts("Checking init_dlist_node()");
 
-    dlist_node_59 *dummy_node = (void *)0;
+    dlist_node_59* dummy_node = (void*)0;
 
-    err = init_dlist_node_59((void *)0, (void *)0, (void *)0, (void *)0);
+    err = init_dlist_node_59((void*)0, (void*)0, (void*)0, (void*)0);
     printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
     err = ERR_NONE;
@@ -69,7 +68,7 @@ ERR_59_e test_dlist_node_59_edge_cases(void)
     puts("- - - - - - - - - - -");
     puts("Checking deinit_dlist_node()");
 
-    err = deinit_dlist_node_59((void *)0);
+    err = deinit_dlist_node_59((void*)0);
     printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
     err = ERR_NONE;
@@ -88,8 +87,7 @@ ERR_59_e test_dlist_node_59_edge_cases(void)
 ========================================================================================================================
 */
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const* argv[]) {
     (void)argc;
     (void)argv;
 

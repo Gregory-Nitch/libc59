@@ -69,10 +69,9 @@ typedef struct llist_59 llist_59;
  *
  * @see llist_59
  **********************************************************************************************************************/
-struct llist_node_59
-{
-    llist_node_59 *next;
-    void *node_obj;
+struct llist_node_59 {
+    llist_node_59* next;
+    void* node_obj;
 };
 
 /***********************************************************************************************************************
@@ -84,10 +83,9 @@ struct llist_node_59
  * @type: type of the linked list's nodes, this can be any type so besure you document what you're pointing at.
  * @type_depth: if pointing at arrays with consistent size, place the size of the arrays here, otherwise leave as 0.
  **********************************************************************************************************************/
-struct llist_59
-{
-    llist_node_59 *head;
-    llist_node_59 **tail;
+struct llist_59 {
+    llist_node_59* head;
+    llist_node_59** tail;
     TYPE_59_e type;
     size_t type_depth;
 };
@@ -98,16 +96,16 @@ struct llist_59
 ========================================================================================================================
 */
 
-ERR_59_e init_llist_59(llist_59 **llist, TYPE_59_e const type, size_t const type_depth);
-ERR_59_e deinit_llist_59(llist_59 **llist);
-ERR_59_e push_back_llist_59(llist_59 *const llist, llist_node_59 *const new_node);
-ERR_59_e pop_back_llist_59(llist_59 *const llist, llist_node_59 **back_node);
-ERR_59_e push_front_llist_59(llist_59 *const llist, llist_node_59 *const new_front);
-ERR_59_e pop_front_llist_59(llist_59 *const llist, llist_node_59 **front_node);
-ERR_59_e remove_given_node_from_llist_59(llist_59 *const llist, llist_node_59 *remove_node);
-ERR_59_e insert_node_into_llist_59(llist_59 *const llist, llist_node_59 *const new_node, size_t const idx);
-ERR_59_e find_node_in_llist_59(llist_59 const *const llist, llist_node_59 const *const node, void **val);
-ERR_59_e get_at_idx_llist_59(llist_59 const *const llist, size_t const idx, llist_node_59 **node);
+ERR_59_e init_llist_59(llist_59** llist, TYPE_59_e const type, size_t const type_depth);
+ERR_59_e deinit_llist_59(llist_59** llist);
+ERR_59_e push_back_llist_59(llist_59* const llist, llist_node_59* const new_node);
+ERR_59_e pop_back_llist_59(llist_59* const llist, llist_node_59** back_node);
+ERR_59_e push_front_llist_59(llist_59* const llist, llist_node_59* const new_front);
+ERR_59_e pop_front_llist_59(llist_59* const llist, llist_node_59** front_node);
+ERR_59_e remove_given_node_from_llist_59(llist_59* const llist, llist_node_59* remove_node);
+ERR_59_e insert_node_into_llist_59(llist_59* const llist, llist_node_59* const new_node, size_t const idx);
+ERR_59_e find_node_in_llist_59(llist_59 const* const llist, llist_node_59 const* const node, void** val);
+ERR_59_e get_at_idx_llist_59(llist_59 const* const llist, size_t const idx, llist_node_59** node);
 
-ERR_59_e init_llist_node_59(llist_node_59 **node, llist_node_59 *const next, void *node_obj);
-ERR_59_e deinit_llist_node_59(llist_node_59 **node);
+ERR_59_e init_llist_node_59(llist_node_59** node, llist_node_59* const next, void* node_obj);
+ERR_59_e deinit_llist_node_59(llist_node_59** node);

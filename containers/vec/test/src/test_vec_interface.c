@@ -33,9 +33,9 @@
 ========================================================================================================================
 */
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /*
 ========================================================================================================================
@@ -51,31 +51,28 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_vec_59_interface(void)
-{
+ERR_59_e test_vec_59_interface(void) {
     ERR_59_e err = ERR_NONE;
 
     // Init vector
     puts("- - - - - - - - - - - - - - - - -");
     puts("Initializing vector...");
 
-    vec_59 *vec = (void *)0;
+    vec_59* vec = (void*)0;
     err = init_vec_59(&vec, 0, I64_PTR, false);
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
     // Push_back
     puts("- - - - - - - - - - - - - - - - -");
     puts("Testing push_back()...");
 
-    i64 *val;
-    for (size_t i = 0; i < 4; i++)
-    {
+    i64* val;
+    for (size_t i = 0; i < 4; i++) {
         val = malloc(sizeof(i64));
         *val = (i64)i;
         push_back_vec_59(vec, val);
-        printf("Assert: i = %lu == %ld = vec->data[%lu]\n", i, *(i64 *)(vec->data[i]), i);
-        assert(i == (size_t)*(i64 *)(vec->data[i]));
+        printf("Assert: i = %lu == %ld = vec->data[%lu]\n", i, *(i64*)(vec->data[i]), i);
+        assert(i == (size_t)*(i64*)(vec->data[i]));
     }
 
     puts("Checking size and capacity...");
@@ -99,9 +96,8 @@ ERR_59_e test_vec_59_interface(void)
     puts("- - - - - - - - - - - - - - - - -");
     puts("Testing pop_back()...");
 
-    err = pop_back_vec_59(vec, (void *)&val);
-    if (ERR_NONE != err)
-        return err;
+    err = pop_back_vec_59(vec, (void*)&val);
+    if (ERR_NONE != err) return err;
 
     printf("Assert: 4 == %ld = popped val\n", *val);
     assert(4 == *val);
@@ -117,11 +113,10 @@ ERR_59_e test_vec_59_interface(void)
     puts("Testing push_front()...");
 
     err = push_front_vec_59(vec, val);
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
-    printf("Assert: 4 == %ld = vec->data[0]\n", *(i64 *)(vec->data[0]));
-    assert(4 == *(i64 *)(vec->data[0]));
+    printf("Assert: 4 == %ld = vec->data[0]\n", *(i64*)(vec->data[0]));
+    assert(4 == *(i64*)(vec->data[0]));
 
     puts("Checking size and capacity...");
     printf("Assert: 5 == %ld = vec->size\n", vec->size);
@@ -130,22 +125,20 @@ ERR_59_e test_vec_59_interface(void)
     assert(8 == vec->capacity);
 
     puts("Checking values after push_front()...");
-    for (size_t i = 1; i < vec->size; i++)
-    {
-        printf("Assert: i = %lu == %ld = vec->data[%lu]\n", i - 1, *(i64 *)(vec->data[i]), i - 1);
-        assert(i - 1 == (size_t)*(i64 *)(vec->data[i]));
+    for (size_t i = 1; i < vec->size; i++) {
+        printf("Assert: i = %lu == %ld = vec->data[%lu]\n", i - 1, *(i64*)(vec->data[i]), i - 1);
+        assert(i - 1 == (size_t)*(i64*)(vec->data[i]));
     }
 
     // Pop_front
     puts("- - - - - - - - - - - - - - - - -");
     puts("Testing pop_front()...");
 
-    err = pop_front_vec_59(vec, (void *)&val);
-    if (ERR_NONE != err)
-        return err;
+    err = pop_front_vec_59(vec, (void*)&val);
+    if (ERR_NONE != err) return err;
 
-    printf("Assert: 0 == %ld = vec->data[0]\n", *(i64 *)(vec->data[0]));
-    assert(0 == *(i64 *)(vec->data[0]));
+    printf("Assert: 0 == %ld = vec->data[0]\n", *(i64*)(vec->data[0]));
+    assert(0 == *(i64*)(vec->data[0]));
 
     printf("Assert: 4 == %ld = popped val\n", *val);
     assert(4 == *val);
@@ -157,8 +150,7 @@ ERR_59_e test_vec_59_interface(void)
     assert(4 == vec->capacity);
 
     err = push_back_vec_59(vec, val); // Repush val for clean up
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
     // Remove_obj
     puts("- - - - - - - - - - - - - - - - -");
@@ -167,13 +159,10 @@ ERR_59_e test_vec_59_interface(void)
     bool found_val = false;
 
     err = remove_given_obj_from_vec_59(vec, val);
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
-    for (size_t i = 0; i < vec->size; i++)
-    {
-        if (4 == *(i64 *)(vec->data[i]))
-            found_val = true;
+    for (size_t i = 0; i < vec->size; i++) {
+        if (4 == *(i64*)(vec->data[i])) found_val = true;
     }
 
     printf("Assert: 4 not in list = %d\n", found_val);
@@ -186,29 +175,24 @@ ERR_59_e test_vec_59_interface(void)
     assert(4 == vec->capacity);
 
     err = push_back_vec_59(vec, val); // Repush val for clean up
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
     found_val = false;
 
-    val = (i64 *)vec->data[2];
+    val = (i64*)vec->data[2];
 
     err = remove_given_obj_from_vec_59(vec, val);
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
-    for (size_t i = 0; i < vec->size; i++)
-    {
-        if (2 == *(i64 *)(vec->data[i]))
-            found_val = true;
+    for (size_t i = 0; i < vec->size; i++) {
+        if (2 == *(i64*)(vec->data[i])) found_val = true;
     }
 
     printf("Assert: 2 not in list = %d\n", found_val);
     assert(!found_val);
 
     err = insert_obj_into_vec_59(vec, val, 2); // Reinsert val for clean up and further tests
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
     // insert_into_vec
     puts("- - - - - - - - - - - - - - - - -");
@@ -218,18 +202,17 @@ ERR_59_e test_vec_59_interface(void)
     *val = 59;
 
     puts("Putting 59 at idx 3...");
-    err = insert_obj_into_vec_59(vec, (void *)val, 3);
-    if (ERR_NONE != err)
-        return err;
+    err = insert_obj_into_vec_59(vec, (void*)val, 3);
+    if (ERR_NONE != err) return err;
 
-    printf("Assert: vec->data[3] = 59 == %ld\n", *(i64 *)vec->data[3]);
-    assert(59 == *(i64 *)vec->data[3]);
+    printf("Assert: vec->data[3] = 59 == %ld\n", *(i64*)vec->data[3]);
+    assert(59 == *(i64*)vec->data[3]);
 
-    printf("Assert: vec->data[2] = 2 == %ld\n", *(i64 *)vec->data[2]);
-    assert(2 == *(i64 *)vec->data[2]);
+    printf("Assert: vec->data[2] = 2 == %ld\n", *(i64*)vec->data[2]);
+    assert(2 == *(i64*)vec->data[2]);
 
-    printf("Assert: vec->data[4] = 3 == %ld\n", *(i64 *)vec->data[4]);
-    assert(3 == *(i64 *)vec->data[4]);
+    printf("Assert: vec->data[4] = 3 == %ld\n", *(i64*)vec->data[4]);
+    assert(3 == *(i64*)vec->data[4]);
 
     puts("Checking size and capacity...");
     printf("Assert: 6 == %ld = vec->size\n", vec->size);
@@ -238,28 +221,24 @@ ERR_59_e test_vec_59_interface(void)
     assert(8 == vec->capacity);
 
     err = remove_given_obj_from_vec_59(vec, val);
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
     puts("Putting 59 at idx 0...");
-    err = insert_obj_into_vec_59(vec, (void *)val, 0);
-    if (ERR_NONE != err)
-        return err;
+    err = insert_obj_into_vec_59(vec, (void*)val, 0);
+    if (ERR_NONE != err) return err;
 
-    printf("Assert: vec->data[0] = 59 == %ld\n", *(i64 *)vec->data[0]);
-    assert(59 == *(i64 *)vec->data[0]);
+    printf("Assert: vec->data[0] = 59 == %ld\n", *(i64*)vec->data[0]);
+    assert(59 == *(i64*)vec->data[0]);
 
     err = remove_given_obj_from_vec_59(vec, val);
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
     puts("Putting 59 at idx 5...");
-    err = insert_obj_into_vec_59(vec, (void *)val, 5);
-    if (ERR_NONE != err)
-        return err;
+    err = insert_obj_into_vec_59(vec, (void*)val, 5);
+    if (ERR_NONE != err) return err;
 
-    printf("Assert: vec->data[5] = 59 == %ld\n", *(i64 *)vec->data[5]);
-    assert(59 == *(i64 *)vec->data[5]);
+    printf("Assert: vec->data[5] = 59 == %ld\n", *(i64*)vec->data[5]);
+    assert(59 == *(i64*)vec->data[5]);
 
     // Test clean up
     puts("- - - - - - - - - - - - - - - - -");
@@ -276,8 +255,7 @@ ERR_59_e test_vec_59_interface(void)
 ========================================================================================================================
 */
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const* argv[]) {
     (void)argc;
     (void)argv;
 

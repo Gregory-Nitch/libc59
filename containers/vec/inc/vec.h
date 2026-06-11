@@ -88,9 +88,8 @@ typedef struct vec_59 vec_59;
  * @capacity_lock: if the capacity of the vector is locked then it will not be resized on push pull and insert. You are
  *                  expected to ensure the vector is of appropriate size.
  **********************************************************************************************************************/
-struct vec_59
-{
-    void **data;
+struct vec_59 {
+    void** data;
     size_t size;
     size_t capacity;
     TYPE_59_e type;
@@ -103,11 +102,11 @@ struct vec_59
 ========================================================================================================================
 */
 
-ERR_59_e init_vec_59(vec_59 **vec, size_t const capacity, TYPE_59_e const type, bool const capacity_lock);
-ERR_59_e deinit_vec_59(vec_59 **vec);
-ERR_59_e push_back_vec_59(vec_59 *const vec, void *const new_back);
-ERR_59_e pop_back_vec_59(vec_59 *const vec, void **back_obj);
-ERR_59_e push_front_vec_59(vec_59 *const vec, void *const new_front);
-ERR_59_e pop_front_vec_59(vec_59 *const vec, void **front_obj);
-ERR_59_e remove_given_obj_from_vec_59(vec_59 *const vec, void *remove_obj);
-ERR_59_e insert_obj_into_vec_59(vec_59 *const vec, void *const new_obj, size_t const idx);
+ERR_59_e init_vec_59(vec_59** vec, size_t const capacity, TYPE_59_e const type, bool const capacity_lock);
+ERR_59_e deinit_vec_59(vec_59** vec);
+ERR_59_e push_back_vec_59(vec_59* const vec, void* const new_back);
+ERR_59_e pop_back_vec_59(vec_59* const vec, void** back_obj);
+ERR_59_e push_front_vec_59(vec_59* const vec, void* const new_front);
+ERR_59_e pop_front_vec_59(vec_59* const vec, void** front_obj);
+ERR_59_e remove_given_obj_from_vec_59(vec_59* const vec, void* remove_obj);
+ERR_59_e insert_obj_into_vec_59(vec_59* const vec, void* const new_obj, size_t const idx);

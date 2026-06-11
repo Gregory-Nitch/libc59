@@ -52,10 +52,8 @@
  *
  * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e is_same_mem_addr_59(void const *const obj_A, void const *const obj_B, bool *const is_same)
-{
-    if (!is_same)
-        return ERR_INV_PARAM;
+ERR_59_e is_same_mem_addr_59(void const* const obj_A, void const* const obj_B, bool* const is_same) {
+    if (!is_same) return ERR_INV_PARAM;
 
     if (!obj_A || !obj_B)
         *is_same = false;

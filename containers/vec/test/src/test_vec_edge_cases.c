@@ -33,9 +33,9 @@
 ========================================================================================================================
 */
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /*
 ========================================================================================================================
@@ -51,36 +51,32 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_vec_59_edge_cases(void)
-{
+ERR_59_e test_vec_59_edge_cases(void) {
     ERR_59_e err = ERR_NONE;
 
     // Setup vec for testing
     puts("- - - - - - - - - - - - - - - - -");
     puts("Initializing vector...");
 
-    vec_59 **dummy_vec_pp = (void *)0;
-    vec_59 *dummy_vec_p = (void *)0;
-    vec_59 *capped_vec = (void *)0;
-    vec_59 *vec = (void *)0;
-    i64 *dummy_val = (void *)0;
+    vec_59** dummy_vec_pp = (void*)0;
+    vec_59* dummy_vec_p = (void*)0;
+    vec_59* capped_vec = (void*)0;
+    vec_59* vec = (void*)0;
+    i64* dummy_val = (void*)0;
 
     err = init_vec_59(&vec, 0, I64_PTR, false);
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
     err = init_vec_59(&capped_vec, 0, I64_PTR, true);
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
-    i64 *val;
-    for (size_t i = 0; i < 4; i++)
-    {
+    i64* val;
+    for (size_t i = 0; i < 4; i++) {
         val = malloc(sizeof(i64));
         *val = (i64)i;
         push_back_vec_59(vec, val);
-        printf("Assert: i = %lu == %ld = vec->data[%lu]\n", i, *(i64 *)(vec->data[i]), i);
-        assert(i == (size_t)*(i64 *)(vec->data[i]));
+        printf("Assert: i = %lu == %ld = vec->data[%lu]\n", i, *(i64*)(vec->data[i]), i);
+        assert(i == (size_t)*(i64*)(vec->data[i]));
     }
     val = malloc(sizeof(i64));
     *val = 59; // Used by later tests
@@ -125,17 +121,17 @@ ERR_59_e test_vec_59_edge_cases(void)
     puts("- - - - - - - - - - - - - - - - -");
     puts("test popback_vec...");
 
-    err = pop_back_vec_59(dummy_vec_p, (void *)&val);
+    err = pop_back_vec_59(dummy_vec_p, (void*)&val);
     puts("Assert: (void *)0 vec & val pop_back == ERR_INV_PARAM");
     assert(ERR_INV_PARAM == err);
 
-    err = pop_back_vec_59(vec, (void *)0);
+    err = pop_back_vec_59(vec, (void*)0);
     puts("Assert: vec & (void *)0 val pop_back == ERR_INV_PARAM");
     assert(ERR_INV_PARAM == err);
 
     size_t tmp_size = vec->size;
     vec->size = 0;
-    err = pop_back_vec_59(vec, (void *)&val);
+    err = pop_back_vec_59(vec, (void*)&val);
     puts("Assert: vec->size = 0 & val pop_back == ERR_CONTAINER_EMPTY");
     assert(ERR_CONTAINER_EMPTY == err);
     vec->size = tmp_size;
@@ -160,17 +156,17 @@ ERR_59_e test_vec_59_edge_cases(void)
     puts("- - - - - - - - - - - - - - - - -");
     puts("test popfront_vec...");
 
-    err = pop_front_vec_59(dummy_vec_p, (void *)&val);
+    err = pop_front_vec_59(dummy_vec_p, (void*)&val);
     puts("Assert: (void *)0 vec & val pop_front == ERR_INV_PARAM");
     assert(ERR_INV_PARAM == err);
 
-    err = pop_front_vec_59(vec, (void *)0);
+    err = pop_front_vec_59(vec, (void*)0);
     puts("Assert: vec & (void *)0 val pop_front == ERR_INV_PARAM");
     assert(ERR_INV_PARAM == err);
 
     tmp_size = vec->size;
     vec->size = 0;
-    err = pop_front_vec_59(vec, (void *)&val);
+    err = pop_front_vec_59(vec, (void*)&val);
     puts("Assert: vec->size = 0 & val pop_front == ERR_CONTAINER_EMPTY");
     assert(ERR_CONTAINER_EMPTY == err);
     vec->size = tmp_size;
@@ -179,15 +175,15 @@ ERR_59_e test_vec_59_edge_cases(void)
     puts("- - - - - - - - - - - - - - - - -");
     puts("test remove_from_vec...");
 
-    err = remove_given_obj_from_vec_59(dummy_vec_p, (void *)&val);
+    err = remove_given_obj_from_vec_59(dummy_vec_p, (void*)&val);
     puts("Assert: (void *)0 vec & val remove_from_vec == ERR_INV_PARAM");
     assert(ERR_INV_PARAM == err);
 
-    err = remove_given_obj_from_vec_59(vec, (void *)0);
+    err = remove_given_obj_from_vec_59(vec, (void*)0);
     puts("Assert: vec & (void *)0 val remove_from_vec == ERR_INV_PARAM");
     assert(ERR_INV_PARAM == err);
 
-    err = remove_given_obj_from_vec_59(vec, (void *)&dummy_val);
+    err = remove_given_obj_from_vec_59(vec, (void*)&dummy_val);
     puts("Assert: vec & dummy_val remove_from_vec == ERR_OBJ_NOT_FOUND");
     assert(ERR_OBJ_NOT_FOUND == err);
 
@@ -224,8 +220,7 @@ ERR_59_e test_vec_59_edge_cases(void)
 ========================================================================================================================
 */
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const* argv[]) {
     (void)argc;
     (void)argv;
 

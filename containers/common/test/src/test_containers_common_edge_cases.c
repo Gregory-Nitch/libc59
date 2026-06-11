@@ -33,9 +33,9 @@
 ========================================================================================================================
 */
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /*
 ========================================================================================================================
@@ -51,8 +51,7 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_common_59_edge_cases(void)
-{
+ERR_59_e test_common_59_edge_cases(void) {
     ERR_59_e err = ERR_NONE;
 
     // compare_node_obj()
@@ -63,15 +62,15 @@ ERR_59_e test_common_59_edge_cases(void)
     u64 b = 2UL;
     i64 dif = 0;
 
-    err = compare_node_obj_59(type, (void *)0, &b, &dif);
+    err = compare_node_obj_59(type, (void*)0, &b, &dif);
     printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
 
-    err = compare_node_obj_59(type, &a, (void *)0, &dif);
+    err = compare_node_obj_59(type, &a, (void*)0, &dif);
     printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
 
-    err = compare_node_obj_59(type, &a, &b, (void *)0);
+    err = compare_node_obj_59(type, &a, &b, (void*)0);
     printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
     assert(ERR_INV_PARAM == err);
 
@@ -84,8 +83,7 @@ ERR_59_e test_common_59_edge_cases(void)
 ========================================================================================================================
 */
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const* argv[]) {
     (void)argc;
     (void)argv;
 

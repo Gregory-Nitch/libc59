@@ -51,33 +51,30 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_hash_map_59_edge_cases(void)
-{
+ERR_59_e test_hash_map_59_edge_cases(void) {
     ERR_59_e err = ERR_NONE;
 
     // Init hash_map
     puts("- - - - - - - - - - - - - - - - -");
     puts("Initializing hash_maps...");
 
-    hash_map_59 *u64_map = (void *)0;
+    hash_map_59* u64_map = (void*)0;
     err = init_hash_map_59(&u64_map, U64_PTR, STR, 0, 0, 0);
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
-    hash_map_59 *str_map = (void *)0;
+    hash_map_59* str_map = (void*)0;
     err = init_hash_map_59(&str_map, STR, U64_PTR, 0, 0, 0);
-    if (ERR_NONE != err)
-        return err;
+    if (ERR_NONE != err) return err;
 
     // Upsert into hashmap
     puts("- - - - - - - - - - - - - - - - -");
     puts("upsert_hash_map() for test init...");
 
-    u64 *u1 = malloc(sizeof(u64));
+    u64* u1 = malloc(sizeof(u64));
     *u1 = 1;
-    u64 *u2 = malloc(sizeof(u64));
+    u64* u2 = malloc(sizeof(u64));
     *u2 = 2;
-    u64 *u3 = malloc(sizeof(u64));
+    u64* u3 = malloc(sizeof(u64));
     *u3 = 3;
     str str1 = malloc(sizeof(char) * 4);
     str1[0] = 'a';
@@ -95,11 +92,11 @@ ERR_59_e test_hash_map_59_edge_cases(void)
     str3[2] = 'i';
     str3[3] = '\0';
 
-    u64 *u4 = malloc(sizeof(u64));
+    u64* u4 = malloc(sizeof(u64));
     *u4 = 4;
-    u64 *u5 = malloc(sizeof(u64));
+    u64* u5 = malloc(sizeof(u64));
     *u5 = 5;
-    u64 *u6 = malloc(sizeof(u64));
+    u64* u6 = malloc(sizeof(u64));
     *u6 = 6;
     str str4 = malloc(sizeof(char) * 4);
     str4[0] = 'l';
@@ -141,14 +138,14 @@ ERR_59_e test_hash_map_59_edge_cases(void)
     printf("Assert: ERR_NONE == %d = upsert_into_hash_map()\n", err);
     assert(ERR_NONE == err);
 
-    hash_map_59 *u64_map_dummy = (void *)0;
-    u64 *u_dummy = (void *)0;
+    hash_map_59* u64_map_dummy = (void*)0;
+    u64* u_dummy = (void*)0;
 
     // Test init_hash_map edge cases
     puts("- - - - - - - - - - - - - - - - -");
     puts("Test init_hash_map...");
 
-    err = init_hash_map_59((void *)0, U8_PTR, U8_PTR, 0, 0, 0);
+    err = init_hash_map_59((void*)0, U8_PTR, U8_PTR, 0, 0, 0);
     printf("Assert: ERR_INV_PARAM == %d = init_hash_map() with void ptr\n", err);
     assert(ERR_INV_PARAM == err);
 
@@ -160,7 +157,7 @@ ERR_59_e test_hash_map_59_edge_cases(void)
     puts("- - - - - - - - - - - - - - - - -");
     puts("Test deinit_hash_map...");
 
-    err = deinit_hash_map_59((void *)0);
+    err = deinit_hash_map_59((void*)0);
     printf("Assert: ERR_INV_PARAM == %d = deinit_hash_map() with void ptr\n", err);
     assert(ERR_INV_PARAM == err);
 
@@ -188,11 +185,11 @@ ERR_59_e test_hash_map_59_edge_cases(void)
     puts("- - - - - - - - - - - - - - - - -");
     puts("Test get_from_hash_map...");
 
-    err = get_from_hash_map_59(u64_map_dummy, u1, (void *)&str1);
+    err = get_from_hash_map_59(u64_map_dummy, u1, (void*)&str1);
     printf("Assert: ERR_INV_PARAM == %d = get_from_hash_map()\n", err);
     assert(ERR_INV_PARAM == err);
 
-    err = get_from_hash_map_59(u64_map, u_dummy, (void *)&str1);
+    err = get_from_hash_map_59(u64_map, u_dummy, (void*)&str1);
     printf("Assert: ERR_INV_PARAM == %d = get_from_hash_map()\n", err);
     assert(ERR_INV_PARAM == err);
 
@@ -200,7 +197,7 @@ ERR_59_e test_hash_map_59_edge_cases(void)
     puts("- - - - - - - - - - - - - - - - -");
     puts("Test remove_from_hash_map...");
 
-    key_val_pair_59 *pair = (void *)0;
+    key_val_pair_59* pair = (void*)0;
 
     err = remove_from_hash_map_59(u64_map_dummy, u1, &pair);
     printf("Assert: ERR_INV_PARAM == %d = remove_from_hash_map()\n", err);
@@ -210,7 +207,7 @@ ERR_59_e test_hash_map_59_edge_cases(void)
     printf("Assert: ERR_INV_PARAM == %d = remove_from_hash_map()\n", err);
     assert(ERR_INV_PARAM == err);
 
-    u64 *test_num = malloc(sizeof(u64));
+    u64* test_num = malloc(sizeof(u64));
     *test_num = 99;
 
     err = remove_from_hash_map_59(u64_map, test_num, &pair);
@@ -241,8 +238,7 @@ ERR_59_e test_hash_map_59_edge_cases(void)
 ========================================================================================================================
 */
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const* argv[]) {
     (void)argc;
     (void)argv;
 

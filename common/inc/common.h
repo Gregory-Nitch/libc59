@@ -35,8 +35,8 @@
 ========================================================================================================================
 */
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 /*
 ========================================================================================================================
@@ -52,7 +52,7 @@ typedef int8_t i8;
 typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
-typedef char *str;
+typedef char* str;
 
 /*
 ========================================================================================================================
@@ -66,8 +66,7 @@ typedef char *str;
  * value, at a node, etc. All members that are pointers to objects may be arrays, this is on the user to implement
  * properly.
  **********************************************************************************************************************/
-typedef enum TYPE_59_e
-{
+typedef enum TYPE_59_e {
     VOID_0,
     U8,
     U16,
@@ -110,8 +109,7 @@ typedef enum TYPE_59_e
  * @NOT_SUPPORTED: user attempted an unsupported operation.
  * @CONTAINER_AT_CAPACITY: container being used has no more room for objects.
  **********************************************************************************************************************/
-typedef enum ERR_59_e
-{
+typedef enum ERR_59_e {
     ERR_NONE,
     ERR_NO_MEM,
     ERR_INV_PARAM,
@@ -128,4 +126,4 @@ typedef enum ERR_59_e
 ========================================================================================================================
 */
 
-ERR_59_e is_same_mem_addr_59(void const *const obj_A, void const *const obj_B, bool *const is_same);
+ERR_59_e is_same_mem_addr_59(void const* const obj_A, void const* const obj_B, bool* const is_same);

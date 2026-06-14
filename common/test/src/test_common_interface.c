@@ -51,7 +51,8 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_common_59_interface(void) {
+ERR_59_e test_common_59_interface(void)
+{
     ERR_59_e err = ERR_NONE;
 
     // is_same_mem_addr()
@@ -78,7 +79,8 @@ ERR_59_e test_common_59_interface(void) {
 ========================================================================================================================
 */
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const* argv[])
+{
     (void)argc;
     (void)argv;
 

@@ -51,7 +51,8 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_dlist_59_interface(void) {
+ERR_59_e test_dlist_59_interface(void)
+{
     ERR_59_e err = ERR_NONE;
 
     // Init list and nodes
@@ -59,17 +60,21 @@ ERR_59_e test_dlist_59_interface(void) {
     puts("Initializing list...");
     dlist_59* list;
     err = init_dlist_59(&list, U64, 0);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     puts("Initializing nodes with push_back()...");
-    for (size_t i = 1; i < 6; i++) {
+    for (size_t i = 1; i < 6; i++)
+    {
         dlist_node_59* node;
         err = init_dlist_node_59(&node, (void*)0, (void*)0, malloc(sizeof(u64)));
-        if (ERR_NONE != err) return err;
+        if (ERR_NONE != err)
+            return err;
 
         *((u64*)node->node_obj) = (u64)i;
         err = push_back_dlist_59(list, node);
-        if (ERR_NONE != err) return err;
+        if (ERR_NONE != err)
+            return err;
     }
 
     // Verify list contents
@@ -77,11 +82,13 @@ ERR_59_e test_dlist_59_interface(void) {
     puts("Checking initialization...");
     dlist_node_59* node = list->head;
     dlist_node_59* last_node = (void*)0;
-    for (size_t i = 1; i < 6; i++) {
+    for (size_t i = 1; i < 6; i++)
+    {
         printf("Assert: i = %lu == %lu = obj\n", i, *((u64*)node->node_obj));
         assert(*((u64*)node->node_obj) == i);
         last_node = node->last;
-        if (last_node) {
+        if (last_node)
+        {
             printf("Assert: i - 1 = %lu == %lu = obj\n", i - 1, *((u64*)last_node->node_obj));
             assert(i - 1 == *((u64*)last_node->node_obj));
         }
@@ -94,16 +101,19 @@ ERR_59_e test_dlist_59_interface(void) {
     puts("Checking pop_back()...");
 
     err = pop_back_dlist_59(list, &node);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
     printf("Assert: expected = %lu == %lu = obj\n", 5UL, *((u64*)node->node_obj));
     assert(*((u64*)node->node_obj) == 5LU);
 
     err = deinit_dlist_node_59(&node);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
     puts("Back node deinited...");
 
     node = list->head;
-    for (size_t i = 1; i < 5; i++) {
+    for (size_t i = 1; i < 5; i++)
+    {
         assert(*((u64*)node->node_obj) == i);
         printf("Assert: i = %lu == %lu = obj\n", i, *((u64*)node->node_obj));
         node = node->next;
@@ -116,15 +126,18 @@ ERR_59_e test_dlist_59_interface(void) {
     puts("Checking push_back()...");
 
     err = init_dlist_node_59(&node, (void*)0, (void*)0, malloc(sizeof(u64)));
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
     *((u64*)node->node_obj) = 6UL;
     puts("New node with 6UL created...");
 
     err = push_back_dlist_59(list, node);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     node = list->head;
-    while (node->next) node = node->next;
+    while (node->next)
+        node = node->next;
     puts("Walked list...");
 
     printf("Assert: expected = %lu == %lu = obj\n", 6UL, *((u64*)node->node_obj));
@@ -138,12 +151,14 @@ ERR_59_e test_dlist_59_interface(void) {
     puts("Checking push_front()...");
 
     err = init_dlist_node_59(&node, (void*)0, (void*)0, malloc(sizeof(u64)));
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
     *((u64*)node->node_obj) = 0UL;
     puts("New node with 0UL created...");
 
     err = push_front_dlist_59(list, node);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     node = list->head;
     printf("Assert: expected = %lu == %lu = obj\n", 0UL, *((u64*)node->node_obj));
@@ -157,13 +172,15 @@ ERR_59_e test_dlist_59_interface(void) {
     puts("Checking pop_front()...");
 
     err = pop_front_dlist_59(list, &node);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     printf("Assert: expected = %lu == %lu = obj\n", 0UL, *((u64*)node->node_obj));
     assert(*((u64*)node->node_obj) == 0UL);
 
     err = deinit_dlist_node_59(&node);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
     puts("Popped front node deinited...");
 
     node = list->head;
@@ -174,19 +191,23 @@ ERR_59_e test_dlist_59_interface(void) {
     puts("- - - - - - - - - - - - - - - - -");
     puts("Checking remove_node_from_list()...");
 
-    for (size_t i = 0; i < 2UL; i++) node = node->next;
+    for (size_t i = 0; i < 2UL; i++)
+        node = node->next;
     printf("Got node: %lu\n", *((u64*)node->node_obj));
     u64 val = *((u64*)node->node_obj);
 
     err = remove_given_node_from_dlist_59(list, node);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     err = deinit_dlist_node_59(&node);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
     puts("Removed node deinited...");
 
     node = list->head;
-    while (node) {
+    while (node)
+    {
         printf("Assert: expected = %lu != %lu = obj\n", val, *((u64*)node->node_obj));
         assert(*((u64*)node->node_obj) != val);
         node = node->next;
@@ -197,17 +218,20 @@ ERR_59_e test_dlist_59_interface(void) {
     puts("Checking insert_node_into_list()...");
 
     err = init_dlist_node_59(&node, (void*)0, (void*)0, malloc(sizeof(u64)));
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
     val = 8UL;
     *((u64*)node->node_obj) = val;
     printf("Created node: %lu\n", *((u64*)node->node_obj));
 
     size_t idx = 2;
     err = insert_node_into_dlist_59(list, node, idx);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     node = list->head;
-    for (size_t i = 0; i < idx; i++) {
+    for (size_t i = 0; i < idx; i++)
+    {
         node = node->next;
     }
     printf("Walked to idx: %lu\n", idx);
@@ -227,7 +251,8 @@ ERR_59_e test_dlist_59_interface(void) {
 
     void* v_out = (void*)0;
     err = find_node_in_dlist_59(list, node, &v_out);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     printf("Assert: expected = %lu == %lu = obj\n", val, *((u64*)v_out));
     assert(*((u64*)v_out) == val);
@@ -237,7 +262,8 @@ ERR_59_e test_dlist_59_interface(void) {
     puts("Checking get_at_idx_dlist()...");
 
     err = get_at_idx_dlist_59(list, idx, &node);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     printf("Assert: expected = %lu == %lu = obj\n", val, *((u64*)node->node_obj));
     assert(*((u64*)node->node_obj) == val);
@@ -247,7 +273,8 @@ ERR_59_e test_dlist_59_interface(void) {
     puts("Checking deinit_list()...");
 
     err = deinit_dlist_59(&list);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
     puts("List deinited...");
 
     printf("Assert: expected(void*)0 = %p == %p = obj\n", (void*)0, (void*)list);
@@ -262,7 +289,8 @@ ERR_59_e test_dlist_59_interface(void) {
 ========================================================================================================================
 */
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const* argv[])
+{
     (void)argc;
     (void)argv;
 

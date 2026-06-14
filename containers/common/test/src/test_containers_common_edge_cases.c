@@ -51,7 +51,8 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_common_59_edge_cases(void) {
+ERR_59_e test_common_59_edge_cases(void)
+{
     ERR_59_e err = ERR_NONE;
 
     // compare_node_obj()
@@ -83,7 +84,8 @@ ERR_59_e test_common_59_edge_cases(void) {
 ========================================================================================================================
 */
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const* argv[])
+{
     (void)argc;
     (void)argv;
 

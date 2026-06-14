@@ -43,17 +43,10 @@
 
 #include "common.h"
 
-/***********************************************************************************************************************
- * @brief: Compares two memory addresses and returns true if they are the same address, and false if they are not.
- *
- * @param[in] obj_A: Obj to compare.
- * @param[in] obj_B: Other obj to compare.
- * @param[out] is_same: bool value returned from comparison.
- *
- * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
- **********************************************************************************************************************/
-ERR_59_e is_same_mem_addr_59(void const* const obj_A, void const* const obj_B, bool* const is_same) {
-    if (!is_same) return ERR_INV_PARAM;
+ERR_59_e is_same_mem_addr_59(void const* const obj_A, void const* const obj_B, bool* const is_same)
+{
+    if (!is_same)
+        return ERR_INV_PARAM;
 
     if (!obj_A || !obj_B)
         *is_same = false;

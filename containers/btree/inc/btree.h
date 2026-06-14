@@ -71,7 +71,8 @@ typedef struct btree_59 btree_59;
  *
  * @see btree_59
  **********************************************************************************************************************/
-struct btree_node_59 {
+struct btree_node_59
+{
     btree_node_59* left;
     btree_node_59* right;
     void* node_obj;
@@ -85,7 +86,8 @@ struct btree_node_59 {
  * @type: the type of the node objects in the tree.
  * @type_depth: if pointing at arrays with consistant size, place the size of the arrayss here, otherwise leave as 0.
  **********************************************************************************************************************/
-struct btree_59 {
+struct btree_59
+{
     btree_node_59* root;
     TYPE_59_e type;
     size_t type_depth;
@@ -98,18 +100,139 @@ struct btree_59 {
 ========================================================================================================================
 */
 
+/***********************************************************************************************************************
+ * @brief: Initializes a binary search tree, this allocates memory into the @btree pointer
+ *
+ * @param[out] btree: pointer to a pointer to hold the allocated binary search tree made during initialization.
+ * @param[in] type: type of node objects held in the tree.
+ * @param[in] type_depth: size of the node elements if it is an array type, if not set as 0. If there nodes of different
+ * sizes the implementaion will need to define comparisons and indexing into those elements.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e init_btree_59(btree_59** btree, TYPE_59_e const type, size_t const type_depth);
+
+/***********************************************************************************************************************
+ * @brief: Frees an entire binary search tree.
+ *
+ * @param[in] btree: point to pointer of a binary search tree to free.
+ * @note: the contained pointer will be null after calling this function.
+ *
+ * @retval: ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e deinit_btree_59(btree_59** btree);
+
+/***********************************************************************************************************************
+ * @brief Inserts a node into the binary search tree.
+ *
+ * @param[in] btree: pointer to the binary search tree.
+ * @param[in] new_node: pointer to the node to insert.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e insert_node_into_btree_59(btree_59* const btree, btree_node_59* const new_node);
+
+/***********************************************************************************************************************
+ * @brief Finds a node in the binary search tree.
+ *
+ * @param[in] btree: pointer to the binary search tree.
+ * @param[in] val: pointer to the value to search for.
+ * @param[out] out: pointer to a pointer to hold the found node.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e find_node_in_btree_59(btree_59 const* const btree, void const* const val, btree_node_59** out);
+
+/***********************************************************************************************************************
+ * @brief TODO
+ *
+ * @param[TODO] TODO TODO.
+ * @param[TODO] TODO TODO.
+ *
+ * @retval TODO TODO.
+ **********************************************************************************************************************/
 ERR_59_e remove_given_node_from_btree_59(btree_59 const* const btree, btree_node_59* const remove_node);
+
+/***********************************************************************************************************************
+ * @brief TODO
+ *
+ * @param[TODO] TODO TODO.
+ * @param[TODO] TODO TODO.
+ *
+ * @retval TODO TODO.
+ **********************************************************************************************************************/
 ERR_59_e btree_preorder_traverse_59(btree_59 const* const btree, vec_59** vec);
+
+/***********************************************************************************************************************
+ * @brief TODO
+ *
+ * @param[TODO] TODO TODO.
+ * @param[TODO] TODO TODO.
+ *
+ * @retval TODO TODO.
+ **********************************************************************************************************************/
 ERR_59_e btree_inorder_traverse_59(btree_59 const* const btree, vec_59** vec);
+
+/***********************************************************************************************************************
+ * @brief TODO
+ *
+ * @param[TODO] TODO TODO.
+ * @param[TODO] TODO TODO.
+ *
+ * @retval TODO TODO.
+ **********************************************************************************************************************/
 ERR_59_e btree_postorder_traverse_59(btree_59 const* const btree, vec_59** vec);
+
+/***********************************************************************************************************************
+ * @brief TODO
+ *
+ * @param[TODO] TODO TODO.
+ * @param[TODO] TODO TODO.
+ *
+ * @retval TODO TODO.
+ **********************************************************************************************************************/
 ERR_59_e btree_levelorder_traverse_59(btree_59 const* const btree, vec_59** vec);
+
+/***********************************************************************************************************************
+ * @brief TODO
+ *
+ * @param[TODO] TODO TODO.
+ * @param[TODO] TODO TODO.
+ *
+ * @retval TODO TODO.
+ **********************************************************************************************************************/
 ERR_59_e rebalance_btree_59(btree_59* const btree);
+
+/***********************************************************************************************************************
+ * @brief TODO
+ *
+ * @param[TODO] TODO TODO.
+ * @param[TODO] TODO TODO.
+ *
+ * @retval TODO TODO.
+ **********************************************************************************************************************/
 ERR_59_e get_btree_height_59(btree_59 const* const btree, size_t* out);
 
-ERR_59_e init_btree_node_59(btree_node_59** node, btree_node_59 const* const left, btree_node_59 const* const right,
+/***********************************************************************************************************************
+ * @brief: Allocates a new node for a binary search tree.
+ *
+ * @param[inout] node: pointer to a pointer that shall hold the created node.
+ * @param[in] left: the left child of the new node.
+ * @param[in] right: the right child of the new node.
+ * @param[in] node_obj: the node object to store at the new node.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+ERR_59_e init_btree_node_59(btree_node_59** node,
+                            btree_node_59 const* const left,
+                            btree_node_59 const* const right,
                             void const* const node_obj);
+/***********************************************************************************************************************
+ * @brief: Frees the passed binary search tree node.
+ *
+ * @param[in] node: pointer to a node pointer to free.
+ * @note: this also deallocates the node object pointer's memory.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e deinit_btree_node_59(btree_node_59** node);

@@ -1,13 +1,18 @@
 BasedOnStyle: LLVM
 Language: C
-IndentWidth: 4
-TabWidth: 4
-UseTab: Never
 ColumnLimit: 120
-
-AllowShortIfStatementsOnASingleLine: true
-AllowShortFunctionsOnASingleLine: None
-AllowShortLoopsOnASingleLine: true
+IndentWidth: 4
+UseTab: Never
 
 PointerAlignment: Left
-DerivePointerAlignment: false
+BreakBeforeBraces: Allman
+
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+
+BinPackArguments: false
+BinPackParameters: false
+
+SortIncludes: true
+NamespaceIndentation: None

@@ -51,7 +51,8 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_llist_59_edge_cases(void) {
+ERR_59_e test_llist_59_edge_cases(void)
+{
     ERR_59_e err = ERR_NONE;
 
     // Setup list and nodes for testing
@@ -180,7 +181,8 @@ ERR_59_e test_llist_59_edge_cases(void) {
     err = ERR_NONE;
 
     err = push_front_llist_59(list, node1); // populate list for next test
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
     err = remove_given_node_from_llist_59(list, node2);
     printf("Assert: err = %d == %d ERR_OBJ_NOT_FOUND\n", err, ERR_OBJ_NOT_FOUND);
     assert(ERR_OBJ_NOT_FOUND == err);
@@ -201,7 +203,8 @@ ERR_59_e test_llist_59_edge_cases(void) {
     err = ERR_NONE;
 
     err = remove_given_node_from_llist_59(list, node1);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
     err = insert_node_into_llist_59(list, node1, 1);
     printf("Assert: err = %d == %d ERR_NONE\n", err, ERR_NONE);
     assert(ERR_NONE == err);
@@ -275,7 +278,8 @@ ERR_59_e test_llist_59_edge_cases(void) {
 ========================================================================================================================
 */
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const* argv[])
+{
     (void)argc;
     (void)argv;
 

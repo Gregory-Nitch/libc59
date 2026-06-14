@@ -51,7 +51,8 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_hash_map_59_edge_cases(void) {
+ERR_59_e test_hash_map_59_edge_cases(void)
+{
     ERR_59_e err = ERR_NONE;
 
     // Init hash_map
@@ -60,11 +61,13 @@ ERR_59_e test_hash_map_59_edge_cases(void) {
 
     hash_map_59* u64_map = (void*)0;
     err = init_hash_map_59(&u64_map, U64_PTR, STR, 0, 0, 0);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     hash_map_59* str_map = (void*)0;
     err = init_hash_map_59(&str_map, STR, U64_PTR, 0, 0, 0);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     // Upsert into hashmap
     puts("- - - - - - - - - - - - - - - - -");
@@ -238,7 +241,8 @@ ERR_59_e test_hash_map_59_edge_cases(void) {
 ========================================================================================================================
 */
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const* argv[])
+{
     (void)argc;
     (void)argv;
 

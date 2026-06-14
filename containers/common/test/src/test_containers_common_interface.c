@@ -51,20 +51,26 @@
 ========================================================================================================================
 */
 
-void test_unsigned_node_obj_59_comparisons(TYPE_59_e const type, u64 const max, void const* const obj_A,
-                                           void const* const obj_B) {
+void test_unsigned_node_obj_59_comparisons(TYPE_59_e const type,
+                                           u64 const max,
+                                           void const* const obj_A,
+                                           void const* const obj_B)
+{
     puts("- - - - - - - - - - -");
     i64 dif = 0;
-    for (u64 i = 0; i < max; i = (i << 1) + 1) {
+    for (u64 i = 0; i < max; i = (i << 1) + 1)
+    {
         *((u64*)obj_A) = i;
-        for (u64 j = 0; j < max; j = (j << 1) + 1) {
+        for (u64 j = 0; j < max; j = (j << 1) + 1)
+        {
             *((u64*)obj_B) = j;
             compare_node_obj_59(type, obj_A, obj_B, &dif);
             printf("Assert: obj1: %lu - obj2: %lu == %ld: dif \n", i, j, dif);
             assert(((i64)i - (i64)j) ==
                    dif); // We only send at most INT32_MAX to this function so this i64 cast should be acceptable.
         }
-        for (u64 j = max; j > 0; j >>= 1) {
+        for (u64 j = max; j > 0; j >>= 1)
+        {
             *((u64*)obj_B) = j;
             compare_node_obj_59(type, obj_A, obj_B, &dif);
             printf("Assert: obj1: %lu - obj2: %lu == %ld: dif \n", i, j, dif);
@@ -75,8 +81,11 @@ void test_unsigned_node_obj_59_comparisons(TYPE_59_e const type, u64 const max, 
     puts("- - - - - - - - - - -");
 }
 
-void test_signed_node_obj_59_comparisons(TYPE_59_e const type, size_t const size, void const* const obj_A,
-                                         void const* const obj_B) {
+void test_signed_node_obj_59_comparisons(TYPE_59_e const type,
+                                         size_t const size,
+                                         void const* const obj_A,
+                                         void const* const obj_B)
+{
     puts("- - - - - - - - - - -");
     i64 mask = 1;
     i64 dif = 0;
@@ -90,7 +99,8 @@ void test_signed_node_obj_59_comparisons(TYPE_59_e const type, size_t const size
     {
         *((i64*)obj_A) = i;
 
-        while (j_sign_flag || j_cnt < (size * 8) - 1) {
+        while (j_sign_flag || j_cnt < (size * 8) - 1)
+        {
             *((i64*)obj_B) = j;
             compare_node_obj_59(type, obj_A, obj_B, &dif);
             printf("Assert: obj1: %ld - obj2: %ld == %ld: dif \n", i, j, dif);
@@ -102,7 +112,8 @@ void test_signed_node_obj_59_comparisons(TYPE_59_e const type, size_t const size
                 j = mask << j_cnt;
             j_cnt++;
 
-            if (j_sign_flag && (size * 8) - 1 == j_cnt) {
+            if (j_sign_flag && (size * 8) - 1 == j_cnt)
+            {
                 j = 0;
                 j_cnt = 0;
                 j_sign_flag = false;
@@ -118,7 +129,8 @@ void test_signed_node_obj_59_comparisons(TYPE_59_e const type, size_t const size
             i = mask << i_cnt;
         i_cnt++;
 
-        if (i_sign_flag && (size * 8) - 1 == i_cnt) {
+        if (i_sign_flag && (size * 8) - 1 == i_cnt)
+        {
             i = 0;
             i_cnt = 0;
             i_sign_flag = false;
@@ -127,7 +139,8 @@ void test_signed_node_obj_59_comparisons(TYPE_59_e const type, size_t const size
     puts("- - - - - - - - - - -");
 }
 
-ERR_59_e test_container_common_59_interface(void) {
+ERR_59_e test_container_common_59_interface(void)
+{
     ERR_59_e err = ERR_NONE;
 
     // Compare_node_obj()
@@ -154,7 +167,9 @@ ERR_59_e test_container_common_59_interface(void) {
     test_unsigned_node_obj_59_comparisons(U8_PTR, UINT8_MAX, &a, &b);
     test_unsigned_node_obj_59_comparisons(U16_PTR, UINT16_MAX, &a, &b);
     test_unsigned_node_obj_59_comparisons(U32_PTR, UINT32_MAX, &a, &b);
-    test_unsigned_node_obj_59_comparisons(U64_PTR, UINT32_MAX, &a,
+    test_unsigned_node_obj_59_comparisons(U64_PTR,
+                                          UINT32_MAX,
+                                          &a,
                                           &b); // We only send at most INT32_MAX here to prevent overflow.
 
     // Signed comparison iterations
@@ -191,7 +206,8 @@ ERR_59_e test_container_common_59_interface(void) {
 ========================================================================================================================
 */
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const* argv[])
+{
     (void)argc;
     (void)argv;
 

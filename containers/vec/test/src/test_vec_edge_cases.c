@@ -51,7 +51,8 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_vec_59_edge_cases(void) {
+ERR_59_e test_vec_59_edge_cases(void)
+{
     ERR_59_e err = ERR_NONE;
 
     // Setup vec for testing
@@ -65,13 +66,16 @@ ERR_59_e test_vec_59_edge_cases(void) {
     i64* dummy_val = (void*)0;
 
     err = init_vec_59(&vec, 0, I64_PTR, false);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     err = init_vec_59(&capped_vec, 0, I64_PTR, true);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     i64* val;
-    for (size_t i = 0; i < 4; i++) {
+    for (size_t i = 0; i < 4; i++)
+    {
         val = malloc(sizeof(i64));
         *val = (i64)i;
         push_back_vec_59(vec, val);
@@ -220,7 +224,8 @@ ERR_59_e test_vec_59_edge_cases(void) {
 ========================================================================================================================
 */
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const* argv[])
+{
     (void)argc;
     (void)argv;
 

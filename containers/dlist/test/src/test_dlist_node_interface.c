@@ -51,7 +51,8 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_dlist_node_59_interface(void) {
+ERR_59_e test_dlist_node_59_interface(void)
+{
     ERR_59_e err = ERR_NONE;
     // init nodes
     puts("- - - - - - - - - - -");
@@ -59,7 +60,8 @@ ERR_59_e test_dlist_node_59_interface(void) {
     dlist_node_59* node1;
 
     err = init_dlist_node_59(&node1, (void*)0, (void*)0, malloc(sizeof(u64)));
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     *((u64*)node1->node_obj) = 1UL;
 
@@ -82,7 +84,8 @@ ERR_59_e test_dlist_node_59_interface(void) {
 ========================================================================================================================
 */
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const* argv[])
+{
     (void)argc;
     (void)argv;
 

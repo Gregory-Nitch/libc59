@@ -85,7 +85,8 @@ typedef struct key_val_pair_59 key_val_pair_59;
  * @key: Key to the values entry, will be unique in the hash map.
  * @val: Value to the key, is not unique in the hash map.
  **********************************************************************************************************************/
-struct key_val_pair_59 {
+struct key_val_pair_59
+{
     void* key;
     void* val;
 };
@@ -103,7 +104,8 @@ struct key_val_pair_59 {
  * @note Default table size is @DEFAULT_HASH_MAP_TABLE_SIZE. Ideally you should not alter the @_prime member, default
  * value is 11.
  **********************************************************************************************************************/
-struct hash_map_59 {
+struct hash_map_59
+{
     TYPE_59_e key_type;
     TYPE_59_e val_type;
     size_t val_type_depth;
@@ -119,10 +121,87 @@ struct hash_map_59 {
 ========================================================================================================================
 */
 
-ERR_59_e init_hash_map_59(hash_map_59** map, TYPE_59_e const key_type, TYPE_59_e const val_type,
-                          size_t const val_type_depth, size_t const table_size, size_t const _prime);
+/***********************************************************************************************************************
+ * @brief: Initializes a hash map based on the passed parameters.
+ *
+ * @param[out] map: Pointer to a @hash_map_59 pointer to initialize the hash map in.
+ * @param[in] key_type: Type of the keys for the hash map.
+ * @param[in] val_type: Type of the vals for the hash map.
+ * @param[in] val_type_depth: Depth of the values in the hash map, if values are not of the same size then set this to
+ * 0.
+ * @param[in] table_size: Size of the table in the hash_map, if 0 then the default size of @DEFAULT_HASH_MAP_TABLE_SIZE
+ * is used.
+ * @param[in] prime: Prime number to be used in hashing, if this parameter is not a prime number or 0 then an
+ * ERR_INV_PARAM err will occur. When set as 0 then the default value of @DEFAULT_HASH_MAP_PRIME will be used.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ *
+ * @note Smaller @prime numbers produce better hashing performance.
+ *
+ * @warning This will need to be freed with @deinit_hash_map_59 when its lifetime has expired. If values in the hash_map
+ * are not of the same type depth DO NOT set the @val_type_depth parameter to anything other than 0.
+ **********************************************************************************************************************/
+ERR_59_e init_hash_map_59(hash_map_59** map,
+                          TYPE_59_e const key_type,
+                          TYPE_59_e const val_type,
+                          size_t const val_type_depth,
+                          size_t const table_size,
+                          size_t const _prime);
+
+/***********************************************************************************************************************
+ * @brief: Deallocates the passed hash map and all of its contents.
+ *
+ * @param[out] map: Pointer to a hash_map_59 pointer that will be freed.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ *
+ * @note The pointer to the map will be (void*)0 on return.
+ **********************************************************************************************************************/
 ERR_59_e deinit_hash_map_59(hash_map_59** map);
+
+/***********************************************************************************************************************
+ * @brief: Inserts a new key and value as a @key_val_pair_59 into the hash map.
+ *
+ * @param[in] map: Hash map to insert the new pair into.
+ * @param[in] key: Key of the new entry.
+ * @param[in] val: Value of the new entry.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ *
+ * @note If there is already an entry with the same key it is updated with the new value.
+ **********************************************************************************************************************/
 ERR_59_e upsert_into_hash_map_59(hash_map_59* const map, void* key, void* val);
+
+/***********************************************************************************************************************
+ * @brief: Gets the value for the passed key from the hash map if it is present.
+ *
+ * @param[in] map: Hash map to get the value from.
+ * @param[in] key: Key to match to the value.
+ * @param[out] val: Void pointer to place the out value into.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e get_from_hash_map_59(hash_map_59* const map, void* key, void** val);
+
+/***********************************************************************************************************************
+ * @brief: Removes the @key_val_pair_59 that has the matching key from the hash map.
+ *
+ * @param[in] map: Hash map to remove the pair from.
+ * @param[in] key: Key to the pair that should be removed.
+ * @param[out] pair: Pointer to place the pair in.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ *
+ * @warning This DOES NOT deallocate the pair, this will need to be freed after use.
+ **********************************************************************************************************************/
 ERR_59_e remove_from_hash_map_59(hash_map_59* const map, void* const key, key_val_pair_59** pair);
+
+/***********************************************************************************************************************
+ * @brief: Resizes the hash table to prevent collisions or reduce it size due to sparseness.
+ *
+ * @param[in] map: Hash map to resize.
+ * @param[in] new_size: New size to use for the hash map table.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
 ERR_59_e resize_table_hash_map_59(hash_map_59* map, size_t const new_size);

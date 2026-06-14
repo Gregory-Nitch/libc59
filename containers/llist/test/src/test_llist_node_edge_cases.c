@@ -50,7 +50,8 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_llist_node_59_edge_cases(void) {
+ERR_59_e test_llist_node_59_edge_cases(void)
+{
     ERR_59_e err = ERR_NONE;
 
     // Test init_llist_node
@@ -87,7 +88,8 @@ ERR_59_e test_llist_node_59_edge_cases(void) {
 ========================================================================================================================
 */
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const* argv[])
+{
     (void)argc;
     (void)argv;
 

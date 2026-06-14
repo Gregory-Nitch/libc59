@@ -51,29 +51,14 @@
 ========================================================================================================================
 */
 
-/***********************************************************************************************************************
- * @brief: Compares two node objects such that if the value of @obj_A is greater than @obj_B a positive value is
- * returned in @diff_out, or a negative when @obj_B is greater than @obj_A, or 0 when they are equal.
- *
- * @param[in] type: @TYPE_59_e used to produce comparison path.
- * @param[in] obj_A: Obj to compare.
- * @param[in] obj_B: Other obj to compare.
- * @param[out] diff_out: Difference determined based on the difference between the objs.
- *
- * @note Strings when compared will produce negative values for strings that come first alphabetically. ie, a - b = -1
- * where a = "abc" and b = "cba".
- * @note Only signed, unsigned, chars, and strings are supported by this function. ERR_NOT_SUPPORTED will be
- * returned.
- * @note u64 and size_t values have a limit on @diff_out values due to memory restraints of the i64 return value. If the
- * difference is outside of the INT64_MAX and INT64_MIN range than max or min will be returned appropriately.
- *
- * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
- **********************************************************************************************************************/
-ERR_59_e compare_node_obj_59(TYPE_59_e const type, void const* const obj_A, void const* const obj_B,
-                             i64* const diff_out) {
-    if (!type || !obj_A || !obj_B || !diff_out) return ERR_INV_PARAM;
+ERR_59_e
+compare_node_obj_59(TYPE_59_e const type, void const* const obj_A, void const* const obj_B, i64* const diff_out)
+{
+    if (!type || !obj_A || !obj_B || !diff_out)
+        return ERR_INV_PARAM;
 
-    switch (type) {
+    switch (type)
+    {
     // Unsigned
     case U8_PTR:
         *diff_out = (i64)(*((u8*)obj_A)) - (i64)(*((u8*)obj_B));
@@ -92,13 +77,16 @@ ERR_59_e compare_node_obj_59(TYPE_59_e const type, void const* const obj_A, void
         u64 u64_B = *((u64*)obj_B);
         u64 u64_dist = 0;
 
-        if (u64_A >= u64_B) {
+        if (u64_A >= u64_B)
+        {
             u64_dist = u64_A - u64_B;
             if (u64_dist > INT64_MAX)
                 *diff_out = INT64_MAX;
             else
                 *diff_out = (i64)u64_dist;
-        } else {
+        }
+        else
+        {
             u64_dist = u64_B - u64_A;
             if (u64_dist > ((u64)INT64_MAX) + 1) // INT64_MIN is + 1 in abs val
                 *diff_out = INT64_MIN;
@@ -113,13 +101,16 @@ ERR_59_e compare_node_obj_59(TYPE_59_e const type, void const* const obj_A, void
         size_t size_B = *((size_t*)obj_B);
         size_t size_dist = 0;
 
-        if (size_A >= size_B) {
+        if (size_A >= size_B)
+        {
             size_dist = size_A - size_B;
             if (size_dist > INT64_MAX)
                 *diff_out = INT64_MAX;
             else
                 *diff_out = (i64)size_dist;
-        } else {
+        }
+        else
+        {
             size_dist = size_B - size_A;
             if (size_dist > ((u64)INT64_MAX) + 1) // INT64_MIN is + 1 in abs val
                 *diff_out = INT64_MIN;
@@ -147,19 +138,23 @@ ERR_59_e compare_node_obj_59(TYPE_59_e const type, void const* const obj_A, void
         i64 i64_B = *((i64*)obj_B);
         i64 dist_to_max = 0;
 
-        if (i64_A >= 0 && i64_B <= 0) {
+        if (i64_A >= 0 && i64_B <= 0)
+        {
             dist_to_max = INT64_MAX - i64_A;
             if (INT64_MIN == i64_B || llabs(i64_B) > dist_to_max)
                 *diff_out = INT64_MAX;
             else
                 *diff_out = i64_A - i64_B;
-        } else if (i64_A <= 0 && i64_B >= 0) {
+        }
+        else if (i64_A <= 0 && i64_B >= 0)
+        {
             dist_to_max = INT64_MAX - i64_B;
             if (INT64_MIN == i64_A || llabs(i64_A) > dist_to_max)
                 *diff_out = INT64_MIN;
             else
                 *diff_out = i64_A - i64_B;
-        } else
+        }
+        else
             *diff_out = i64_A - i64_B;
 
         break;

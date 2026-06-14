@@ -52,7 +52,8 @@
 ========================================================================================================================
 */
 
-ERR_59_e test_hash_map_59_interface(void) {
+ERR_59_e test_hash_map_59_interface(void)
+{
     ERR_59_e err = ERR_NONE;
 
     // Init hash_map
@@ -60,11 +61,13 @@ ERR_59_e test_hash_map_59_interface(void) {
     puts("Initializing hash_map...");
     hash_map_59* u64_map = (void*)0;
     err = init_hash_map_59(&u64_map, U64_PTR, STR, 0, 0, 0);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     hash_map_59* str_map = (void*)0;
     err = init_hash_map_59(&str_map, STR, U64_PTR, 0, 0, 0);
-    if (ERR_NONE != err) return err;
+    if (ERR_NONE != err)
+        return err;
 
     // Upsert into hashmap
     puts("- - - - - - - - - - - - - - - - -");
@@ -184,7 +187,8 @@ ERR_59_e test_hash_map_59_interface(void) {
     puts("remove_from_hash_map()...");
     key_val_pair_59* pair = (void*)0;
 
-    for (size_t i = 1; i < 4; i++) {
+    for (size_t i = 1; i < 4; i++)
+    {
         err = remove_from_hash_map_59(u64_map, &i, &pair);
         printf("Assert: ERR_NONE == %d = remove_from_hash_map()\n", err);
         assert(ERR_NONE == err);
@@ -197,7 +201,8 @@ ERR_59_e test_hash_map_59_interface(void) {
     }
 
     str strs[] = {str4, str5, str6};
-    for (size_t i = 0; i < 3; i++) {
+    for (size_t i = 0; i < 3; i++)
+    {
         err = remove_from_hash_map_59(str_map, strs[i], &pair);
         printf("Assert: ERR_NONE == %d = remove_from_hash_map()\n", err);
         assert(ERR_NONE == err);
@@ -214,13 +219,17 @@ ERR_59_e test_hash_map_59_interface(void) {
     puts("resize_hash_map_table()...");
 
     val = (void*)0;
-    for (size_t i = 0; i < 100; i++) {
+    for (size_t i = 0; i < 100; i++)
+    {
         u64* num = malloc(sizeof(u64));
-        if (!num) return ERR_NO_MEM;
+        if (!num)
+            return ERR_NO_MEM;
         *num = i;
         str a_str = malloc(sizeof(char) * 4);
-        if (!a_str) return ERR_NO_MEM;
-        for (size_t j = 0; j < 3; j++) {
+        if (!a_str)
+            return ERR_NO_MEM;
+        for (size_t j = 0; j < 3; j++)
+        {
             a_str[j] = (char)('a' + j);
         }
         a_str[3] = '\0';
@@ -249,11 +258,13 @@ ERR_59_e test_hash_map_59_interface(void) {
     printf("Assert: ERR_NONE == %d = init_hash_map()\n", err);
     assert(ERR_NONE == err);
 
-    for (size_t i = 0; i < 10; i++) {
+    for (size_t i = 0; i < 10; i++)
+    {
         u64* n = malloc(sizeof(u64));
         *n = i;
         str s = malloc(sizeof(char) * 4);
-        for (size_t j = 0; j < 3; j++) s[j] = 'a';
+        for (size_t j = 0; j < 3; j++)
+            s[j] = 'a';
         s[3] = '\0';
         err = upsert_into_hash_map_59(u64_map_resize, n, s);
         printf("Assert: ERR_NONE == %d = upsert_into_hash_map()\n", err);
@@ -279,7 +290,8 @@ ERR_59_e test_hash_map_59_interface(void) {
 ========================================================================================================================
 */
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const* argv[])
+{
     (void)argc;
     (void)argv;
 

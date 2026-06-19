@@ -144,14 +144,17 @@ ERR_59_e insert_node_into_btree_59(btree_59* const btree, btree_node_59* const n
 ERR_59_e find_node_in_btree_59(btree_59 const* const btree, void const* const val, btree_node_59** out);
 
 /***********************************************************************************************************************
- * @brief TODO
+ * @brief: Removes the given node from the binary search tree.
  *
- * @param[TODO] TODO TODO.
- * @param[TODO] TODO TODO.
+ * @param[in] btree: pointer to the binary search tree.
+ * @param[in] remove_node: pointer to the node to remove from the tree.
  *
- * @retval TODO TODO.
+ * @note: This function detaches the node from the tree, but does not free the removed node. The caller is responsible
+ * for deallocating the node if needed.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e remove_given_node_from_btree_59(btree_59 const* const btree, btree_node_59* const remove_node);
+ERR_59_e remove_given_node_from_btree_59(btree_59* const btree, btree_node_59* const remove_node);
 
 /***********************************************************************************************************************
  * @brief TODO
@@ -223,10 +226,9 @@ ERR_59_e get_btree_height_59(btree_59 const* const btree, size_t* out);
  *
  * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
  **********************************************************************************************************************/
-ERR_59_e init_btree_node_59(btree_node_59** node,
-                            btree_node_59 const* const left,
-                            btree_node_59 const* const right,
-                            void const* const node_obj);
+ERR_59_e
+init_btree_node_59(btree_node_59** node, btree_node_59* const left, btree_node_59* const right, void* const node_obj);
+
 /***********************************************************************************************************************
  * @brief: Frees the passed binary search tree node.
  *

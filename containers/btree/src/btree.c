@@ -43,6 +43,8 @@
 */
 
 #include "btree.h"
+#include "common.h"
+#include "containers_common.h"
 
 /*
 ========================================================================================================================
@@ -102,20 +104,18 @@ static ERR_59_e _insert_node_from(btree_node_59* const root,
             return ERR_NONE;
         }
         else
-            return err = _insert_node_from(root->left, new_node, type, type_depth);
+            return _insert_node_from(root->left, new_node, type, type_depth);
     }
     else
-    { // (0 >= diff)
+    { // (0 <= diff)
         if (!root->right)
         {
             root->right = new_node;
             return ERR_NONE;
         }
         else
-            return err = _insert_node_from(root->right, new_node, type, type_depth);
+            return _insert_node_from(root->right, new_node, type, type_depth);
     }
-
-    return err;
 }
 
 /*
@@ -148,7 +148,7 @@ ERR_59_e deinit_btree_59(btree_59** btree)
 
     ERR_59_e err = _delete_from_node(&(*btree)->root);
 
-    free((*btree));
+    free(*btree);
     *btree = (void*)0;
 
     return err;
@@ -181,7 +181,7 @@ ERR_59_e find_node_in_btree_59(btree_59 const* const btree, void const* const va
     while (current)
     {
         i64 diff = 0; // negative diff = searching value is bigger
-        ERR_59_e err = compare_node_obj_59(btree->type, &diff, current->node_obj, val);
+        ERR_59_e err = compare_node_obj_59(btree->type, current->node_obj, val, &diff);
         if (ERR_NONE != err)
             return err;
 
@@ -200,9 +200,101 @@ ERR_59_e find_node_in_btree_59(btree_59 const* const btree, void const* const va
     return ERR_OBJ_NOT_FOUND;
 }
 
-ERR_59_e remove_given_node_from_btree_59(btree_59 const* const btree, btree_node_59* const remove_node)
+ERR_59_e remove_given_node_from_btree_59(btree_59* const btree, btree_node_59* const remove_node)
 {
-    //! TODO: this
+    if (!btree || !remove_node)
+        return ERR_INV_PARAM;
+
+    btree_node_59* current = btree->root;
+    btree_node_59* parent = (void*)0;
+    bool is_same = false;
+    i64 diff = 0;
+    ERR_59_e err = ERR_NONE;
+    while (current)
+    {
+        err = is_same_mem_addr_59(current, remove_node, &is_same);
+        if (ERR_NONE != err)
+            return err;
+
+        else if (is_same)
+            break;
+
+        err = compare_node_obj_59(btree->type, &diff, current->node_obj, remove_node->node_obj);
+        if (ERR_NONE != err)
+            return err;
+
+        parent = current;
+        if (0 > diff)
+            current = current->left;
+        else // 0 <= diff : ie., copies go right
+            current = current->right;
+    }
+
+    if (!is_same)
+        return ERR_OBJ_NOT_FOUND; // Null root case && not found case
+
+    if (!current->left && !current->right)
+    {
+        if (parent)
+        {
+            if (0 > diff)
+                parent->left = (void*)0;
+            else // 0 <= diff : ie., copies go right
+                parent->right = (void*)0;
+        }
+        else
+        { // current = root
+            btree->root = (void*)0;
+        }
+    }
+    else if (current->left && current->right)
+    {
+        btree_node_59* smallest = current->right;
+        btree_node_59* smallest_parent = current;
+        while (smallest->left)
+        {
+            smallest_parent = smallest;
+            smallest = smallest->left;
+        }
+
+        if (smallest_parent != current)
+        {
+            smallest_parent->left = smallest->right;
+            smallest->right = current->right;
+        }
+
+        smallest->left = current->left;
+
+        if (!parent)
+            btree->root = smallest;
+        else if (parent->left == current)
+            parent->left = smallest;
+        else
+            parent->right = smallest;
+    }
+    else if (current->left)
+    {
+        if (!parent)
+            btree->root = current->left;
+        else if (parent->left == current)
+            parent->left = current->left;
+        else
+            parent->right = current->left;
+    }
+    else if (current->right)
+    {
+        if (!parent)
+            btree->root = current->right;
+        else if (parent->right == current)
+            parent->right = current->right;
+        else
+            parent->left = current->right;
+    }
+
+    remove_node->left = (void*)0;
+    remove_node->right = (void*)0;
+    btree->size--;
+    return ERR_NONE;
 }
 
 ERR_59_e btree_preorder_traverse_59(btree_59 const* const btree, vec_59** vec)
@@ -235,10 +327,8 @@ ERR_59_e get_btree_height_59(btree_59 const* const btree, size_t* out)
     //! TODO: this
 }
 
-ERR_59_e init_btree_node_59(btree_node_59** node,
-                            btree_node_59 const* const left,
-                            btree_node_59 const* const right,
-                            void const* const node_obj)
+ERR_59_e
+init_btree_node_59(btree_node_59** node, btree_node_59* const left, btree_node_59* const right, void* const node_obj)
 {
     if (!node)
         return ERR_INV_PARAM;
@@ -262,7 +352,7 @@ ERR_59_e deinit_btree_node_59(btree_node_59** node)
 
     free((*node)->node_obj);
     (*node)->node_obj = (void*)0;
-    free((*node));
+    free(*node);
     (*node) = (void*)0;
 
     return ERR_NONE;

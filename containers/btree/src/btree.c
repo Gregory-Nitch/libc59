@@ -92,7 +92,7 @@ static ERR_59_e _insert_node_from(btree_node_59* const root,
         return ERR_INV_PARAM;
 
     i64 diff = 0; // negative diff = new node is bigger
-    ERR_59_e err = compare_node_obj_59(type, &diff, root->node_obj, new_node->node_obj);
+    ERR_59_e err = compare_node_obj_59(type, root->node_obj, new_node->node_obj, &diff);
     if (ERR_NONE != err)
         return err;
 
@@ -116,6 +116,89 @@ static ERR_59_e _insert_node_from(btree_node_59* const root,
         else
             return _insert_node_from(root->right, new_node, type, type_depth);
     }
+}
+
+/***********************************************************************************************************************
+ * @brief: Recursively computes the maximum number of levels in the subtree.
+ *
+ * @param[in]: node Current node in the traversal. A null node marks the bottom of a branch.
+ * @param[in]: depth Current traversal depth (level count from the original caller context).
+ * @param[out]: out Pointer to the running maximum depth found across all visited branches.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+static ERR_59_e _count_levels_intrnl(btree_node_59 const* const node, size_t depth, size_t* out)
+{
+    if (!out)
+        return ERR_INV_PARAM;
+
+    if (!node) // Base case, bottom of this part of the tree
+    {
+        if (depth > *out)
+            *out = depth;
+        return ERR_NONE;
+    }
+
+    ERR_59_e err = _count_levels_intrnl(node->left, depth + 1, out);
+    if (ERR_NONE != err)
+        return err;
+
+    return _count_levels_intrnl(node->right, depth + 1, out);
+}
+
+/***********************************************************************************************************************
+ * @brief: Writes the subtree nodes into an array using an inorder traversal.
+ *
+ * @param[in]: node Current node in the traversal. A null node marks the bottom of a branch.
+ * @param[out]: arr Array of node pointers to fill in sorted tree order.
+ * @param[in,out]: index Running insertion index into @arr.
+ *
+ * @retval ERR_59_e: error value encountered during the function call, ERR_NONE = all ok.
+ **********************************************************************************************************************/
+static ERR_59_e
+_inorder_traverse_to_arr_intrnl(btree_node_59* const node, btree_node_59** const arr, size_t* const index)
+{
+    if (!arr || !index)
+        return ERR_INV_PARAM;
+
+    if (!node)
+        return ERR_NONE;
+
+    ERR_59_e err = _inorder_traverse_to_arr_intrnl(node->left, arr, index);
+    if (ERR_NONE != err)
+        return err;
+
+    arr[*index] = node;
+    (*index)++;
+
+    return _inorder_traverse_to_arr_intrnl(node->right, arr, index);
+}
+
+/***********************************************************************************************************************
+ * @brief: Rebuilds a balanced subtree from a sorted array of node pointers.
+ *
+ * @param[in]: nodes Array of node pointers sorted in binary-search-tree order.
+ * @param[in]: start First array index included in the subtree range.
+ * @param[in]: end Last array index included in the subtree range.
+ *
+ * @retval btree_node_59*: Root node of the rebuilt subtree, or null if the range is empty.
+ **********************************************************************************************************************/
+static btree_node_59* _rebuild_from_arr_intrnl(btree_node_59** nodes, size_t start, size_t end)
+{
+    if (start > end) //! TODO: if (start > end) is better? what about overflow?
+        return (void*)0;
+
+    size_t mid = start + (end - start) / 2;
+    btree_node_59* node = nodes[mid];
+    node->left = (void*)0;
+    node->right = (void*)0;
+
+    if (mid > start)
+        node->left = _rebuild_from_arr_intrnl(nodes, start, mid - 1);
+    if (mid < end)
+        node->right = _rebuild_from_arr_intrnl(nodes, mid + 1, end);
+
+    return node;
 }
 
 /*
@@ -162,10 +245,13 @@ ERR_59_e insert_node_into_btree_59(btree_59* const btree, btree_node_59* const n
     if (!btree->root)
     {
         btree->root = new_node;
+        btree->size++;
         return ERR_NONE;
     }
 
     ERR_59_e err = _insert_node_from(btree->root, new_node, btree->type, btree->type_depth);
+    if (ERR_NONE == err)
+        btree->size++;
 
     return err;
 }
@@ -209,10 +295,14 @@ ERR_59_e remove_given_node_from_btree_59(btree_59* const btree, btree_node_59* c
     btree_node_59* parent = (void*)0;
     i64 diff = 0;
     ERR_59_e err = ERR_NONE;
+    bool found_node = false;
     while (current)
     {
         if (current == remove_node)
+        {
+            found_node = true;
             break;
+        }
 
         err = compare_node_obj_59(btree->type, &diff, current->node_obj, remove_node->node_obj);
         if (ERR_NONE != err)
@@ -225,7 +315,7 @@ ERR_59_e remove_given_node_from_btree_59(btree_59* const btree, btree_node_59* c
             current = current->right;
     }
 
-    if (!is_same)
+    if (!found_node)
         return ERR_OBJ_NOT_FOUND; // Null root case && not found case
 
     if (!current->left && !current->right)
@@ -294,12 +384,35 @@ ERR_59_e remove_given_node_from_btree_59(btree_59* const btree, btree_node_59* c
 
 ERR_59_e rebalance_btree_59(btree_59* const btree)
 {
-    //! TODO: this
+    if (!btree || !btree->root || !btree->size)
+        return ERR_INV_PARAM;
+
+    //! NOTE: No calloc because we assume all memory will be overwritten with the nodes to be inserted.
+    btree_node_59** nodes = malloc(sizeof(btree_node_59*) * btree->size);
+    if (!nodes)
+        return ERR_NO_MEM;
+
+    size_t index = 0;
+    ERR_59_e err = _inorder_traverse_to_arr_intrnl(btree->root, nodes, &index);
+    if (ERR_NONE != err)
+    {
+        free(nodes);
+        return err;
+    }
+
+    btree->root = _rebuild_from_arr_intrnl(nodes, 0, btree->size - 1);
+
+    free(nodes);
+    return err;
 }
 
-ERR_59_e get_btree_height_59(btree_59 const* const btree, size_t* out)
+ERR_59_e get_height_btree_59(btree_59 const* const btree, size_t* out)
 {
-    //! TODO: this
+    if (!btree || !out)
+        return ERR_INV_PARAM;
+
+    *out = 0;
+    return _count_levels_intrnl(btree->root, 0, out);
 }
 
 ERR_59_e

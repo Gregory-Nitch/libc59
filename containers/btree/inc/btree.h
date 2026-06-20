@@ -214,7 +214,7 @@ ERR_59_e rebalance_btree_59(btree_59* const btree);
  *
  * @retval TODO TODO.
  **********************************************************************************************************************/
-ERR_59_e get_btree_height_59(btree_59 const* const btree, size_t* out);
+ERR_59_e get_height_btree_59(btree_59 const* const btree, size_t* out);
 
 /***********************************************************************************************************************
  * @brief: Allocates a new node for a binary search tree.

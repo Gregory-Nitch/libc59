@@ -282,14 +282,9 @@ ERR_59_e remove_given_obj_from_vec_59(vec_59* const vec, void* remove_obj)
     if (!vec || !remove_obj)
         return ERR_INV_PARAM;
 
-    bool is_same = false;
     for (size_t idx = 0; idx < vec->size; idx++)
     {
-        ERR_59_e err = is_same_mem_addr_59(vec->data[idx], remove_obj, &is_same);
-        if (ERR_NONE != err)
-            return err;
-
-        if (is_same)
+        if (vec->data[idx] == remove_obj)
         {
             vec->data[idx] = (void*)0; // Clear matched object
             for (; idx < vec->size - 1; idx++)
@@ -297,7 +292,7 @@ ERR_59_e remove_given_obj_from_vec_59(vec_59* const vec, void* remove_obj)
 
             vec->size--;
 
-            err = _vec_59_check_needs_resize_internal(vec, VEC_59_RESIZE_MODE_SHRINK);
+            ERR_59_e err = _vec_59_check_needs_resize_internal(vec, VEC_59_RESIZE_MODE_SHRINK);
             if (err != ERR_NONE)
                 return err;
 

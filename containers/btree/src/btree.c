@@ -207,16 +207,11 @@ ERR_59_e remove_given_node_from_btree_59(btree_59* const btree, btree_node_59* c
 
     btree_node_59* current = btree->root;
     btree_node_59* parent = (void*)0;
-    bool is_same = false;
     i64 diff = 0;
     ERR_59_e err = ERR_NONE;
     while (current)
     {
-        err = is_same_mem_addr_59(current, remove_node, &is_same);
-        if (ERR_NONE != err)
-            return err;
-
-        else if (is_same)
+        if (current == remove_node)
             break;
 
         err = compare_node_obj_59(btree->type, &diff, current->node_obj, remove_node->node_obj);
@@ -295,26 +290,6 @@ ERR_59_e remove_given_node_from_btree_59(btree_59* const btree, btree_node_59* c
     remove_node->right = (void*)0;
     btree->size--;
     return ERR_NONE;
-}
-
-ERR_59_e btree_preorder_traverse_59(btree_59 const* const btree, vec_59** vec)
-{
-    //! TODO: this
-}
-
-ERR_59_e btree_inorder_traverse_59(btree_59 const* const btree, vec_59** vec)
-{
-    //! TODO: this
-}
-
-ERR_59_e btree_postorder_traverse_59(btree_59 const* const btree, vec_59** vec)
-{
-    //! TODO: this
-}
-
-ERR_59_e btree_levelorder_traverse_59(btree_59 const* const btree, vec_59** vec)
-{
-    //! TODO: this
 }
 
 ERR_59_e rebalance_btree_59(btree_59* const btree)

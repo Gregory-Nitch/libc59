@@ -174,8 +174,8 @@ ERR_59_e push_front_vec_59(vec_59* const vec, void* const new_front);
 ERR_59_e pop_front_vec_59(vec_59* const vec, void** front_obj);
 
 /***********************************************************************************************************************
- * @brief: Removes the passed object from the vector based on @is_same_mem_addr_59(). @warning This does not deallocate
- * the passed object and only removes it from the vector.
+ * @brief: Removes the passed object from the vector based on pointer equality. @warning This does not deallocate the
+ * passed object and only removes it from the vector.
  *
  * @param[in] vec: Vector to check if the object exsists in and remove from.
  * @param[in] remove_obj: Object to remove from the vector. @warning This object still needs to be deallocated after

@@ -263,20 +263,13 @@ ERR_59_e find_node_in_dlist_59(dlist_59 const* const dlist, dlist_node_59 const*
 
     *val = (void*)0;
 
-    ERR_59_e err = ERR_NONE;
     dlist_node_59 const* current = dlist->head;
-    bool is_same = false;
     while (current)
     {
-        err = is_same_mem_addr_59(node, current, &is_same);
-        if (ERR_NONE != err)
-        {
-            return err;
-        }
-        else if (is_same)
+        if (node == current)
         {
             *val = current->node_obj;
-            return err;
+            return ERR_NONE;
         }
         current = current->next;
     }

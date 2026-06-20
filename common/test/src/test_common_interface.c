@@ -35,7 +35,6 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 /*
 ========================================================================================================================
@@ -54,21 +53,6 @@
 ERR_59_e test_common_59_interface(void)
 {
     ERR_59_e err = ERR_NONE;
-
-    // is_same_mem_addr()
-    puts("- - - - - - - - - - -");
-    puts("Testing is_same_mem_addr()...");
-    bool flag = false;
-    u64 a = 1UL;
-    u64 b = 2UL;
-
-    is_same_mem_addr_59(&a, &b, &flag);
-    printf("Assert: addr1 %p != %p addr2\n", (void*)&a, (void*)&b);
-    assert(false == flag);
-
-    is_same_mem_addr_59(&a, &a, &flag);
-    printf("Assert: addr1 %p == %p addr1\n", (void*)&a, (void*)&a);
-    assert(true == flag);
 
     return err;
 }

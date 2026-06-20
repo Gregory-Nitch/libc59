@@ -35,7 +35,6 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 /*
 ========================================================================================================================
@@ -55,31 +54,7 @@ ERR_59_e test_common_59_edge_cases(void)
 {
     ERR_59_e err = ERR_NONE;
 
-    // Allocate objects
-    puts("- - - - - - - - - - -");
-    puts("Initializing memory...");
-    u64* obj_A = malloc(sizeof(u64));
-    u64* obj_B = malloc(sizeof(u64));
-    /* Values assigned to prevent uninitialized compiler warnings, though these values are not acutally used. */
-    *obj_A = 11;
-    *obj_B = 59;
-
-    // Test is same mem addr
-    puts("- - - - - - - - - - -");
-    puts("Checking is_same_mem_addr()");
-
-    err = is_same_mem_addr_59(obj_A, obj_B, (void*)0);
-    printf("Assert: err = %d == %d = ERR_INV_PARAM\n", err, ERR_INV_PARAM);
-    assert(ERR_INV_PARAM == err);
-
-    // Test cleanup
-    puts("- - - - - - - - - - -");
-    puts("Cleaning up test assets...");
-
-    free(obj_A);
-    free(obj_B);
-
-    return ERR_NONE;
+    return err;
 }
 
 /*

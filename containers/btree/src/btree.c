@@ -96,18 +96,8 @@ static ERR_59_e _insert_node_from(btree_node_59* const root,
     if (ERR_NONE != err)
         return err;
 
-    if (0 > diff)
+    if (0 >= diff)
     {
-        if (!root->left)
-        {
-            root->left = new_node;
-            return ERR_NONE;
-        }
-        else
-            return _insert_node_from(root->left, new_node, type, type_depth);
-    }
-    else
-    { // (0 <= diff)
         if (!root->right)
         {
             root->right = new_node;
@@ -115,6 +105,16 @@ static ERR_59_e _insert_node_from(btree_node_59* const root,
         }
         else
             return _insert_node_from(root->right, new_node, type, type_depth);
+    }
+    else
+    { // (0 = diff)
+        if (!root->left)
+        {
+            root->left = new_node;
+            return ERR_NONE;
+        }
+        else
+            return _insert_node_from(root->left, new_node, type, type_depth);
     }
 }
 
@@ -304,14 +304,14 @@ ERR_59_e remove_given_node_from_btree_59(btree_59* const btree, btree_node_59* c
             break;
         }
 
-        err = compare_node_obj_59(btree->type, &diff, current->node_obj, remove_node->node_obj);
+        err = compare_node_obj_59(btree->type, current->node_obj, remove_node->node_obj, &diff);
         if (ERR_NONE != err)
             return err;
 
         parent = current;
-        if (0 > diff)
+        if (0 < diff)
             current = current->left;
-        else // 0 <= diff : ie., copies go right
+        else // 0 >= diff : ie., copies go right
             current = current->right;
     }
 
@@ -322,9 +322,9 @@ ERR_59_e remove_given_node_from_btree_59(btree_59* const btree, btree_node_59* c
     {
         if (parent)
         {
-            if (0 > diff)
+            if (0 < diff)
                 parent->left = (void*)0;
-            else // 0 <= diff : ie., copies go right
+            else // 0 >= diff : ie., copies go right
                 parent->right = (void*)0;
         }
         else

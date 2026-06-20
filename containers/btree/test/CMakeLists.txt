@@ -1,34 +1,32 @@
 # Set cmake version
 cmake_minimum_required(VERSION 3.22.1)
 
-# TODO: NEED TO UPDATE FROM DLIST TEMPLATE
-
 #Set project name, version, description
-project(dlist_test_suite VERSION 1.0.0 DESCRIPTION "Binary search unit tests" LANGUAGES C)
+project(btree_test_suite VERSION 1.0.0 DESCRIPTION "Binary search unit tests" LANGUAGES C)
 
 # Add test executables
-#add_executable(test_dlist_interface src/test_dlist_interface.c)
-#add_executable(test_dlist_edge_cases src/test_dlist_edge_cases.c)
-#add_executable(test_dlist_node_interface src/test_dlist_node_interface.c)
-#add_executable(test_dlist_node_edge_cases src/test_dlist_node_edge_cases.c)
+add_executable(test_btree_interface src/test_btree_interface.c)
+add_executable(test_btree_edge_cases src/test_btree_edge_cases.c)
+add_executable(test_btree_node_interface src/test_btree_node_interface.c)
+add_executable(test_btree_node_edge_cases src/test_btree_node_edge_cases.c)
 
 # Add includes
-#target_include_directories(test_dlist_interface PRIVATE src)
-#target_include_directories(test_dlist_edge_cases PRIVATE src)
-#target_include_directories(test_dlist_node_interface PRIVATE src)
-#target_include_directories(test_dlist_node_edge_cases PRIVATE src)
+target_include_directories(test_btree_interface PRIVATE src)
+target_include_directories(test_btree_edge_cases PRIVATE src)
+target_include_directories(test_btree_node_interface PRIVATE src)
+target_include_directories(test_btree_node_edge_cases PRIVATE src)
 
 # Add linking libraries
-#target_link_libraries(test_dlist_interface PRIVATE  dlist)
-#target_link_libraries(test_dlist_edge_cases PRIVATE dlist)
-#target_link_libraries(test_dlist_node_interface PRIVATE dlist)
-#target_link_libraries(test_dlist_node_edge_cases PRIVATE dlist)
+target_link_libraries(test_btree_interface PRIVATE  btree)
+target_link_libraries(test_btree_edge_cases PRIVATE btree)
+target_link_libraries(test_btree_node_interface PRIVATE btree)
+target_link_libraries(test_btree_node_edge_cases PRIVATE btree)
 
 if(BUILD_TYPE STREQUAL "debug")
-#    target_link_libraries(test_dlist_interface PRIVATE -fsanitize=address)
-#    target_link_libraries(test_dlist_edge_cases PRIVATE -fsanitize=address)
-#    target_link_libraries(test_dlist_node_interface PRIVATE -fsanitize=address)
-#    target_link_libraries(test_dlist_node_edge_cases PRIVATE -fsanitize=address)
+    target_link_libraries(test_btree_interface PRIVATE -fsanitize=address)
+    target_link_libraries(test_btree_edge_cases PRIVATE -fsanitize=address)
+    target_link_libraries(test_btree_node_interface PRIVATE -fsanitize=address)
+    target_link_libraries(test_btree_node_edge_cases PRIVATE -fsanitize=address)
 endif()
 
 # Compile options

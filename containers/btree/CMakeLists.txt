@@ -17,7 +17,6 @@ target_include_directories(btree PUBLIC
 
 # Add linking libraries
 target_link_libraries(btree PUBLIC containers_common)
-target_link_libraries(btree PUBLIC vec)
 
 
 if(BUILD_TYPE STREQUAL "debug")

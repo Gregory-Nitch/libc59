@@ -185,7 +185,7 @@ _inorder_traverse_to_arr_intrnl(btree_node_59* const node, btree_node_59** const
  **********************************************************************************************************************/
 static btree_node_59* _rebuild_from_arr_intrnl(btree_node_59** nodes, size_t start, size_t end)
 {
-    if (start > end) //! TODO: if (start > end) is better? what about overflow?
+    if (start > end)
         return (void*)0;
 
     size_t mid = start + (end - start) / 2;
